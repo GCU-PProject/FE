@@ -7,10 +7,6 @@ assignees: ''
 
 ---
 
-|name|about|title|labels|assignees|
-|---|---|---|---|---|
-|FEATURE|Write about feature|[feat] [issue title]|feat|
-
 ## Issue : ✅ Feature
 작업하고자 하는 기능을 입력해주세요.
 

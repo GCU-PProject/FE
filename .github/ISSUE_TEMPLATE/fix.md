@@ -7,10 +7,6 @@ assignees: ''
 
 ---
 
-|name|about|title|labels|assignees|
-|---|---|---|---|---|
-|FIX|Write about bug&fix|[fix] [issue title]|fix|
-
 ## 1. Issue : 🐞 Fix / Bug
 발생한 문제에 대해 설명해주세요.
 
