@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ExamplePage from '@/pages/ui/ExamplePage';
 
 function App() {
