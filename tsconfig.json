@@ -5,9 +5,9 @@
     "strict": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"]
     },
 
     "esModuleInterop": true,
