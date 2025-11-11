@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { InputHTMLAttributes, ReactNode, forwardRef, useId } from 'react';
 import { cn } from '@/lib/utils';
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -9,7 +9,9 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   ({ action, helperText, className, inputClassName, id, ...props }, ref) => {
-    const helperId = helperText && id ? `${id}-helper` : undefined;
+    const autoId = useId();
+    const inputId = id ?? autoId;
+    const helperId = helperText ? `${inputId}-helper` : undefined;
 
     return (
       <div className="flex flex-col gap-1.5">
@@ -21,7 +23,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         >
           <input
             ref={ref}
-            id={id}
+            id={inputId}
             aria-describedby={helperId}
             className={cn(
               'flex-1 bg-transparent text-base text-[#111322] placeholder:text-[#717182] focus-visible:outline-none',
