@@ -27,7 +27,7 @@ export const DropdownSelect = forwardRef<
           id={selectId}
           {...(helperId ? { 'aria-describedby': helperId } : {})}
           className={cn(
-            'h-10 w-full appearance-none rounded-lg bg-[#F3F3F5] px-4 pr-10 text-base text-[#0A0A0A] placeholder:text-[#717182] ring-1 ring-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7D9FF]',
+            'h-10 w-full appearance-none rounded-lg bg-[#F3F3F5] px-4 pr-10 text-base text-[#0A0A0A] ring-1 ring-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7D9FF]',
             className,
           )}
           {...props}
