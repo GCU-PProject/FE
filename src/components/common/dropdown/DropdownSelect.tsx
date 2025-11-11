@@ -40,7 +40,9 @@ export const DropdownSelect = forwardRef<
         />
       </div>
       {helperText ? (
-        <span className="text-xs text-[#99A1AF]">{helperText}</span>
+        <span id={helperId} className="text-xs text-[#99A1AF]">
+          {helperText}
+        </span>
       ) : null}
     </div>
   );
