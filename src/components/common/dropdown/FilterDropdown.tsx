@@ -29,6 +29,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   const [country, setCountry] = useState('all');
   const [field, setField] = useState('all');
   const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -39,11 +40,17 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
         setOpen(false);
       }
     }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape' && open) {
+        setOpen(false);
+      }
+    }
 
     let timeoutId: number | undefined;
     if (open) {
       timeoutId = window.setTimeout(() => {
         document.addEventListener('mousedown', handleClick);
+        document.addEventListener('keydown', handleKeyDown);
       }, 0);
     }
 
@@ -52,7 +59,15 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
         clearTimeout(timeoutId);
       }
       document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKeyDown);
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (open && panelRef.current) {
+      const firstSelect = panelRef.current.querySelector('select');
+      firstSelect?.focus();
+    }
   }, [open]);
 
   const handleApply = () => {
@@ -64,6 +79,9 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
     <div className="relative inline-flex self-start" ref={containerRef}>
       <button
         type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        aria-label="필터 옵션 열기"
         className={cn(
           'flex h-9 items-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-3 text-sm font-medium text-[#0A0A0A] shadow-sm transition-colors',
           open ? 'border-[#0053F4] text-[#0053F4]' : 'hover:border-[#CBD5F5]',
@@ -75,7 +93,12 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
       </button>
 
       {open ? (
-        <div className="absolute right-0 z-10 mt-2 w-[270px] rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0px_20px_45px_rgba(15,23,42,0.12)]">
+        <div
+          ref={panelRef}
+          role="dialog"
+          aria-label="필터 설정"
+          className="absolute right-0 z-10 mt-2 w-[270px] rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
+        >
           <div className="mb-4">
             <p className="text-base font-semibold text-[#0A0A0A]">필터</p>
           </div>
