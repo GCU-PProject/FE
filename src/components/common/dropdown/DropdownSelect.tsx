@@ -28,7 +28,10 @@ export function DropdownSelect({
         >
           {children}
         </select>
-        <ChevronDownIcon className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#717182]" />
+        <ChevronDownIcon
+          aria-hidden="true"
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#717182]"
+        />
       </div>
       {helperText ? (
         <span className="text-xs text-[#99A1AF]">{helperText}</span>
