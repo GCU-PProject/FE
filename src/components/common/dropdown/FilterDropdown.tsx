@@ -1,4 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+} from '@floating-ui/react-dom';
 import { DropdownSelect } from './DropdownSelect';
 import { Button } from '@/components/common/button/Button';
 import { cn } from '@/lib/utils';
@@ -29,7 +36,16 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   const [country, setCountry] = useState('all');
   const [field, setField] = useState('all');
   const containerRef = useRef<HTMLDivElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const { refs, floatingStyles } = useFloating({
+    placement: 'bottom-end',
+    middleware: [
+      offset(8),
+      flip({ fallbackPlacements: ['top-end', 'bottom-start'] }),
+      shift({ padding: 8 }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -87,6 +103,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           open ? 'border-[#0053F4] text-[#0053F4]' : 'hover:border-[#CBD5F5]',
         )}
         onClick={() => setOpen((prev) => !prev)}
+        ref={refs.setReference}
       >
         <FilterIcon className="h-4 w-4" />
         필터
@@ -94,10 +111,14 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
 
       {open ? (
         <div
-          ref={panelRef}
+          ref={(node) => {
+            panelRef.current = node;
+            refs.setFloating(node);
+          }}
           role="dialog"
           aria-label="필터 설정"
-          className="absolute right-0 z-10 mt-2 w-[270px] rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
+          style={floatingStyles}
+          className="z-10 w-[270px] rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
         >
           <div className="mb-4">
             <p className="text-base font-semibold text-[#0A0A0A]">필터</p>
