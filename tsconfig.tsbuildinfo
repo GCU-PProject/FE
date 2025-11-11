@@ -1,1 +1,12 @@
-{"root":["./src/app.tsx","./src/main.tsx"],"version":"5.9.3"}
+{
+  "root": [
+    "./src/app.tsx",
+    "./src/main.tsx",
+    "./src/components/common/button/button.tsx",
+    "./src/components/common/button/buttontypes.ts",
+    "./src/components/common/button/buttonvariants.ts",
+    "./src/lib/utils.ts",
+    "./src/pages/ui/examplepage.tsx"
+  ],
+  "version": "5.9.3"
+}
