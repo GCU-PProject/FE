@@ -1,5 +1,6 @@
 import { SelectHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
+import { ReactComponent as ChevronDownIcon } from '@/assets/icons/chevron-down.svg';
 
 interface DropdownSelectProps
   extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
@@ -27,20 +28,7 @@ export function DropdownSelect({
         >
           {children}
         </select>
-        <svg
-          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#717182]"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 7.5 10 12.5 15 7.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <ChevronDownIcon className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#717182]" />
       </div>
       {helperText ? (
         <span className="text-xs text-[#99A1AF]">{helperText}</span>
