@@ -35,6 +35,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   const [open, setOpen] = useState(false);
   const [country, setCountry] = useState('all');
   const [field, setField] = useState('all');
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const { refs, floatingStyles } = useFloating({
@@ -83,6 +84,8 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
     if (open && panelRef.current) {
       const firstSelect = panelRef.current.querySelector('select');
       firstSelect?.focus();
+    } else if (!open && buttonRef.current) {
+      buttonRef.current.focus();
     }
   }, [open]);
 
@@ -103,7 +106,10 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           open ? 'border-[#0053F4] text-[#0053F4]' : 'hover:border-[#CBD5F5]',
         )}
         onClick={() => setOpen((prev) => !prev)}
-        ref={refs.setReference}
+        ref={(node) => {
+          buttonRef.current = node;
+          refs.setReference(node);
+        }}
       >
         <FilterIcon className="h-4 w-4" />
         필터
