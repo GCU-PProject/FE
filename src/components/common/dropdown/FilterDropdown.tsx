@@ -39,10 +39,20 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
         setOpen(false);
       }
     }
+
+    let timeoutId: number | undefined;
     if (open) {
-      document.addEventListener('mousedown', handleClick);
+      timeoutId = window.setTimeout(() => {
+        document.addEventListener('mousedown', handleClick);
+      }, 0);
     }
-    return () => document.removeEventListener('mousedown', handleClick);
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      document.removeEventListener('mousedown', handleClick);
+    };
   }, [open]);
 
   const handleApply = () => {
