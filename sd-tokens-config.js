@@ -9,7 +9,6 @@ const sd = new StyleDictionary({
   platforms: {
     css: {
       transformGroup: 'tokens-studio', // <- apply the tokens-studio transformGroup to apply all transforms
-      transforms: ['name/kebab'], // 생성될 토큰 이름
       buildPath: 'tokens/build/', // 생성될 파일 경로
       files: [{ destination: 'tokens.json', format: 'json' }],
     },
