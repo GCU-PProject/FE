@@ -7,7 +7,7 @@ const sd = new StyleDictionary({
   source: ['tokens/sd-*.json'], // split-tokens.js로 분리된 토큰 입력
   preprocessors: ['tokens-studio'],
   platforms: {
-    css: {
+    tokens: {
       transformGroup: 'tokens-studio', // <- apply the tokens-studio transformGroup to apply all transforms
       buildPath: 'tokens/build/', // 생성될 파일 경로
       files: [{ destination: 'tokens.json', format: 'json' }],
