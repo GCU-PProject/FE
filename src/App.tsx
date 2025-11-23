@@ -1,13 +1,6 @@
-import { LoginPage } from '@/Loginpage';
+import ExamplePage from '@/pages/ui/ExamplePage';
 
 function App() {
-  const handleGoogleLogin = () => {
-    console.log("Google 로그인 버튼 클릭!");
-  };
-
-  return (
-    <LoginPage onGoogleLogin={handleGoogleLogin} />
-  );
+  return <ExamplePage />;
 }
-
 export default App;
