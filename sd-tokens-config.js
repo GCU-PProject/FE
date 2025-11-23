@@ -20,7 +20,7 @@ try {
   await sd.cleanAllPlatforms();
   await sd.buildAllPlatforms();
   console.log('Style Dictionary 토큰 빌드 완료!');
-} catch (e) {
+} catch (error) {
   console.error('Style Dictionary 토큰 빌드 실패:', error);
   process.exit(1);
 }
