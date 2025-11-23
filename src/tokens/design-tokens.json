@@ -378,7 +378,7 @@
       },
       "bg": {
         "base": {
-          "value": "#FFFFFFF",
+          "value": "#FFFFFF",
           "type": "color"
         },
         "subtle": {
