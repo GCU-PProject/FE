@@ -26,6 +26,7 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@svgr/rollup": "^8.1.0",
+    "@tokens-studio/sd-transforms": "^2.0.2",
     "@types/axios": "^0.9.36",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
@@ -43,6 +44,7 @@
     "globals": "^16.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "sd-tailwindcss-transformer": "^2.2.1",
     "style-dictionary": "^5.1.1",
     "tailwindcss": "^3.4.13",
     "typescript": "~5.9.3",
