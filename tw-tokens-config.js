@@ -9,5 +9,11 @@ const sd = new StyleDictionary(
   }),
 );
 
-await sd.hasInitialized;
-await sd.buildAllPlatforms();
+try {
+  await sd.hasInitialized;
+  await sd.buildAllPlatforms();
+  console.log('Tailwind  토큰 빌드 완료!');
+} catch (error) {
+  console.error('Tailwind 토큰 빌드 실패:', error);
+  process.exit(1);
+}
