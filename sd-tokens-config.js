@@ -8,7 +8,7 @@ const sd = new StyleDictionary({
   preprocessors: ['tokens-studio'],
   platforms: {
     tokens: {
-      transformGroup: 'tokens-studio', // <- apply the tokens-studio transformGroup to apply all transforms
+      transformGroup: 'tokens-studio', // Tokens Studio의 모든 변환 적용
       buildPath: 'tokens/build/', // 생성될 파일 경로
       files: [{ destination: 'tokens.json', format: 'json' }],
     },
