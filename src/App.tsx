@@ -1,4 +1,4 @@
-import { LoginPage } from '@/Loginpage';
+import { LoginPage } from '@/pages/ui/LoginPage';
 
 function App() {
   const handleGoogleLogin = () => {
