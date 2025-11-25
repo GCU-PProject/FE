@@ -9,17 +9,17 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-[#0053F4] text-white hover:bg-[#0043C2] focus:ring-[#0053F4]',
+          'bg-brand-primary text-white hover:brightness-95 focus:ring-brand-primary',
         outline:
-          'border border-[#0053F4] text-[#0053F4] bg-transparent hover:bg-[#EBF1FF]',
+          'border border-brand-primary text-brand-primary bg-transparent hover:bg-brand-light',
         destructive:
-          'bg-[#D92D20] text-white hover:bg-[#B42318] focus:ring-[#D92D20]',
-        link: 'text-[#0053F4] underline-offset-4 hover:underline',
+          'bg-danger-base text-white hover:brightness-90 focus:ring-danger-base',
+        link: 'text-brand-primary underline-offset-4 hover:underline',
       },
       size: {
-        sm: 'h-9 px-3 text-sm',
-        md: 'h-10 px-4 text-base',
-        lg: 'h-12 px-6 text-lg',
+        sm: 'h-[36px] px-3 text-sm',
+        md: 'h-[40px] px-4 text-base',
+        lg: 'h-[44px] px-5 text-lg',
       },
     },
     defaultVariants: {
