@@ -361,6 +361,11 @@
             "value": "#2B7FFF",
             "type": "color",
             "description": "선택된 박스 외곽선"
+          },
+          "black": {
+            "value": "#030213",
+            "type": "color",
+            "description": "선택된 버튼 검정 버전"
           }
         }
       },
