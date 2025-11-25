@@ -1,0 +1,53 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const tokensPath = path.resolve('./tokens/build/tokens.json');
+const rawTokens = fs.existsSync(tokensPath) ? require(tokensPath) : {};
+
+const getValue = (token, fallback) =>
+  token && typeof token === 'object' && 'value' in token ? token.value : fallback;
+
+const spacingEntries = Object.entries(rawTokens.spacing ?? {}).map(
+  ([key, token]) => [key, getValue(token, `${key}px`)],
+);
+
+const radiusEntries = Object.entries(rawTokens.radius ?? {}).map(
+  ([key, token]) => [key, getValue(token, `${key}px`)],
+);
+
+export const tailwindTokens = {
+  colors: {
+    brand: {
+      primary: getValue(rawTokens.color?.brand?.primary, '#155dfc'),
+      light: getValue(rawTokens.color?.primary?.light, '#eff6ff'),
+    },
+    text: {
+      primary: getValue(rawTokens.color?.text?.primary, '#0A0A0A'),
+      title: getValue(rawTokens.color?.text?.title, '#101828'),
+      placeholder: getValue(rawTokens.color?.text?.placeholder, '#717182'),
+      body: getValue(rawTokens.color?.text?.['modal-body'], '#364153'),
+    },
+    border: {
+      base: getValue(rawTokens.color?.border?.base, '#E5E7EB'),
+      selected: getValue(rawTokens.color?.state?.selected?.border, '#2b7fff'),
+    },
+    state: {
+      selected: {
+        black: getValue(rawTokens.color?.state?.selected?.black, '#030213'),
+        border: getValue(rawTokens.color?.state?.selected?.border, '#2b7fff'),
+      },
+    },
+    bg: {
+      soft: getValue(rawTokens.color?.bg?.soft, '#F3F3F5'),
+    },
+    danger: {
+      base: getValue(rawTokens.color?.danger?.base, '#e7000b'),
+    },
+  },
+  borderRadius: Object.fromEntries(radiusEntries),
+  fontFamily: {
+    sans: [getValue(rawTokens.typography?.button?.md?.fontFamily, 'Arimo'), 'system-ui', 'sans-serif'],
+  },
+};
