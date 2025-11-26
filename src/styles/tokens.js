@@ -7,14 +7,20 @@ const tokensPath = path.resolve('./tokens/build/tokens.json');
 const rawTokens = fs.existsSync(tokensPath) ? require(tokensPath) : {};
 
 const getValue = (token, fallback) =>
-  token && typeof token === 'object' && 'value' in token ? token.value : fallback;
+  token && typeof token === 'object' && 'value' in token
+    ? token.value
+    : fallback;
 
 const spacingEntries = Object.entries(rawTokens.spacing ?? {}).map(
   ([key, token]) => [key, getValue(token, `${key}px`)],
 );
 
 const radiusEntries = Object.entries(rawTokens.radius ?? {}).map(
-  ([key, token]) => [key, getValue(token, `${key}px`)],
+  ([key, token]) => {
+    const value = getValue(token, undefined);
+    // 토큰이 없거나 값이 비어 있으면 기본 8px 등으로 fallback
+    return [key, value != null ? value : '8px'];
+  },
 );
 
 export const tailwindTokens = {
@@ -48,6 +54,10 @@ export const tailwindTokens = {
   },
   borderRadius: Object.fromEntries(radiusEntries),
   fontFamily: {
-    sans: [getValue(rawTokens.typography?.button?.md?.fontFamily, 'Arimo'), 'system-ui', 'sans-serif'],
+    sans: [
+      getValue(rawTokens.typography?.button?.md?.fontFamily, 'Arimo'),
+      'system-ui',
+      'sans-serif',
+    ],
   },
 };
