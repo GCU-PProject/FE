@@ -34,7 +34,7 @@ export const DropdownSelect = forwardRef<
       <div className="flex w-full flex-col gap-2">
         <label
           htmlFor={selectId}
-          className="text-sm font-medium text-[#0A0A0A]"
+          className="text-sm font-medium text-text-primary"
         >
           {label}
         </label>
