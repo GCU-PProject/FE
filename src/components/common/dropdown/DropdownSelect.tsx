@@ -55,7 +55,7 @@ export const DropdownSelect = forwardRef<
               iconOffset,
             )}
           >
-            <ChevronDownIcon className="h-[16px] w-[16px]" />
+            <ChevronDownIcon className="h-4 w-4" />
           </span>
         </div>
         {helperText ? (

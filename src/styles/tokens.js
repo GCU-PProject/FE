@@ -31,6 +31,8 @@ export const tailwindTokens = {
     },
     text: {
       primary: getValue(rawTokens.color?.text?.primary, '#0A0A0A'),
+      secondary: getValue(rawTokens.color?.text?.secondary, '#4A5565'),
+      tertiary: getValue(rawTokens.color?.text?.tertiary, '#6A7282'),
       title: getValue(rawTokens.color?.text?.title, '#101828'),
       placeholder: getValue(rawTokens.color?.text?.placeholder, '#717182'),
       body: getValue(rawTokens.color?.text?.['modal-body'], '#364153'),

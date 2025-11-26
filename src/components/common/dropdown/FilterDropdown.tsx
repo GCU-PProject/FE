@@ -113,7 +113,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           refs.setReference(node);
         }}
       >
-        <FilterIcon className="h-[16px] w-[16px] text-text-primary" />
+        <FilterIcon className="h-4 w-4 text-text-primary" />
         필터
       </button>
 
@@ -129,7 +129,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           className="z-10 w-[288px] rounded-2xl border border-[#EEF0F4] bg-white p-[17px] shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
         >
           <div className="mb-2">
-            <p className="text-base font-semibold text-[#0A0A0A]">필터</p>
+            <p className="text-base font-semibold text-text-primary">필터</p>
           </div>
           <div className="flex flex-col gap-3">
             <DropdownSelect
