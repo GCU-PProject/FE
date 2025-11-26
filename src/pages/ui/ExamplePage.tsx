@@ -36,7 +36,7 @@ export default function ExamplePage() {
             <div className="flex gap-2">
               <Button
                 size="sm"
-                className="h-[32px] w-[80px] justify-center rounded-[8px] border border-[#D7D7D7] bg-white text-text-primary shadow-sm hover:bg-bg-soft"
+                className="h-[32px] w-[80px] justify-center rounded-[8px] border border-border-base bg-white text-text-primary shadow-sm hover:bg-bg-soft"
               >
                 보기
               </Button>
