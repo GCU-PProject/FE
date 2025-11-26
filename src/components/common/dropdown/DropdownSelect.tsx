@@ -51,15 +51,15 @@ export const DropdownSelect = forwardRef<
           <span
             aria-hidden="true"
             className={cn(
-              'pointer-events-none absolute inset-y-0 right-3 flex items-center text-[#717182] z-10',
+              'pointer-events-none absolute inset-y-0 flex items-center text-text-secondary z-10',
               iconOffset,
             )}
           >
-            <ChevronDownIcon className="h-16 w-16" />
+            <ChevronDownIcon className="h-[16px] w-[16px]" />
           </span>
         </div>
         {helperText ? (
-          <span id={helperId} className="text-xs text-[#99A1AF]">
+          <span id={helperId} className="text-xs text-text-tertiary">
             {helperText}
           </span>
         ) : null}

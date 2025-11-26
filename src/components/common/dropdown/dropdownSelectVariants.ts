@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const dropdownSelectVariants = cva(
-  'w-full appearance-none rounded-[8px] bg-[#F3F3F5] text-[#0A0A0A] ring-1 ring-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7D9FF]',
+  'w-full appearance-none rounded-[8px] bg-bg-soft text-text-primary ring-1 ring-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C7D9FF]',
   {
     variants: {
       size: {

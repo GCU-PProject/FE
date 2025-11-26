@@ -113,7 +113,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           refs.setReference(node);
         }}
       >
-        <FilterIcon className="h-16 w-16 text-text-primary" />
+        <FilterIcon className="h-[16px] w-[16px] text-text-primary" />
         필터
       </button>
 
