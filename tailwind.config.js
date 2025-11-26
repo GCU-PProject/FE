@@ -20,6 +20,7 @@ export default {
       colors: tailwindTokens.colors,
       borderRadius: tailwindTokens.borderRadius,
       fontFamily: tailwindTokens.fontFamily,
+      spacing: tailwindTokens.spacing,
     },
   },
   plugins: [],
