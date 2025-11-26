@@ -62,4 +62,5 @@ export const tailwindTokens = {
       'sans-serif',
     ],
   },
+  spacing: Object.fromEntries(spacingEntries),
 };
