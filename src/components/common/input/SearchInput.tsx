@@ -17,7 +17,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       <div className="flex flex-col gap-1.5">
         <div
           className={cn(
-            'group flex min-h-[36px] w-full items-center gap-3 rounded-lg bg-[#F3F3F5] px-4 ring-1 ring-inset ring-transparent transition-colors focus-within:ring-2 focus-within:ring-[#C7D9FF] focus-within:ring-offset-0',
+            'group flex min-h-9 w-full items-center gap-3 rounded-lg bg-bg-soft px-4 ring-1 ring-inset ring-transparent transition-colors focus-within:ring-2 focus-within:ring-[#C7D9FF] focus-within:ring-offset-0',
             className,
           )}
         >
@@ -26,7 +26,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             id={inputId}
             aria-describedby={helperId}
             className={cn(
-              'flex-1 bg-transparent text-base text-[#111322] placeholder:text-[#717182] focus-visible:outline-none',
+              'flex-1 bg-transparent text-base text-text-primary placeholder:text-text-placeholder focus-visible:outline-none',
               inputClassName,
             )}
             {...props}
@@ -34,7 +34,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {action ? <div className="flex-shrink-0">{action}</div> : null}
         </div>
         {helperText ? (
-          <p id={helperId} className="text-sm text-[#99A1AF]">
+          <p id={helperId} className="text-sm text-text-tertiary">
             {helperText}
           </p>
         ) : null}

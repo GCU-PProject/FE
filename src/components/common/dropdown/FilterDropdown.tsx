@@ -95,15 +95,17 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   };
 
   return (
-    <div className="relative inline-flex self-start" ref={containerRef}>
+    <div className="relative flex self-start" ref={containerRef}>
       <button
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
         aria-label="필터 옵션 열기"
         className={cn(
-          'flex h-9 items-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-3 text-sm font-medium text-[#0A0A0A] shadow-sm transition-colors',
-          open ? 'border-[#0053F4] text-[#0053F4]' : 'hover:border-[#CBD5F5]',
+          'inline-flex h-9 w-[86px] items-center justify-center gap-2 rounded-lg border border-border-base bg-white px-3 text-sm font-medium text-text-primary shadow-sm transition-colors',
+          open
+            ? 'border-brand-primary text-text-primary'
+            : 'hover:border-border-selected',
         )}
         onClick={() => setOpen((prev) => !prev)}
         ref={(node) => {
@@ -111,7 +113,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           refs.setReference(node);
         }}
       >
-        <FilterIcon className="h-4 w-4" />
+        <FilterIcon className="h-4 w-4 text-text-primary" />
         필터
       </button>
 
@@ -124,12 +126,12 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
           role="dialog"
           aria-label="필터 설정"
           style={floatingStyles}
-          className="z-10 w-[270px] rounded-2xl border border-[#EEF0F4] bg-white p-5 shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
+          className="z-10 w-[288px] rounded-2xl border border-[#EEF0F4] bg-white p-[17px] shadow-[0px_20px_45px_rgba(15,23,42,0.12)]"
         >
-          <div className="mb-4">
-            <p className="text-base font-semibold text-[#0A0A0A]">필터</p>
+          <div className="mb-2">
+            <p className="text-base font-semibold text-text-primary">필터</p>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <DropdownSelect
               label="국가"
               value={country}
@@ -154,7 +156,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
             </DropdownSelect>
             <Button
               onClick={handleApply}
-              className="h-9 w-full rounded-lg bg-[#030213] text-white hover:bg-[#05052b]"
+              className="h-9 w-full rounded-[8px] bg-state-selected-black text-white hover:brightness-95"
             >
               적용
             </Button>
