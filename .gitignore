@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 tsconfig.tsbuildinfo
+/.npm-cache/
+/tokens/
 
 # Editor directories and files
 .vscode/*
