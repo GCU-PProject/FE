@@ -12,7 +12,11 @@ const getValue = (token, fallback) =>
     : fallback;
 
 const spacingEntries = Object.entries(rawTokens.spacing ?? {}).map(
-  ([key, token]) => [key, getValue(token, `${key}px`)],
+  ([key, token]) => {
+    const value = getValue(token, undefined);
+    // 토큰이 없으면 0px로 대체
+    return [key, value != null ? value : '0px'];
+  },
 );
 
 const radiusEntries = Object.entries(rawTokens.radius ?? {}).map(
