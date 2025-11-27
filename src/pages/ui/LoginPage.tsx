@@ -44,6 +44,7 @@ export const LoginPage = ({ onGoogleLogin }: LoginPageProps) => {
             disabled={isLoading}
           >
             <GoogleIcon className='w-5 h-5 mr-3' />
+            Google로 로그인
           </Button>
 
           <p className='text-xs text-gray-500 mt-6'>
