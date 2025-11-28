@@ -366,4 +366,158 @@ export const EmptyState = ({ message }: EmptyStateProps) => (
 );
 
 
+// 4. 메인 애플리케이션 컴포넌트 (Named Export)
+
+
+/**
+ * @description 글로벌 정책/법률 변경 대시보드 메인 컴포넌트
+ */
+export const App = () => {
+  // TODO: API를 통해 userInterests와 MOCK_NEWS를 로드
+  const userInterests: string[] = mockUserInterests;
+  const [selectedTab, setSelectedTab] = useState<string>('all');
+
+  const allCountryCodes: string[] = Array.from(
+    new Set(MOCK_NEWS.map((n) => n.countryCode)),
+  ).sort();
+
+  // 'all' 탭의 필터링 로직 (국가별 필터링 기능)
+  const filteredNewsByCountry: NewsItem[] = MOCK_NEWS.filter(
+    (news) => selectedTab === 'all' || news.countryCode === selectedTab,
+  );
+
+  // 'interests' 탭의 필터링 로직 (관심 국가 이슈)
+  const interestNews: NewsItem[] = MOCK_NEWS.filter((news) =>
+    userInterests.includes(news.countryCode),
+  );
+
+  // 현재 탭에 표시할 뉴스 목록을 결정
+  const newsToShow: NewsItem[] =
+    selectedTab === 'interests' ? interestNews : filteredNewsByCountry;
+
+  // 국가별 필터 탭 구성을 위한 데이터
+  const tabControls: {
+    value: string;
+    label: string;
+    isInterest: boolean;
+  }[] = allCountryCodes.map((code) => {
+    const country =
+      MOCK_NEWS.find((n) => n.countryCode === code)?.country ?? code;
+    return {
+      value: code,
+      label: country,
+      isInterest: userInterests.includes(code),
+    };
+  });
+
+  // '전체 이슈'와 '관심 국가' 탭 외에, '국가별 필터' 탭 리스트를 따로 구성
+  const countryFilterTabs = tabControls.map((country) => (
+    <TabsTrigger
+      key={country.value}
+      value={country.value}
+      className='flex items-center'
+    >
+      {country.isInterest && (
+        <User className='w-3 h-3 mr-1 text-red-500' />
+      )}
+      {country.label}
+    </TabsTrigger>
+  ));
+
+  return (
+    <div className='min-h-screen bg-gray-50 font-sans'>
+      {/* Header Section */}
+      <div className='bg-white border-b border-gray-200'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8'>
+          <h1 className='text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1'>
+            <Globe className='inline-block w-6 h-6 mr-3 text-blue-500' />
+            해외 이슈 대시보드
+          </h1>
+          <p className='text-sm sm:text-base text-gray-600'>
+            해외 주요 법률 및 정책 개정 소식을 확인하세요.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Content & Tabs */}
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        <Tabs defaultValue='all' onValueChange={setSelectedTab}>
+          {/* 탭 리스트: 전체/관심 국가 */}
+          <TabsList className='mb-6 flex flex-wrap h-auto'>
+            <TabsTrigger value='all'>
+              <Globe className='w-4 h-4 mr-2' />
+              전체 이슈 ({MOCK_NEWS.length})
+            </TabsTrigger>
+          </TabsList>
+
+          {/* 국가별 필터 탭 리스트 (관심 국가 탭이 아닐 때만 표시) */}
+          {selectedTab !== 'interests' && (
+            <Tabs defaultValue='all' onValueChange={setSelectedTab}>
+              <TabsList className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm'>
+                <TabsTrigger value='all'>모든 국가</TabsTrigger>
+                {countryFilterTabs}
+              </TabsList>
+            </Tabs>
+          )}
+
+          {/* 콘텐츠 영역: 'all'이거나 특정 국가 코드가 선택된 경우 */}
+          <TabsContent
+            value='all'
+            activeTab={selectedTab}
+            className='space-y-4'
+          >
+            {newsToShow.length === 0 ? (
+              <EmptyState message='선택하신 국가의 최신 이슈가 없습니다.' />
+            ) : (
+              newsToShow.map((news) => (
+                <NewsCard key={news.id} news={news} />
+              ))
+            )}
+          </TabsContent>
+
+          {/* 콘텐츠 영역: 특정 국가 필터링 */}
+          {allCountryCodes.map((code) => (
+            <TabsContent
+              key={code}
+              value={code}
+              activeTab={selectedTab}
+              className='space-y-4'
+            >
+              {newsToShow.length === 0 ? (
+                <EmptyState
+                  message={`현재 ${
+                    MOCK_NEWS.find((n) => n.countryCode === code)?.country ??
+                    code
+                  }의 최신 이슈가 없습니다.`}
+                />
+              ) : (
+                newsToShow.map((news) => (
+                  <NewsCard key={news.id} news={news} />
+                ))
+              )}
+            </TabsContent>
+          ))}
+
+          {/* 콘텐츠 영역: 관심 국가 */}
+          {userInterests.length > 0 && (
+            <TabsContent
+              value='interests'
+              activeTab={selectedTab}
+              className='space-y-4'
+            >
+              {interestNews.length === 0 ? (
+                <EmptyState message='설정한 관심 국가에 해당하는 최신 이슈가 없습니다.' />
+              ) : (
+                interestNews.map((news) => (
+                  <NewsCard key={news.id} news={news} />
+                ))
+              )}
+            </TabsContent>
+          )}
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
 
