@@ -138,5 +138,232 @@ const MOCK_NEWS: NewsItem[] = [
 // 임시로 관심 국가 설정 (US, JP, DE를 관심 국가로)
 const mockUserInterests: string[] = ['US', 'JP', 'DE'];
 
+// 3. UI Components (Shadcn/ui 단순화 재구현)
+
+
+/**
+ * @description 카드 컴포넌트 (UI Wrapper)
+ */
+export const Card = ({ className = '', children }: CardProps) => (
+  <div
+    className={`rounded-lg border bg-white text-card-foreground shadow-sm ${className}`}
+  >
+    {children}
+  </div>
+);
+
+/**
+ * @description 뱃지 컴포넌트 (카테고리 표시)
+ */
+export const Badge = ({ variant = 'default', children }: BadgeProps) => {
+  const baseClasses =
+    'inline-flex items-center rounded-full border px-2.5 py-0.5 ' +
+    'text-xs font-semibold transition-colors focus:outline-none ' +
+    'focus:ring-2 focus:ring-ring focus:ring-offset-2';
+
+  let variantClasses = '';
+
+  switch (variant) {
+    case 'secondary':
+      variantClasses =
+        'border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200';
+      break;
+    case 'outline':
+      variantClasses = 'text-gray-600 border-gray-300';
+      break;
+    default:
+      variantClasses =
+        'border-transparent bg-blue-500 text-white hover:bg-blue-600';
+      break;
+  }
+
+  return <div className={`${baseClasses} ${variantClasses}`}>{children}</div>;
+};
+
+/**
+ * @description 탭 컨테이너 로직
+ */
+
+export const Tabs = ({ defaultValue, onValueChange, children }: TabsProps) => {
+  const [activeTab, setActiveTab] = useState<string>(defaultValue);
+
+  /**
+   * @description 탭 변경을 처리하는 핸들러 함수
+   */
+  const handleTabChange = (value: string): void => {
+    setActiveTab(value);
+    onValueChange(value);
+  };
+
+  // children을 배열로 변환
+  const childArray = React.Children.toArray(children);
+
+  // TabsList만 골라내기 (타입 가드 사용)
+  const tabsList = childArray.find(
+    (child): child is React.ReactElement<TabsListProps> =>
+      React.isValidElement(child) && child.type === TabsList,
+  );
+
+  // TabsContent만 골라내기 (타입 가드 사용)
+  const tabsContents = childArray.filter(
+    (child): child is React.ReactElement<TabsContentProps> =>
+      React.isValidElement(child) && child.type === TabsContent,
+  );
+
+  return (
+    <div className='flex flex-col'>
+      {tabsList &&
+        React.cloneElement(tabsList, {
+          activeTab,
+          onTabChange: handleTabChange,
+        })}
+      {tabsContents.map((content) =>
+        React.cloneElement(content, {
+          activeTab,
+        }),
+      )}
+    </div>
+  );
+};
+
+
+/**
+ * @description 탭 버튼 리스트
+ */
+/**
+ * @description 탭 버튼 리스트
+ */
+export const TabsList = ({
+                           className = '',
+                           activeTab,
+                           onTabChange,
+                           children,
+                         }: TabsListProps) => {
+  const handleChange = onTabChange ?? (() => {});
+
+  return (
+    <div className={`flex items-center gap-2 ${className}`}>
+      {React.Children.map(children, (child) =>
+        React.cloneElement(child as React.ReactElement<TabsTriggerProps>, {
+          activeTab,
+          onTabClick: handleChange,
+        }),
+      )}
+    </div>
+  );
+};
+
+/**
+ * @description 탭 버튼
+ */
+export const TabsTrigger = ({
+                              className = '',
+                              value,
+                              activeTab,
+                              onTabClick,
+                              children,
+                            }: TabsTriggerProps) => {
+  const isActive = activeTab === value;
+
+  /**
+   * @description 탭 버튼 클릭 이벤트 핸들러
+   */
+  const handleClickTabButton = (): void => {
+    onTabClick?.(value);
+  };
+
+  const baseClasses =
+    'inline-flex items-center gap-2 rounded-full border px-4 py-2 ' +
+    'text-sm font-medium transition-colors disabled:pointer-events-none ' +
+    'disabled:opacity-50';
+
+  const stateClasses = isActive
+    ? 'border-gray-900 text-gray-900 bg-white'
+    : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400';
+
+  return (
+    <button
+      type='button'
+      onClick={handleClickTabButton}
+      className={`${baseClasses} ${stateClasses} ${className}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+
+/**
+ * @description 탭 내용 컨테이너
+ */
+export const TabsContent = ({
+                              className = '',
+                              value,
+                              activeTab,
+                              children,
+                            }: TabsContentProps) =>
+  activeTab === value ? (
+    <div
+      className={`mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${className}`}
+    >
+      {children}
+    </div>
+  ) : null;
+
+/**
+ * @description 개별 뉴스 카드를 렌더링하는 컴포넌트
+ */
+export const NewsCard = ({ news }: NewsCardProps) => (
+  <a
+    key={news.id}
+    href={news.sourceUrl}
+    target='_blank'
+    rel='noopener noreferrer'
+    className='block'
+  >
+    <Card className='p-4 sm:p-6 hover:shadow-xl transition-shadow duration-300 cursor-pointer border-gray-200'>
+      <div className='flex items-start justify-between gap-4'>
+        <div className='flex-1 min-w-0'>
+          {/* Badge Section */}
+          <div className='flex items-center gap-2 mb-2 sm:mb-3'>
+            <Badge variant='outline'>{news.country}</Badge>
+            <Badge variant='secondary'>{news.category}</Badge>
+          </div>
+
+          {/* Title */}
+          <h3 className='text-base sm:text-xl font-semibold mb-3 text-gray-800 hover:text-blue-600 transition-colors line-clamp-2'>
+            {news.title}
+          </h3>
+
+          {/* Metadata */}
+          <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-500'>
+            <div className='flex items-center gap-1'>
+              <Newspaper className='w-3 h-3 sm:w-4 sm:h-4 text-blue-500' />
+              <span>{news.source}</span>
+            </div>
+            <div className='flex items-center gap-1'>
+              <Calendar className='w-3 h-3 sm:w-4 sm:h-4 text-blue-500' />
+              <span>{news.publishedAt}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Link Icon */}
+        <ExternalLink className='w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 mt-1' />
+      </div>
+    </Card>
+  </a>
+);
+
+/**
+ * @description 데이터가 없을 때 표시되는 빈 상태 컴포넌트
+ */
+export const EmptyState = ({ message }: EmptyStateProps) => (
+  <Card className='p-8 sm:p-12 text-center border-dashed border-2 border-gray-300 bg-gray-50'>
+    <Newspaper className='w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-4' />
+    <p className='text-lg font-medium text-gray-600'>{message}</p>
+  </Card>
+);
+
 
 
