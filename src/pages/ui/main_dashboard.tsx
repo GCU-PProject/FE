@@ -243,12 +243,15 @@ export const TabsList = ({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child as React.ReactElement<TabsTriggerProps>, {
-          activeTab,
-          onTabClick: handleChange,
-        }),
-      )}
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child) && child.type === TabsTrigger) {
+          return React.cloneElement(child as React.ReactElement<TabsTriggerProps>, {
+            activeTab,
+            onTabClick: handleChange,
+          });
+        }
+        return child;
+      })}
     </div>
   );
 };
@@ -284,6 +287,8 @@ export const TabsTrigger = ({
   return (
     <button
       type='button'
+      role='tab'
+      aria-selected={isActive}
       onClick={handleClickTabButton}
       className={`${baseClasses} ${stateClasses} ${className}`}
     >
@@ -304,6 +309,7 @@ export const TabsContent = ({
                             }: TabsContentProps) =>
   activeTab === value ? (
     <div
+      role='tabpanel'
       className={`mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${className}`}
     >
       {children}
@@ -315,7 +321,6 @@ export const TabsContent = ({
  */
 export const NewsCard = ({ news }: NewsCardProps) => (
   <a
-    key={news.id}
     href={news.sourceUrl}
     target='_blank'
     rel='noopener noreferrer'
@@ -448,16 +453,61 @@ export const App = () => {
               <Globe className='w-4 h-4 mr-2' />
               전체 이슈 ({MOCK_NEWS.length})
             </TabsTrigger>
+            <TabsTrigger value='interests'>
+              <User className='w-4 h-4 mr-2' />
+              관심 국가 ({interestNews.length})
+            </TabsTrigger>
           </TabsList>
 
           {/* 국가별 필터 탭 리스트 (관심 국가 탭이 아닐 때만 표시) */}
           {selectedTab !== 'interests' && (
-            <Tabs defaultValue='all' onValueChange={setSelectedTab}>
-              <TabsList className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm'>
-                <TabsTrigger value='all'>모든 국가</TabsTrigger>
-                {countryFilterTabs}
-              </TabsList>
-            </Tabs>
+            <><div className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm gap-2'>
+                          <button
+                              type='button'
+                              onClick={() => setSelectedTab('all')}
+                              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === 'all'
+                                      ? 'border-gray-900 text-gray-900 bg-white'
+                                      : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
+                          >
+                              모든 국가
+                          </button>
+                          {tabControls.map((country) => (
+                              <button
+                                  key={country.value}
+                                  type='button'
+                                  onClick={() => setSelectedTab(country.value)}
+                                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === country.value
+                                          ? 'border-gray-900 text-gray-900 bg-white'
+                                          : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
+                              >
+                                  {country.isInterest && <User className='w-3 h-3 mr-1 text-red-500' />}
+                                  {country.label}
+                              </button>
+                          ))}
+                      </div><div className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm gap-2'>
+                              <button
+                                  type='button'
+                                  onClick={() => setSelectedTab('all')}
+                                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === 'all'
+                                          ? 'border-gray-900 text-gray-900 bg-white'
+                                          : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
+                              >
+                                  모든 국가
+                              </button>
+                              {tabControls.map((country) => (
+                                  <button
+                                      key={country.value}
+                                      type='button'
+                                      onClick={() => setSelectedTab(country.value)}
+                                      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === country.value
+                                              ? 'border-gray-900 text-gray-900 bg-white'
+                                              : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
+                                  >
+                                      {country.isInterest && <User className='w-3 h-3 mr-1 text-red-500' />}
+                                      {country.label}
+                                  </button>
+                              ))}
+                          </div></>
           )}
 
           {/* 콘텐츠 영역: 'all'이거나 특정 국가 코드가 선택된 경우 */}

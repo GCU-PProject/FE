@@ -1,6 +1,7 @@
-import ExamplePage from '@/pages/ui/ExamplePage';
+import { App as MainDashboard } from '@/pages/ui/main_dashboard';
 
 function App() {
-  return <ExamplePage />;
+  return <MainDashboard />;
 }
+
 export default App;
