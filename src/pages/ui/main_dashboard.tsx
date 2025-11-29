@@ -484,30 +484,7 @@ export const App = () => {
                                   {country.label}
                               </button>
                           ))}
-                      </div><div className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm gap-2'>
-                              <button
-                                  type='button'
-                                  onClick={() => setSelectedTab('all')}
-                                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === 'all'
-                                          ? 'border-gray-900 text-gray-900 bg-white'
-                                          : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
-                              >
-                                  모든 국가
-                              </button>
-                              {tabControls.map((country) => (
-                                  <button
-                                      key={country.value}
-                                      type='button'
-                                      onClick={() => setSelectedTab(country.value)}
-                                      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${selectedTab === country.value
-                                              ? 'border-gray-900 text-gray-900 bg-white'
-                                              : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400'}`}
-                                  >
-                                      {country.isInterest && <User className='w-3 h-3 mr-1 text-red-500' />}
-                                      {country.label}
-                                  </button>
-                              ))}
-                          </div></>
+                      </div></>
           )}
 
           {/* 콘텐츠 영역: 'all'이거나 특정 국가 코드가 선택된 경우 */}
