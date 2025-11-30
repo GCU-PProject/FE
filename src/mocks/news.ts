@@ -1,0 +1,77 @@
+import type { NewsItem } from '@/types/news';
+
+export const mockNews: NewsItem[] = [
+  {
+    id: 1,
+    title: '미국 캘리포니아주, 2025년부터 플라스틱 빨대 전면 금지',
+    country: '미국',
+    countryCode: 'US',
+    source: 'Reuters',
+    sourceUrl: 'https://www.reuters.com',
+    publishedAt: '2024-10-28',
+    category: '환경',
+  },
+  {
+    id: 2,
+    title: '일본, 외국인 근로자 최저임금 10% 인상 법안 통과',
+    country: '일본',
+    countryCode: 'JP',
+    source: 'Japan Times',
+    sourceUrl: 'https://www.japantimes.co.jp',
+    publishedAt: '2024-10-27',
+    category: '노동',
+  },
+  {
+    id: 3,
+    title: '독일 연방의회, 데이터 보호법 개정안 승인',
+    country: '독일',
+    countryCode: 'DE',
+    source: 'Deutsche Welle',
+    sourceUrl: 'https://www.dw.com',
+    publishedAt: '2024-10-26',
+    category: '개인정보',
+  },
+  {
+    id: 4,
+    title: '싱가포르, 암호화폐 거래 규제 강화 발표',
+    country: '싱가포르',
+    countryCode: 'SG',
+    source: 'The Straits Times',
+    sourceUrl: 'https://www.straitstimes.com',
+    publishedAt: '2024-10-25',
+    category: '금융',
+  },
+  {
+    id: 5,
+    title: '프랑스, 원격근무 권리 보장 법률 시행',
+    country: '프랑스',
+    countryCode: 'FR',
+    source: 'Le Monde',
+    sourceUrl: 'https://www.lemonde.fr',
+    publishedAt: '2024-10-24',
+    category: '노동',
+  },
+  {
+    id: 6,
+    title: '태국, 관광 비자 면제 기간 45일로 연장',
+    country: '태국',
+    countryCode: 'TH',
+    source: 'Bangkok Post',
+    sourceUrl: 'https://www.bangkokpost.com',
+    publishedAt: '2024-10-23',
+    category: '이민',
+  },
+  {
+    id: 7,
+    title: '한국, 청년 고용 촉진을 위한 세제 혜택 확대',
+    country: '한국',
+    countryCode: 'KR',
+    source: 'Yonhap News',
+    sourceUrl: 'https://www.yonhapnews.co.kr',
+    publishedAt: '2024-10-22',
+    category: '노동',
+  },
+];
+
+// 관심 국가 mock
+export const mockUserInterests: string[] = ['US', 'JP', 'DE'];
