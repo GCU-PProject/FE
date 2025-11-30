@@ -476,7 +476,7 @@ export const App = () => {
                                   {country.label}
                               </button>
                           ))}
-                      </div></>
+                      </div>
           )}
 
           {/* 콘텐츠 영역: 'all'이거나 특정 국가 코드가 선택된 경우 */}
