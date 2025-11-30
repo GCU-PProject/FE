@@ -453,7 +453,7 @@ export const App = () => {
 
           {/* 국가별 필터 탭 리스트 (관심 국가 탭이 아닐 때만 표시) */}
           {selectedTab !== 'interests' && (
-            <><div className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm gap-2'>
+              <div className='mb-6 flex flex-wrap h-auto bg-white border border-gray-300 p-2 shadow-sm gap-2'>
                           <button
                               type='button'
                               onClick={() => setSelectedTab('all')}
