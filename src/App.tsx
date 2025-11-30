@@ -1,6 +1,6 @@
-import ExamplePage from '@/pages/ui/ExamplePage';
+import { RouterProvider } from 'react-router-dom';
+import { appRouter } from '@/routes/appRouter';
 
-function App() {
-  return <ExamplePage />;
-}
-export default App;
+export const App = () => {
+  return <RouterProvider router={appRouter} />;
+};
