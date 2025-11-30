@@ -288,6 +288,8 @@ export const TabsTrigger = ({
     <button
       type='button'
       role='tab'
+      id={`tab-${value}`}
+      aria-controls={`panel-${value}`}
       aria-selected={isActive}
       onClick={handleClickTabButton}
       className={`${baseClasses} ${stateClasses} ${className}`}
@@ -310,6 +312,8 @@ export const TabsContent = ({
   activeTab === value ? (
     <div
       role='tabpanel'
+      id={`panel-${value}`}
+      aria-labelledby={`tab-${value}`}
       className={`mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${className}`}
     >
       {children}
