@@ -1,11 +1,36 @@
 import React, { useState } from 'react';
-import type {
-  DashboardTabsProps,
-  DashboardTabsListProps,
-  DashboardTabsTriggerProps,
-  DashboardTabsContentProps,
-} from '@/types/news';
 
+export type DashboardTabsProps = {
+  defaultValue: string;
+  onValueChange: (value: string) => void;
+  children: React.ReactNode;
+};
+
+export type DashboardTabsListProps = {
+  className?: string;
+  activeTab?: string;
+  onTabChange?: (value: string) => void;
+  children: React.ReactNode;
+};
+
+export type DashboardTabsTriggerProps = {
+  className?: string;
+  value: string;
+  activeTab?: string;
+  onTabClick?: (value: string) => void;
+  children: React.ReactNode;
+};
+
+export type DashboardTabsContentProps = {
+  className?: string;
+  value: string;
+  activeTab: string;
+  children: React.ReactNode;
+};
+
+/**
+ * @description 대시보드용 탭 컨테이너
+ */
 export const DashboardTabs = ({
                                 defaultValue,
                                 onValueChange,
@@ -18,34 +43,32 @@ export const DashboardTabs = ({
     onValueChange(value);
   };
 
-  const childArray = React.Children.toArray(children);
+  const enhancedChildren = React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) {
+      return child;
+    }
 
-  const tabsList = childArray.find(
-    (child): child is React.ReactElement<DashboardTabsListProps> =>
-      React.isValidElement(child) && child.type === DashboardTabsList,
-  );
-
-  const tabsContents = childArray.filter(
-    (child): child is React.ReactElement<DashboardTabsContentProps> =>
-      React.isValidElement(child) && child.type === DashboardTabsContent,
-  );
-
-  return (
-    <div className='flex flex-col'>
-      {tabsList &&
-        React.cloneElement(tabsList, {
+    // 탭 버튼 리스트에만 상태 주입
+    if (child.type === DashboardTabsList) {
+      return React.cloneElement(
+        child as React.ReactElement<DashboardTabsListProps>,
+        {
           activeTab,
           onTabChange: handleTabChange,
-        })}
-      {tabsContents.map((content) =>
-        React.cloneElement(content, {
-          activeTab,
-        }),
-      )}
-    </div>
-  );
+        },
+      );
+    }
+
+    // 나머지 자식들은 그대로 렌더
+    return child;
+  });
+
+  return <div className='flex flex-col gap-4'>{enhancedChildren}</div>;
 };
 
+/**
+ * @description 탭 버튼 묶음
+ */
 export const DashboardTabsList = ({
                                     className = '',
                                     activeTab,
@@ -57,15 +80,21 @@ export const DashboardTabsList = ({
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       {React.Children.map(children, (child) =>
-        React.cloneElement(child as React.ReactElement<DashboardTabsTriggerProps>, {
-          activeTab,
-          onTabClick: handleChange,
-        }),
+        React.cloneElement(
+          child as React.ReactElement<DashboardTabsTriggerProps>,
+          {
+            activeTab,
+            onTabClick: handleChange,
+          },
+        ),
       )}
     </div>
   );
 };
 
+/**
+ * @description 개별 탭 버튼
+ */
 export const DashboardTabsTrigger = ({
                                        className = '',
                                        value,
@@ -75,23 +104,23 @@ export const DashboardTabsTrigger = ({
                                      }: DashboardTabsTriggerProps) => {
   const isActive = activeTab === value;
 
-  const handleClickTabButton = (): void => {
-    onTabClick?.(value);
-  };
-
   const baseClasses =
     'inline-flex items-center gap-2 rounded-full border px-4 py-2 ' +
     'text-sm font-medium transition-colors disabled:pointer-events-none ' +
     'disabled:opacity-50';
 
   const stateClasses = isActive
-    ? 'border-brand-primary text-brand-primary bg-surface-elevated'
-    : 'border-border-subtle text-secondary bg-surface hover:border-border-strong';
+    ? 'border-border-strong bg-surface-elevated text-primary shadow-xs'
+    : 'border-border-subtle bg-surface text-secondary hover:border-border-strong';
+
+  const handleClick = (): void => {
+    onTabClick?.(value);
+  };
 
   return (
     <button
       type='button'
-      onClick={handleClickTabButton}
+      onClick={handleClick}
       className={`${baseClasses} ${stateClasses} ${className}`}
     >
       {children}
@@ -99,6 +128,10 @@ export const DashboardTabsTrigger = ({
   );
 };
 
+/**
+ * @description 탭 콘텐츠 컨테이너
+ * - value === activeTab 일 때만 children 렌더
+ */
 export const DashboardTabsContent = ({
                                        className = '',
                                        value,
@@ -106,5 +139,5 @@ export const DashboardTabsContent = ({
                                        children,
                                      }: DashboardTabsContentProps) =>
   activeTab === value ? (
-    <div className={`mt-4 ${className}`}>{children}</div>
+    <div className={`space-y-4 ${className}`}>{children}</div>
   ) : null;
