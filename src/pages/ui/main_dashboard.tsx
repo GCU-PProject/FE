@@ -419,19 +419,7 @@ export const App = () => {
     };
   });
 
-  // '전체 이슈'와 '관심 국가' 탭 외에, '국가별 필터' 탭 리스트를 따로 구성
-  const countryFilterTabs = tabControls.map((country) => (
-    <TabsTrigger
-      key={country.value}
-      value={country.value}
-      className='flex items-center'
-    >
-      {country.isInterest && (
-        <User className='w-3 h-3 mr-1 text-red-500' />
-      )}
-      {country.label}
-    </TabsTrigger>
-  ));
+
 
   return (
     <div className='min-h-screen bg-gray-50 font-sans'>
