@@ -84,7 +84,7 @@ export function Header({
     <header
       className={cn('h-[72px] border-b border-border-base bg-white', className)}
     >
-      <div className="mx-auto flex h-full max-w-[1184px] items-center justify-between px-4 sm:px-6 md:px-8">
+      <div className="mx-auto flex h-full items-center justify-between px-4 sm:px-6 md:px-8">
         <div className="flex items-center gap-8">
           <button
             type="button"

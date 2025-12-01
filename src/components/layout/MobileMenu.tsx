@@ -40,8 +40,8 @@ export function MobileMenu({
 
   return (
     <div className="md:hidden border-t border-border-base">
-      <div className="mx-auto flex max-w-[1184px] flex-col gap-2 px-4 py-3 sm:px-6">
-        <div className="flex flex-col gap-1.5">
+      <div className="mx-auto flex flex-col gap-2 px-4 py-3 sm:px-6">
+        <nav className="flex flex-col gap-1.5" aria-label="모바일 내비게이션">
           {navItems.map((item) => {
             const isActive = item.id === resolvedActiveNavId;
             return (
@@ -74,7 +74,7 @@ export function MobileMenu({
               className="font-normal hover:font-medium"
             />
           )}
-        </div>
+        </nav>
       </div>
     </div>
   );
