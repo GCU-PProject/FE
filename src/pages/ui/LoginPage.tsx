@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Scale } from 'lucide-react';
 import { Button } from '@/components/common/button/Button';
-import { GoogleIcon } from '@/assets/icons/GoogleIcon';
+import { ReactComponent as GoogleIcon } from '@/assets/icons/google-icon.svg';
 
 // 구글 로그인 페이지
 export type LoginPageProps = {
