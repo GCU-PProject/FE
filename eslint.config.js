@@ -41,7 +41,6 @@ export default tseslint.config(
       'tokens',
       'coverage',
       '**/*.config.js',
-      'eslint.config.js',
       'sd-tokens-config.js',
       'tw-tokens-config.js',
       'split-tokens.js',
