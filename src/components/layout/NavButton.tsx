@@ -19,6 +19,7 @@ export function NavButton({
     <button
       type="button"
       onClick={onSelect}
+      aria-current={isActive ? 'page' : undefined}
       className={cn(
         'flex items-center gap-2 rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-bg-soft',
         isActive
