@@ -157,7 +157,8 @@ export function Header({
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-md text-text-primary transition-colors hover:bg-bg-soft md:hidden"
             onClick={() => setIsMobileOpen((prev) => !prev)}
-            aria-label="메뉴 열기"
+            aria-label={isMobileOpen ? '메뉴 닫기' : '메뉴 열기'}
+            aria-expanded={isMobileOpen}
           >
             {isMobileOpen ? (
               <X className="h-6 w-6" strokeWidth={2} />
