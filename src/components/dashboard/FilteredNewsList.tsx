@@ -9,7 +9,7 @@ export const FilteredNewsList = ({
                                    news,
                                    emptyMessage,
                                  }: FilteredNewsListProps) => (
-  <DashboardTabsContent value={value} activeTab={activeTab} className='space-y-4'>
+  <DashboardTabsContent value={value} activeTab={activeTab} >
     {news.length === 0 ? (
       <EmptyState message={emptyMessage} />
     ) : (
