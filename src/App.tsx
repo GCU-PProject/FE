@@ -1,6 +1,7 @@
-import { RouterProvider } from 'react-router-dom';
-import { appRouter } from '@/routes/routes';
+import { MainDashboardPage } from '@/pages/ui/main_dashboard';
 
-export const App = () => {
-  return <RouterProvider router={appRouter} />;
-};
+export function App() {
+  return <MainDashboardPage />;
+}
+
+export default App;
