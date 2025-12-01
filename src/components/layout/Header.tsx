@@ -35,7 +35,7 @@ const defaultNavItems: HeaderNavItem[] = [
   },
 ];
 
-export const Header = ({
+export function Header({
   navItems = defaultNavItems,
   activeNavId,
   onNavSelect,
@@ -44,12 +44,12 @@ export const Header = ({
   onLogoClick,
   onUserClick,
   className,
-}: HeaderProps) => {
+}: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false); // 모바일 메뉴 토글 상태
 
-  // 현재 경로와 일치하는 메뉴 id를 찾는다.
+  // 현재 경로와 일치하는 메뉴 id 찾기
   const isControlled = activeNavId !== undefined;
   const locationMatchedNavId = useMemo(() => {
     return navItems.find(
@@ -69,7 +69,7 @@ export const Header = ({
     }
   }, [activeNavId, isControlled]);
 
-  // 비제어 모드에서 경로가 변할 때 활성 메뉴를 자동 갱신한다.
+  // 비제어 모드에서 경로가 변할 때 활성 메뉴를 자동 갱신
   useEffect(() => {
     if (!isControlled) {
       setInternalActiveNavId(locationMatchedNavId ?? undefined);
@@ -146,7 +146,7 @@ export const Header = ({
                 }
                 closeMobile();
               }}
-              className="hidden items-center gap-2 text-base font-normal text-text-secondary transition-colors hover:text-text-primary hover:font-medium md:flex"
+              className="hidden items-center gap-2 text-base font-normal text-text-secondary transition-colors hover:text-text-primary md:flex"
             >
               <UserRound className="h-5 w-5" strokeWidth={2} />
               <span>{userLabel}</span>
@@ -185,4 +185,6 @@ export const Header = ({
       ) : null}
     </header>
   );
-};
+}
+
+export default Header;
