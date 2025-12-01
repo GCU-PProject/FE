@@ -1,4 +1,5 @@
 import { Globe, User } from 'lucide-react';
+import { Header } from '@/components/layout/Header';
 import {
   DashboardTabs,
   DashboardTabsList,
@@ -18,7 +19,6 @@ export const MainDashboardPage = () => {
   const news: NewsItem[] = mockNews;
   const userInterests: string[] = mockUserInterests;
 
-
   const { selectedTab, onChangeTab } = useTabsState(news);
 
   const { newsToShow, interestNews } = useFilteredNews(
@@ -29,9 +29,13 @@ export const MainDashboardPage = () => {
 
   return (
     <div className='min-h-screen bg-surface font-sans'>
-      {/* Header */}
-      <header className='bg-surface-elevated border-b border-border-subtle'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8'>
+      {/* 공통 레이아웃 헤더 */}
+      <Header />
+
+      {/* 페이지 본문 */}
+      <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        {/* 페이지 타이틀 영역 */}
+        <header className='mb-8'>
           <h1 className='text-2xl sm:text-3xl font-extrabold text-primary mb-1'>
             <Globe className='inline-block w-6 h-6 mr-3 text-brand-primary' />
             해외 이슈 대시보드
@@ -39,16 +43,14 @@ export const MainDashboardPage = () => {
           <p className='text-sm sm:text-base text-secondary'>
             해외 주요 법률 및 정책 개정 소식을 확인하세요.
           </p>
-        </div>
-      </header>
+        </header>
 
-      {/* Content */}
-      <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        {/* 탭 + 리스트 영역 */}
         <DashboardTabs
           defaultValue='all'
           onValueChange={onChangeTab}
         >
-          {/* 전체 / 관심 국가 */}
+          {/* 전체 / 관심 국가 탭 */}
           <DashboardTabsList className='mb-6 flex flex-wrap'>
             <DashboardTabsTrigger value='all'>
               <Globe className='w-4 h-4 mr-2' />
@@ -61,7 +63,7 @@ export const MainDashboardPage = () => {
             </DashboardTabsTrigger>
           </DashboardTabsList>
 
-          {/* 전체 이슈 */}
+          {/* 전체 이슈 리스트 */}
           <FilteredNewsList
             value='all'
             activeTab={selectedTab}
@@ -69,7 +71,7 @@ export const MainDashboardPage = () => {
             emptyMessage='선택하신 국가의 최신 이슈가 없습니다.'
           />
 
-          {/* 관심 국가 이슈 */}
+          {/* 관심 국가 이슈 리스트 */}
           <FilteredNewsList
             value='interests'
             activeTab={selectedTab}
@@ -81,3 +83,5 @@ export const MainDashboardPage = () => {
     </div>
   );
 };
+
+export default MainDashboardPage;

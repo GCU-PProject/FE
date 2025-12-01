@@ -1,6 +1,8 @@
-import ExamplePage from '@/pages/ui/ExamplePage';
+import React from 'react';
+import { MainDashboardPage } from '@/pages/ui/main_dashboard';
 
-function App() {
-  return <ExamplePage />;
-}
+const App: React.FC = () => {
+  return <MainDashboardPage />;
+};
+
 export default App;
