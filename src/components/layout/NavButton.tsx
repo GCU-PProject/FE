@@ -19,19 +19,15 @@ export function NavButton({
     <button
       type="button"
       onClick={onSelect}
-    className={cn(
-      'flex items-center gap-2 rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-bg-soft',
-      isActive
-        ? 'bg-brand-light text-brand-primary'
-        : 'text-text-secondary hover:text-text-primary',
-      className,
-    )}
-  >
-      {item.icon ? (
-        <span className={cn('text-current', isActive && 'text-brand-primary')}>
-          {item.icon}
-        </span>
-      ) : null}
+      className={cn(
+        'flex items-center gap-2 rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-bg-soft',
+        isActive
+          ? 'bg-brand-light text-brand-primary'
+          : 'text-text-secondary hover:text-text-primary',
+        className,
+      )}
+    >
+      {item.icon ? <span className="text-current">{item.icon}</span> : null}
       <span>{item.label}</span>
     </button>
   );
