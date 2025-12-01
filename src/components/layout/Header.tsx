@@ -74,7 +74,7 @@ export function Header({
     if (!isControlled) {
       setInternalActiveNavId(locationMatchedNavId ?? undefined);
     }
-  }, [isControlled, locationMatchedNavId, navItems]);
+  }, [isControlled, locationMatchedNavId]);
 
   const resolvedActiveNavId = isControlled ? activeNavId : internalActiveNavId;
   const closeMobile = () => setIsMobileOpen(false);
