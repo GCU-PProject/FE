@@ -1,8 +1,6 @@
-import React from 'react';
-import { MainDashboardPage } from '@/pages/ui/main_dashboard';
+import ExamplePage from '@/pages/ui/ExamplePage';
 
-export const App = (): JSX.Element => {
-  return <MainDashboardPage />;
-};
-
+function App() {
+  return <ExamplePage />;
+}
 export default App;
