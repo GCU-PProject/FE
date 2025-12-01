@@ -179,7 +179,6 @@ export function Header({
           closeMobile={closeMobile}
           rightAddon={rightAddon}
           onUserClick={onUserClick}
-          navigateUserFallback={() => navigateTo('/mypage')}
           userLabel={userLabel}
         />
       ) : null}

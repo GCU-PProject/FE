@@ -13,7 +13,7 @@ interface MobileMenuProps {
   closeMobile: () => void;
   rightAddon?: ReactNode;
   onUserClick?: () => void;
-  navigateUserFallback: () => void;
+  navigateUserFallback?: () => void;
   userLabel: string;
 }
 
@@ -31,12 +31,10 @@ export function MobileMenu({
   navigateUserFallback,
   userLabel,
 }: MobileMenuProps) {
+  const defaultNavigateUser = () => navigateTo('/mypage');
+
   const handleUserClick = () => {
-    if (onUserClick) {
-      onUserClick();
-    } else {
-      navigateUserFallback();
-    }
+    (onUserClick ?? navigateUserFallback ?? defaultNavigateUser)();
     closeMobile();
   };
 
