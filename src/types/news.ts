@@ -17,7 +17,8 @@ export type CardProps = {
 };
 
 export type BadgeProps = {
-  variant?: 'default' | 'secondary' | 'outline';
+  variant?: 'default' | 'secondary' | 'outline' | 'tag';
+  className?: string;
   children: React.ReactNode;
 };
 
