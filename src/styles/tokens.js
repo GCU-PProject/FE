@@ -54,6 +54,9 @@ export const tailwindTokens = {
     bg: {
       soft: getValue(rawTokens.color?.bg?.soft, '#F3F3F5'),
     },
+    surface: {
+      tag: getValue(rawTokens.color?.surface?.tag, '#ECEEF2'),
+    },
     danger: {
       base: getValue(rawTokens.color?.danger?.base, '#e7000b'),
     },
