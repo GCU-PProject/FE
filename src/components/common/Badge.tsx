@@ -1,6 +1,10 @@
 import type { BadgeProps } from '@/types/news';
 
-export const Badge = ({ variant = 'default', children }: BadgeProps) => {
+export const Badge = ({
+  variant = 'default',
+  className = '',
+  children,
+}: BadgeProps) => {
   const baseClasses =
     'inline-flex items-center rounded-full border px-2.5 py-0.5 ' +
     'text-xs font-semibold transition-colors focus:outline-none ' +
@@ -13,6 +17,9 @@ export const Badge = ({ variant = 'default', children }: BadgeProps) => {
       // 디자인 토큰 사용
       variantClasses = 'border-transparent bg-secondary text-secondary-strong';
       break;
+    case 'tag':
+      variantClasses = 'border-transparent bg-surface-tag text-text-primary';
+      break;
     case 'outline':
       variantClasses = 'border-border-subtle text-secondary';
       break;
@@ -21,5 +28,9 @@ export const Badge = ({ variant = 'default', children }: BadgeProps) => {
       break;
   }
 
-  return <span className={`${baseClasses} ${variantClasses}`}>{children}</span>;
+  return (
+    <span className={`${baseClasses} ${variantClasses} ${className}`}>
+      {children}
+    </span>
+  );
 };
