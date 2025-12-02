@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Header } from '@/components/layout/Header';
-import { Modal } from '@/components/common/modal/Modal';
+import { Modal } from '@/components/common/Modal';
 import { Button } from '@/components/common/button/Button';
 import { Badge } from '@/components/common/Badge';
 
