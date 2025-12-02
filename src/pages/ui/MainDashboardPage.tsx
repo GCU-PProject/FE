@@ -28,7 +28,7 @@ export const MainDashboardPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-surface font-sans">
+    <div className="min-h-screen font-sans">
       {/* 공통 레이아웃 헤더 */}
       <Header />
 
@@ -36,6 +36,7 @@ export const MainDashboardPage = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* 페이지 타이틀 영역 */}
         <header className="mb-8">
+
           <h1 className="text-2xl sm:text-3xl font-extrabold text-primary mb-1">
             <Globe className="inline-block w-6 h-6 mr-3 text-brand-primary" />
             해외 이슈 대시보드
@@ -46,6 +47,7 @@ export const MainDashboardPage = () => {
         </header>
 
         {/* 탭 + 리스트 영역 */}
+
         <DashboardTabs defaultValue="all" onValueChange={onChangeTab}>
           {/* 전체 / 관심 국가 탭 */}
           <DashboardTabsList className="mb-6 flex flex-wrap">
@@ -77,7 +79,7 @@ export const MainDashboardPage = () => {
           />
         </DashboardTabs>
       </main>
-    </div>
+      </div>
   );
 };
 

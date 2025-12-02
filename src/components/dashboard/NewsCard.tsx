@@ -16,7 +16,7 @@ export const NewsCard = ({ news }: NewsCardProps) => (
         <div className='flex-1 min-w-0'>
           <div className='flex items-center gap-2 mb-3'>
             <Badge variant='outline'>{news.country}</Badge>
-            <Badge variant='secondary'>{news.category}</Badge>
+            <Badge variant='secondary'className="bg-gray-100 text-gray-700 border border-gray-300">{news.category}</Badge>
           </div>
 
           <h3 className='text-base sm:text-lg font-semibold mb-2 text-primary hover:text-brand-primary transition-colors line-clamp-2'>
