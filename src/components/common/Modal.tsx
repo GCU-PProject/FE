@@ -1,5 +1,5 @@
 import type { ReactNode, KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { useEffect, useId } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -58,6 +58,7 @@ export function Modal({
   const titleId = useId();
   const portalTarget =
     typeof document !== 'undefined' ? document.body : undefined;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -85,10 +86,6 @@ export function Modal({
     };
   }, [open, onClose]);
 
-  if (!open || !portalTarget) {
-    return null;
-  }
-
   const handleOverlayKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (
       event.key === 'Enter' ||
@@ -99,6 +96,69 @@ export function Modal({
       onClose();
     }
   };
+
+  const getFocusableElements = useCallback(() => {
+    if (!modalRef.current) return [];
+    const selectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([type="hidden"]):not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ];
+    return Array.from(
+      modalRef.current.querySelectorAll<HTMLElement>(selectors.join(',')),
+    ).filter((el) => !el.hasAttribute('data-focus-guard'));
+  }, []);
+
+  const focusFirstElement = useCallback(() => {
+    const focusables = getFocusableElements();
+    if (focusables.length > 0) {
+      focusables[0].focus();
+      return;
+    }
+    modalRef.current?.focus();
+  }, [getFocusableElements]);
+
+  const handleFocusTrap = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Tab') return;
+
+    const focusables = getFocusableElements();
+    if (focusables.length === 0) {
+      event.preventDefault();
+      modalRef.current?.focus();
+      return;
+    }
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement as HTMLElement | null;
+    const isShift = event.shiftKey;
+
+    if (isShift) {
+      if (!active || active === first || !modalRef.current?.contains(active)) {
+        event.preventDefault();
+        last.focus();
+      }
+      return;
+    }
+
+    if (!active || active === last || !modalRef.current?.contains(active)) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const id = requestAnimationFrame(focusFirstElement);
+    return () => cancelAnimationFrame(id);
+  }, [open, focusFirstElement]);
+
+  if (!open || !portalTarget) {
+    return null;
+  }
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
@@ -115,11 +175,14 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        tabIndex={-1}
+        ref={modalRef}
         className={cn(
           'relative z-10 flex w-full max-h-[90vh] flex-col overflow-hidden rounded-3xl border border-border-base/80 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.18)]',
           widthClass,
           contentClassName,
         )}
+        onKeyDown={handleFocusTrap}
       >
         <div
           className={cn(
@@ -151,7 +214,10 @@ export function Modal({
                   onClick={onClose}
                   className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-secondary transition hover:bg-bg-soft"
                 >
-                  <X className="h-5 w-5" stroke="#4A5565" strokeWidth={2.2} />
+                  <X
+                    className="h-5 w-5 text-text-secondary"
+                    strokeWidth={2.2}
+                  />
                 </button>
               ) : null}
             </div>
