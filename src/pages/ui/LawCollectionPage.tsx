@@ -15,7 +15,7 @@ export function LawCollectionPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-extrabold text-text-primary">
-              모달 예시 &gt;&gt;
+              모달 예시 {'>>'}
             </h1>
           </div>
           <Button
