@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
@@ -89,16 +89,31 @@ export function Modal({
     return null;
   }
 
+  const handleOverlayKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (
+      event.key === 'Enter' ||
+      event.key === ' ' ||
+      event.key === 'Spacebar'
+    ) {
+      event.preventDefault();
+      onClose();
+    }
+  };
+
   return createPortal(
-    <div className='fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6'>
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
       <div
-        className='absolute inset-0 bg-black/40 backdrop-blur-[2px]'
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
         onClick={onClose}
+        role="button"
+        tabIndex={0}
+        aria-label="배경 클릭으로 모달 닫기"
+        onKeyDown={handleOverlayKeyDown}
       />
 
       <div
-        role='dialog'
-        aria-modal='true'
+        role="dialog"
+        aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         className={cn(
           'relative z-10 flex w-full max-h-[90vh] flex-col overflow-hidden rounded-3xl border border-border-base/80 bg-white shadow-[0_20px_55px_rgba(15,23,42,0.18)]',
@@ -112,31 +127,31 @@ export function Modal({
             headerClassName,
           )}
         >
-          <div className='flex flex-1 flex-col'>
+          <div className="flex flex-1 flex-col">
             {title ? (
               <h2
                 id={titleId}
-                className='text-lg font-semibold text-text-primary'
+                className="text-lg font-semibold text-text-primary"
               >
                 {title}
               </h2>
             ) : null}
             {description ? (
-              <p className='mt-1 text-sm text-text-secondary'>{description}</p>
+              <p className="mt-1 text-sm text-text-secondary">{description}</p>
             ) : null}
           </div>
 
           {(headerActions || showCloseButton) && (
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               {headerActions}
               {showCloseButton ? (
                 <button
-                  type='button'
-                  aria-label='모달 닫기'
+                  type="button"
+                  aria-label="모달 닫기"
                   onClick={onClose}
-                  className='inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-secondary transition hover:bg-bg-soft'
+                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-secondary transition hover:bg-bg-soft"
                 >
-                  <X className='h-5 w-5' stroke='#4A5565' strokeWidth={2.2} />
+                  <X className="h-5 w-5" stroke="#4A5565" strokeWidth={2.2} />
                 </button>
               ) : null}
             </div>
