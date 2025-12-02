@@ -56,6 +56,7 @@ export function Modal({
   showCloseButton = true,
 }: ModalProps) {
   const titleId = useId();
+  const descriptionId = useId();
   const portalTarget =
     typeof document !== 'undefined' ? document.body : undefined;
   const modalRef = useRef<HTMLDivElement>(null);
@@ -175,6 +176,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         ref={modalRef}
         className={cn(
@@ -200,7 +202,12 @@ export function Modal({
               </h2>
             ) : null}
             {description ? (
-              <p className="mt-1 text-sm text-text-secondary">{description}</p>
+              <p
+                id={descriptionId}
+                className="mt-1 text-sm text-text-secondary"
+              >
+                {description}
+              </p>
             ) : null}
           </div>
 
