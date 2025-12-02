@@ -16,7 +16,10 @@ const countries = [
   { label: '한국', value: 'kr' },
   { label: '미국', value: 'us' },
   { label: '일본', value: 'jp' },
+  { label: '독일', value: 'de' },
   { label: '싱가포르', value: 'sg' },
+  { label: '태국', value: 'th' },
+  { label: '프랑스', value: 'fr' },
 ];
 
 const fields = [
@@ -95,14 +98,14 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   };
 
   return (
-    <div className="relative flex self-start" ref={containerRef}>
+    <div className="relative flex self-start">
       <button
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
         aria-label="필터 옵션 열기"
         className={cn(
-          'inline-flex h-9 w-[86px] items-center justify-center gap-2 rounded-lg border border-border-base bg-white px-3 text-sm font-medium text-text-primary shadow-sm transition-colors',
+          'inline-flex h-[36px] w-[86px] items-center justify-center gap-2 rounded-lg border border-border-base bg-white px-3 text-sm font-medium text-text-primary shadow-sm transition-colors',
           open
             ? 'border-brand-primary text-text-primary'
             : 'hover:border-border-selected',
