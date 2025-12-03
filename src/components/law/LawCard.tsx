@@ -41,6 +41,7 @@ export const LawCard = ({ law, onToggleSave, onViewDetail }: LawCardProps) => {
             <button
               type="button"
               onClick={() => onToggleSave?.(law.id)}
+              aria-label={isSaved ? '저장 해제' : '저장'}
               className="inline-flex h-[32px] min-w-[92px] items-center justify-center gap-1 rounded-md px-3 text-sm font-medium text-text-secondary transition-colors hover:bg-bg-soft"
             >
               {isSaved ? (
