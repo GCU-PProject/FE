@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import type { BadgeProps } from '@/types/news';
 
 export const Badge = ({
@@ -19,10 +20,11 @@ export const Badge = ({
       break;
     case 'tag':
       variantClasses =
-        'h-[22px] border-transparent bg-[#F1F3F6] px-2 text-[12px] font-medium text-text-secondary';
+        'border-transparent bg-surface-tag px-2 text-[12px] font-medium text-text-secondary h-[22px]';
       break;
     case 'outline':
-      variantClasses = 'border-border-subtle text-secondary';
+      variantClasses =
+        'border border-border-subtle bg-white px-2 text-[12px] font-medium text-text-secondary h-[22px]';
       break;
     default:
       variantClasses = 'border-transparent bg-brand-primary text-on-brand';
@@ -30,7 +32,7 @@ export const Badge = ({
   }
 
   return (
-    <span className={`${baseClasses} ${variantClasses} ${className}`}>
+    <span className={cn(baseClasses, variantClasses, className)}>
       {children}
     </span>
   );
