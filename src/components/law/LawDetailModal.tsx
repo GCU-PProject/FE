@@ -16,7 +16,7 @@ export const LawDetailModal = ({
   onClose,
   onToggleSave,
 }: LawDetailModalProps) => {
-  if (!law) return null;
+  if (!open || !law) return null;
   const isSaved = Boolean(law.saved);
 
   return (
@@ -24,6 +24,7 @@ export const LawDetailModal = ({
       open={open}
       onClose={onClose}
       title={undefined}
+      aria-label={law.title}
       widthClass="max-w-[720px]"
       contentClassName="rounded-2xl"
       headerClassName="border-none px-6 pt-4 pb-0 justify-between items-center"
