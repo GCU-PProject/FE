@@ -11,9 +11,7 @@ export const LawCard = ({ law, onToggleSave, onViewDetail }: LawCardProps) => {
       <div className="flex h-full flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className="h-[22px] px-2 text-[12px]">
-              {law.country}
-            </Badge>
+            <Badge variant="outline">{law.country}</Badge>
             <Badge variant="tag">{law.category}</Badge>
           </div>
         </div>
