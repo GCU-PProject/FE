@@ -10,34 +10,21 @@ import { DropdownSelect } from './DropdownSelect';
 import { Button } from '@/components/common/button/Button';
 import { cn } from '@/lib/utils';
 import { ReactComponent as FilterIcon } from '@/assets/icons/filter.svg';
-
-const countries = [
-  { label: '모든 국가', value: 'all' },
-  { label: '한국', value: 'kr' },
-  { label: '미국', value: 'us' },
-  { label: '일본', value: 'jp' },
-  { label: '독일', value: 'de' },
-  { label: '싱가포르', value: 'sg' },
-  { label: '태국', value: 'th' },
-  { label: '프랑스', value: 'fr' },
-];
-
-const fields = [
-  { label: '모든 분야', value: 'all' },
-  { label: '교통', value: 'traffic' },
-  { label: '노동', value: 'labor' },
-  { label: '금융', value: 'finance' },
-  { label: 'IT · 데이터', value: 'it' },
-];
+import {
+  countryOptions,
+  fieldOptions,
+  type CountryValue,
+  type FieldValue,
+} from '@/constants/filters';
 
 interface FilterDropdownProps {
-  onApply?: (filters: { country: string; field: string }) => void;
+  onApply?: (filters: { country: CountryValue; field: FieldValue }) => void;
 }
 
 export function FilterDropdown({ onApply }: FilterDropdownProps) {
   const [open, setOpen] = useState(false);
-  const [country, setCountry] = useState('all');
-  const [field, setField] = useState('all');
+  const [country, setCountry] = useState<CountryValue>('all');
+  const [field, setField] = useState<FieldValue>('all');
   const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -138,9 +125,11 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
             <DropdownSelect
               label="국가"
               value={country}
-              onChange={(event) => setCountry(event.target.value)}
+              onChange={(event) =>
+                setCountry(event.target.value as CountryValue)
+              }
             >
-              {countries.map((option) => (
+              {countryOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -149,9 +138,9 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
             <DropdownSelect
               label="분야"
               value={field}
-              onChange={(event) => setField(event.target.value)}
+              onChange={(event) => setField(event.target.value as FieldValue)}
             >
-              {fields.map((option) => (
+              {fieldOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>

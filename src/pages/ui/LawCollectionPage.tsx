@@ -6,29 +6,19 @@ import { LawCard } from '@/components/law/LawCard';
 import { mockLaws } from '@/mocks/laws';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
 import type { LawItem } from '@/types/law';
-
-const countryLabels: Record<string, string> = {
-  all: '모든 국가',
-  kr: '한국',
-  us: '미국',
-  jp: '일본',
-  de: '독일',
-  sg: '싱가포르',
-  th: '태국',
-  fr: '프랑스',
-};
-
-const fieldLabels: Record<string, string> = {
-  all: '모든 분야',
-  traffic: '교통',
-  labor: '노동',
-  finance: '금융',
-  it: 'IT · 데이터',
-};
+import {
+  countryLabels,
+  fieldLabels,
+  type CountryValue,
+  type FieldValue,
+} from '@/constants/filters';
 
 export const LawCollectionPage = () => {
   const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState({ country: 'all', field: 'all' });
+  const [filters, setFilters] = useState<{
+    country: CountryValue;
+    field: FieldValue;
+  }>({ country: 'all', field: 'all' });
   const [laws, setLaws] = useState<LawItem[]>(mockLaws);
   const [selectedLaw, setSelectedLaw] = useState<LawItem | null>(null);
 
