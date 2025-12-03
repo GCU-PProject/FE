@@ -1,4 +1,4 @@
-import { Bookmark, ExternalLink } from 'lucide-react';
+import { Bookmark, ExternalLink, X } from 'lucide-react';
 import { Modal } from '@/components/common/Modal';
 import { Badge } from '@/components/common/Badge';
 import type { LawItem } from '@/types/law';
@@ -38,10 +38,13 @@ export const LawDetailModal = ({
             aria-label={isSaved ? '저장 해제' : '저장'}
           >
             <Bookmark
-              className="h-5 w-5"
+              className={
+                isSaved
+                  ? 'h-5 w-5 text-brand-primary'
+                  : 'h-5 w-5 text-text-tertiary'
+              }
               strokeWidth={2.1}
-              color={isSaved ? 'text-brand-primary' : 'text-text-tetiary'}
-              fill={isSaved ? 'text-brand-primary' : 'none'}
+              fill={isSaved ? 'currentColor' : 'none'}
             />
           </button>
           <button
@@ -51,19 +54,10 @@ export const LawDetailModal = ({
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition hover:bg-bg-soft"
           >
             <span className="sr-only">닫기</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-5 w-5"
-            >
+            <X className="h-5 w-5">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            </X>
           </button>
         </div>
       }
