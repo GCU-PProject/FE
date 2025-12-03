@@ -7,7 +7,7 @@ export const LawCard = ({ law, onToggleSave, onViewDetail }: LawCardProps) => {
   const isSaved = Boolean(law.saved);
 
   return (
-    <Card className="h-[192px] w-full rounded-2xl border-border-subtle bg-white px-5 py-5 shadow-sm transition-shadow duration-300 hover:shadow-lg sm:px-6">
+    <Card className="min-h-[192px] w-full rounded-2xl border-border-subtle bg-white px-5 py-5 shadow-sm transition-shadow duration-300 hover:shadow-lg sm:px-6">
       <div className="flex h-full flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
