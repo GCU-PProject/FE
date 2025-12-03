@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { MainDashboardPage } from '@/pages/ui/main_dashboard';
+import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
 import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
 import { Header } from '@/components/layout/Header';
 
