@@ -70,7 +70,7 @@ export const LawDetailModal = ({
             </Badge>
             <Badge
               variant="tag"
-              className="h-[22px] min-w-[42px] justify-center border-transparent bg-[#F1F3F6] px-3 text-text-secondary"
+              className="h-[22px] min-w-[42px] justify-center px-3"
             >
               {law.category}
             </Badge>
