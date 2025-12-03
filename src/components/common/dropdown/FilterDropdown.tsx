@@ -98,7 +98,7 @@ export function FilterDropdown({ onApply }: FilterDropdownProps) {
   };
 
   return (
-    <div className="relative flex self-start">
+    <div ref={containerRef} className="relative flex self-start">
       <button
         type="button"
         aria-expanded={open}
