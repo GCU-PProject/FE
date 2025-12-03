@@ -54,10 +54,7 @@ export const LawDetailModal = ({
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary transition hover:bg-bg-soft"
           >
             <span className="sr-only">닫기</span>
-            <X className="h-5 w-5">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </X>
+            <X className="h-5 w-5"></X>
           </button>
         </div>
       }
