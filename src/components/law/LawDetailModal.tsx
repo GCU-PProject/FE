@@ -40,8 +40,8 @@ export const LawDetailModal = ({
             <Bookmark
               className="h-5 w-5"
               strokeWidth={2.1}
-              color={isSaved ? '#155dfc' : '#6A7282'}
-              fill={isSaved ? '#155dfc' : 'none'}
+              color={isSaved ? 'text-brand-primary' : 'text-text-tetiary'}
+              fill={isSaved ? 'text-brand-primary' : 'none'}
             />
           </button>
           <button
