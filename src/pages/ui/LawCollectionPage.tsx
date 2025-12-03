@@ -53,8 +53,8 @@ export const LawCollectionPage = () => {
     );
   };
 
-  const appliedFiltersText = `${countryLabels[filters.country] ?? '모든 국가'} · ${
-    fieldLabels[filters.field] ?? '모든 분야'
+  const appliedFiltersText = `${countryLabels[filters.country]} · ${
+    fieldLabels[filters.field]
   }`;
 
   return (
