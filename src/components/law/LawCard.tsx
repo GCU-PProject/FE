@@ -3,7 +3,7 @@ import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
 import type { LawCardProps } from '@/types/law';
 
-export const LawCard = ({ law, onToggleSave }: LawCardProps) => {
+export const LawCard = ({ law, onToggleSave, onViewDetail }: LawCardProps) => {
   const isSaved = Boolean(law.saved);
 
   return (
@@ -59,6 +59,7 @@ export const LawCard = ({ law, onToggleSave }: LawCardProps) => {
             </button>
             <button
               type="button"
+              onClick={() => onViewDetail?.(law)}
               className="inline-flex h-[32px] w-[104px] items-center justify-center gap-1.5 rounded-md border border-border-base px-3 text-sm font-medium text-text-primary transition-colors hover:border-border-selected"
             >
               상세보기
