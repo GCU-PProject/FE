@@ -32,9 +32,13 @@ export const LawCollectionPage = () => {
       const matchField = filters.field === 'all' || law.field === filters.field;
       const matchKeyword =
         keyword.length === 0 ||
-        [law.title, law.subTitle, law.description, law.country].some((value) =>
-          (value?.toLowerCase() ?? '').includes(keyword),
-        );
+        [
+          law.title,
+          law.subTitle,
+          law.description,
+          law.country,
+          law.category,
+        ].some((value) => (value?.toLowerCase() ?? '').includes(keyword));
 
       return matchCountry && matchField && matchKeyword;
     });
