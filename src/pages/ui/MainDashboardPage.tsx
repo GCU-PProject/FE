@@ -33,21 +33,25 @@ export const MainDashboardPage = () => {
       <Header />
 
       {/* 페이지 본문 */}
-      <main className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="pb-8">
         {/* 페이지 타이틀 영역 */}
-        <header className="mb-8">
-
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-primary mb-1">
-            <Globe className="inline-block w-6 h-6 mr-3 text-brand-primary" />
+        <header className="mt-6 sm:mt-8 mb-8 pl-4 sm:pl-6 lg:pl-8">
+          <div className="flex items-center gap-3 mb-1">
+            <Globe className="w-7 h-7 text-brand-primary" />
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">
             해외 이슈 대시보드
           </h1>
+          </div>
           <p className="text-sm sm:text-base text-secondary">
             해외 주요 법률 및 정책 개정 소식을 확인하세요.
           </p>
         </header>
 
 
-        <div className="bg-[#F2F4F6] -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-8">
+          {/* 회색 배경 전체 영역 */}
+          <div className="bg-[#F2F4F6]">
+            {/* 중앙 컨텐츠 영역 max-width 적용 */}
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
         {/* 탭 + 리스트 영역 */}
         <DashboardTabs defaultValue="all" onValueChange={onChangeTab}>
           {/* 전체 / 관심 국가 탭 */}
@@ -80,6 +84,7 @@ export const MainDashboardPage = () => {
           />
         </DashboardTabs>
         </div>
+          </div>
       </main>
       </div>
   );
