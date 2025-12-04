@@ -139,8 +139,8 @@ export const LawDetailModal = ({
             </p>
             {section.bullets && section.bullets.length > 0 ? (
               <ul className="mt-2 space-y-1 text-sm text-text-secondary">
-                {section.bullets.map((item, idx) => (
-                  <li key={idx} className="flex gap-2">
+                {section.bullets.map((item) => (
+                  <li key={item} className="flex gap-2">
                     <span className="mt-[6px] h-1 w-1 rounded-full bg-text-tertiary" />
                     <span className="flex-1 leading-relaxed">{item}</span>
                   </li>
