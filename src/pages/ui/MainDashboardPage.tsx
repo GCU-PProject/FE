@@ -62,7 +62,7 @@ export const MainDashboardPage = () => {
             </DashboardTabsTrigger>
 
             <DashboardTabsTrigger value="interests">
-              <User className="w-4 h-4 mr-2 text-brand-primary" />
+              <User className="w-4 h-4 mr-2 text-[#6B7280]" />
               관심 국가 이슈 ({interestNews.length})
             </DashboardTabsTrigger>
           </DashboardTabsList>
