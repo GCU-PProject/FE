@@ -5,22 +5,44 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   action?: ReactNode;
   helperText?: string;
   inputClassName?: string;
+  actionPosition?: 'left' | 'right';
+  wrapperClassName?: string;
+  unstyled?: boolean;
 }
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ action, helperText, className, inputClassName, id, ...props }, ref) => {
+  (
+    {
+      action,
+      helperText,
+      className,
+      inputClassName,
+      actionPosition = 'right',
+      wrapperClassName,
+      unstyled = false,
+      id,
+      ...props
+    },
+    ref,
+  ) => {
     const autoId = useId();
     const inputId = id ?? autoId;
     const helperId = helperText ? `${inputId}-helper` : undefined;
+    const actionContent = action ? (
+      <div className="flex-shrink-0">{action}</div>
+    ) : null;
 
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className={cn('flex flex-col gap-1.5', wrapperClassName)}>
         <div
           className={cn(
-            'group flex min-h-9 w-full items-center gap-3 rounded-lg bg-bg-soft px-4 ring-1 ring-inset ring-transparent transition-colors focus-within:ring-2 focus-within:ring-[#C7D9FF] focus-within:ring-offset-0',
+            unstyled
+              ? null
+              : 'group flex min-h-9 w-full items-center gap-3 rounded-lg bg-bg-soft px-4 ring-1 ring-inset ring-transparent transition-colors focus-within:ring-2 focus-within:ring-[#C7D9FF] focus-within:ring-offset-0',
             className,
           )}
         >
+          {actionPosition === 'left' ? actionContent : null}
           <input
             ref={ref}
             id={inputId}
@@ -31,7 +53,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             )}
             {...props}
           />
-          {action ? <div className="flex-shrink-0">{action}</div> : null}
+          {actionPosition === 'right' ? actionContent : null}
         </div>
         {helperText ? (
           <p id={helperId} className="text-sm text-text-tertiary">

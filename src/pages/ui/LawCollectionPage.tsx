@@ -6,6 +6,7 @@ import { LawCard } from '@/components/law/LawCard';
 import { mockLaws } from '@/mocks/laws';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
 import type { LawItem } from '@/types/law';
+import { SearchInput } from '@/components/common/input/SearchInput';
 import {
   countryLabels,
   fieldLabels,
@@ -82,16 +83,19 @@ export const LawCollectionPage = () => {
           <div className="flex h-full items-center rounded-[14px] border border-[#E1E4E8] bg-white px-5 shadow-sm">
             <div className="flex w-full flex-col gap-3">
               <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                <div className="flex h-[36px] w-full max-w-[974px] items-center gap-3 rounded-lg border border-[#E0E3E8] bg-[#F1F3F6] px-4">
-                  <Search className="h-5 w-5 text-text-tertiary" />
-                  <input
-                    type="search"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="법령명, 키워드로 검색..."
-                    className="h-full w-full bg-transparent text-sm sm:text-base text-text-primary placeholder:text-text-placeholder focus:outline-none"
-                  />
-                </div>
+                <SearchInput
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="법령명, 키워드로 검색..."
+                  unstyled
+                  wrapperClassName="w-full"
+                  className="flex h-[36px] w-full max-w-[974px] items-center gap-3 rounded-lg border border-[#E0E3E8] bg-[#F1F3F6] px-4"
+                  inputClassName="h-full text-sm sm:text-base text-text-primary placeholder:text-text-placeholder focus-visible:outline-none"
+                  action={<Search className="h-5 w-5 text-text-tertiary" />}
+                  actionPosition="left"
+                  aria-label="법령 검색"
+                />
                 <FilterDropdown
                   onApply={(next) =>
                     setFilters({ country: next.country, field: next.field })
