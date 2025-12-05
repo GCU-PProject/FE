@@ -59,10 +59,10 @@ export const LawCollectionPage = () => {
   }`;
 
   return (
-    <div className="min-h-screen bg-[#F2F4F6] font-sans">
+    <div className="min-h-screen bg-bg-soft font-sans">
       <Header activeNavId="law-collection" />
 
-      <section className="w-full bg-white shadow-[0_1px_0_#E6E8EB]">
+      <section className="w-full bg-white shadow-sm border-b border-border-subtle">
         <div className="mx-auto flex h-[133px] items-center px-8 sm:px-8 lg:px-8">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
