@@ -80,7 +80,7 @@ export const LawCollectionPage = () => {
 
       <main className="mx-auto max-w-[1120px] px-8 pb-10 sm:px-8 lg:px-8">
         <section className="mt-8 sm:mt-[32px] mb-6 sm:mb-[24px] h-[120px]">
-          <div className="flex h-full items-center rounded-[14px] border border-[#E1E4E8] bg-white px-5 shadow-sm">
+          <div className="flex h-full items-center rounded-[14px] border border-border-subtle bg-white px-5 shadow-sm">
             <div className="flex w-full flex-col gap-3">
               <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <SearchInput
@@ -90,7 +90,7 @@ export const LawCollectionPage = () => {
                   placeholder="법령명, 키워드로 검색..."
                   unstyled
                   wrapperClassName="w-full"
-                  className="flex h-[36px] w-full max-w-[974px] items-center gap-3 rounded-lg border border-[#E0E3E8] bg-[#F1F3F6] px-4"
+                  className="flex h-[36px] w-full max-w-[974px] items-center gap-3 rounded-lg border border-border-subtle bg-bg-soft px-4"
                   inputClassName="h-full text-sm sm:text-base text-text-primary placeholder:text-text-placeholder focus-visible:outline-none"
                   action={<Search className="h-5 w-5 text-text-tertiary" />}
                   actionPosition="left"
