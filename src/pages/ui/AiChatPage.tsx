@@ -26,13 +26,16 @@ export const AiChatPage = () => {
       <div className='h-[calc(100vh-4rem)] flex flex-col bg-gray-50'>
         {/* 페이지 내부 타이틀 영역 */}
         <div className='bg-white border-b border-gray-200'>
-          <div className='max-w-4xl mx-auto px-2 sm:px-4 lg:px-6 py-6'>
-            <h1 className='text-3xl mb-2'>AI 법률 상담</h1>
-            <p className='text-gray-600'>
+          <div className='px-6 sm:px-10 lg:px-16 py-6'>
+            <h1 className='text-2xl sm:text-3xl font-extrabold text-primary mb-1'>
+              AI 법률 상담
+            </h1>
+            <p className='text-sm sm:text-base text-secondary'>
               법률 정보를 자연어로 질문하고 답변받으세요
             </p>
           </div>
         </div>
+
 
         {/* 본문 */}
         <div className='flex-1 overflow-hidden'>
