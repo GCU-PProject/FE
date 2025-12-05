@@ -64,7 +64,7 @@ export const LawDetailModal = ({
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="h-[22px] min-w-[42px] justify-center border border-border-subtle bg-white px-3 text-text-secondary"
+              className="h-[22px] min-w-[42px] justify-center px-3"
             >
               {law.country}
             </Badge>
