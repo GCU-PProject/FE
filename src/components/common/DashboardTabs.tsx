@@ -28,9 +28,9 @@ export type DashboardTabsContentProps = {
   children: React.ReactNode;
 };
 
-/**
- * @description 대시보드용 탭 컨테이너
- */
+/* ------------------------------------------------------------
+   DashboardTabs (Container)
+------------------------------------------------------------ */
 export const DashboardTabs = ({
                                 defaultValue,
                                 onValueChange,
@@ -44,31 +44,30 @@ export const DashboardTabs = ({
   };
 
   const enhancedChildren = React.Children.map(children, (child) => {
-    if (!React.isValidElement(child)) {
-      return child;
-    }
+    if (!React.isValidElement(child)) return child;
 
-    // 탭 버튼 리스트에만 상태 주입
-    if (child.type === DashboardTabsList) {
+    // ⭐ displayName 비교로 안정적으로 매칭
+    if ((child.type as any).displayName === 'DashboardTabsList') {
       return React.cloneElement(
         child as React.ReactElement<DashboardTabsListProps>,
         {
           activeTab,
           onTabChange: handleTabChange,
-        },
+        }
       );
     }
 
-    // 나머지 자식들은 그대로 렌더
     return child;
   });
 
-  return <div className='flex flex-col gap-4'>{enhancedChildren}</div>;
+  return <div className="flex flex-col gap-4">{enhancedChildren}</div>;
 };
 
-/**
- * @description 탭 버튼 묶음
- */
+DashboardTabs.displayName = 'DashboardTabs';
+
+/* ------------------------------------------------------------
+   Tabs List (Button Group)
+------------------------------------------------------------ */
 export const DashboardTabsList = ({
                                     className = '',
                                     activeTab,
@@ -85,16 +84,18 @@ export const DashboardTabsList = ({
           {
             activeTab,
             onTabClick: handleChange,
-          },
-        ),
+          }
+        )
       )}
     </div>
   );
 };
 
-/**
- * @description 개별 탭 버튼
- */
+DashboardTabsList.displayName = 'DashboardTabsList';
+
+/* ------------------------------------------------------------
+   Tabs Trigger (Each Button)
+------------------------------------------------------------ */
 export const DashboardTabsTrigger = ({
                                        className = '',
                                        value,
@@ -106,12 +107,12 @@ export const DashboardTabsTrigger = ({
 
   const baseClasses =
     'inline-flex items-center gap-2 rounded-full border px-4 py-2 ' +
-    'text-sm font-medium transition-colors disabled:pointer-events-none ' +
-    'disabled:opacity-50';
+    'text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50';
 
+  // ⭐ 클릭 시 회색 배경 적용된 버전
   const stateClasses = isActive
-    ? 'border-border-strong bg-surface-elevated text-primary shadow-xs'
-    : 'border-border-subtle bg-surface text-secondary hover:border-border-strong';
+    ? 'border-gray-300 bg-gray-100 text-gray-900 shadow-sm'
+    : 'border-gray-200 bg-white text-gray-500 hover:bg-gray-50';
 
   const handleClick = (): void => {
     onTabClick?.(value);
@@ -119,7 +120,7 @@ export const DashboardTabsTrigger = ({
 
   return (
     <button
-      type='button'
+      type="button"
       onClick={handleClick}
       className={`${baseClasses} ${stateClasses} ${className}`}
     >
@@ -128,10 +129,11 @@ export const DashboardTabsTrigger = ({
   );
 };
 
-/**
- * @description 탭 콘텐츠 컨테이너
- * - value === activeTab 일 때만 children 렌더
- */
+DashboardTabsTrigger.displayName = 'DashboardTabsTrigger';
+
+/* ------------------------------------------------------------
+   Tabs Content (Tab Panel)
+------------------------------------------------------------ */
 export const DashboardTabsContent = ({
                                        className = '',
                                        value,
@@ -141,3 +143,5 @@ export const DashboardTabsContent = ({
   activeTab === value ? (
     <div className={`space-y-4 ${className}`}>{children}</div>
   ) : null;
+
+DashboardTabsContent.displayName = 'DashboardTabsContent';

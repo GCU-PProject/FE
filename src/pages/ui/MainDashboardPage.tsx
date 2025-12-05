@@ -28,23 +28,30 @@ export const MainDashboardPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-surface font-sans">
+    <div className="min-h-screen font-sans">
       {/* 공통 레이아웃 헤더 */}
       <Header />
 
       {/* 페이지 본문 */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="pb-8">
         {/* 페이지 타이틀 영역 */}
-        <header className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-primary mb-1">
-            <Globe className="inline-block w-6 h-6 mr-3 text-brand-primary" />
+        <header className="mt-6 sm:mt-8 mb-8 pl-4 sm:pl-6 lg:pl-8">
+          <div className="flex items-center gap-3 mb-1">
+            <Globe className="w-7 h-7 text-brand-primary" />
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-primary">
             해외 이슈 대시보드
           </h1>
-          <p className="text-sm sm:text-base text-secondary">
+          </div>
+          <p className="text-sm sm:text-base text-text-secondary">
             해외 주요 법률 및 정책 개정 소식을 확인하세요.
           </p>
         </header>
 
+
+          {/* 회색 배경 전체 영역 */}
+          <div className="bg-[#F2F4F6]">
+            {/* 중앙 컨텐츠 영역 max-width 적용 */}
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
         {/* 탭 + 리스트 영역 */}
         <DashboardTabs defaultValue="all" onValueChange={onChangeTab}>
           {/* 전체 / 관심 국가 탭 */}
@@ -55,7 +62,7 @@ export const MainDashboardPage = () => {
             </DashboardTabsTrigger>
 
             <DashboardTabsTrigger value="interests">
-              <User className="w-4 h-4 mr-2 text-brand-primary" />
+              <User className="w-4 h-4 mr-2 text-[#6B7280]" />
               관심 국가 이슈 ({interestNews.length})
             </DashboardTabsTrigger>
           </DashboardTabsList>
@@ -76,8 +83,10 @@ export const MainDashboardPage = () => {
             emptyMessage="설정한 관심 국가에 해당하는 최신 이슈가 없습니다."
           />
         </DashboardTabs>
+        </div>
+          </div>
       </main>
-    </div>
+      </div>
   );
 };
 
