@@ -24,6 +24,7 @@ export type BadgeProps = {
 
 export type DashboardTabsProps = {
   defaultValue: string;
+  value?: string;
   onValueChange: (value: string) => void;
   children: React.ReactNode;
 };
