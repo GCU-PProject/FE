@@ -1,4 +1,3 @@
-// src/components/chat/ChatMessageList.tsx
 import type { RefObject } from 'react';
 import { Bot, ExternalLink, RefreshCw, User } from 'lucide-react';
 import { Link } from 'react-router-dom';

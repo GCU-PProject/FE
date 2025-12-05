@@ -74,7 +74,7 @@ export const AiChatPage = () => {
                   placeholder='법률 관련 질문을 입력하세요...'
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
                   disabled={isLoading}
                 />
                 <Button
