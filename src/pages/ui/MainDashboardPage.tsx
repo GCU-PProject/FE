@@ -43,7 +43,7 @@ export const MainDashboardPage = ({
         {/* 페이지 타이틀 영역 */}
         <header className="mt-6 sm:mt-8 mb-8 pl-4 sm:pl-6 lg:pl-8">
           <div className="flex items-center gap-3 mb-1">
-            <Globe className="w-7 h-7 text-brand-primary" />
+            <Globe className="w-9 h-9 text-brand-primary" strokeWidth={2.2} />
             <h1 className="text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]">
               해외 이슈 대시보드
             </h1>
