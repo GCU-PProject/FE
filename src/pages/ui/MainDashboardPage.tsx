@@ -81,7 +81,7 @@ export const MainDashboardPage = ({
                 value="all"
                 activeTab={selectedTab}
                 news={newsToShow}
-                emptyMessage="선택하신 국가의 최신 이슈가 없습니다."
+                emptyMessage="현재 등록된 해외 이슈가 없습니다."
               />
 
               {/* 관심 국가 이슈 리스트 */}
