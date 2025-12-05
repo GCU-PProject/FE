@@ -1,7 +1,8 @@
-import { MainDashboardPage } from '@/pages/ui/main_dashboard';
+import { AiChatPage } from '@/pages/ui/AiChatPage';
 
 export function App() {
-  return <MainDashboardPage />;
+  return <AiChatPage />;
 }
+
 
 export default App;

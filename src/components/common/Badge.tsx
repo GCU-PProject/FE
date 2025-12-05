@@ -1,6 +1,6 @@
 import type { BadgeProps } from '@/types/news';
 
-export const Badge = ({ variant = 'default', children }: BadgeProps) => {
+export const Badge = ({ variant = 'default', children, className }: BadgeProps) => {
   const baseClasses =
     'inline-flex items-center rounded-full border px-2.5 py-0.5 ' +
     'text-xs font-semibold transition-colors focus:outline-none ' +

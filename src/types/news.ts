@@ -1,4 +1,4 @@
-import type React from 'react';
+import  React from 'react';
 
 export type NewsItem = {
   id: number;
@@ -19,6 +19,7 @@ export type CardProps = {
 export type BadgeProps = {
   variant?: 'default' | 'secondary' | 'outline';
   children: React.ReactNode;
+  className?: string;
 };
 
 export type DashboardTabsProps = {
