@@ -25,11 +25,11 @@ export const NewsCard = ({ news }: NewsCardProps) => (
 
           <div className='flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-secondary'>
             <div className='flex items-center gap-1'>
-              <Newspaper className="w-4 h-4 text-gray-600" />
+              <Newspaper className="w-4 h-4 text-text-secondary" />
               <span>{news.source}</span>
             </div>
             <div className='flex items-center gap-1'>
-              <Calendar className="w-4 h-4 text-gray-600" />
+              <Calendar className="w-4 h-4 text-text-secondary" />
               <span>{news.publishedAt}</span>
             </div>
           </div>

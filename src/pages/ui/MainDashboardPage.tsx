@@ -42,7 +42,7 @@ export const MainDashboardPage = () => {
             해외 이슈 대시보드
           </h1>
           </div>
-          <p className="text-sm sm:text-base text-secondary">
+          <p className="text-sm sm:text-base text-text-secondary">
             해외 주요 법률 및 정책 개정 소식을 확인하세요.
           </p>
         </header>
