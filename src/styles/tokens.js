@@ -32,6 +32,7 @@ export const tailwindTokens = {
     brand: {
       primary: getValue(rawTokens.color?.brand?.primary, '#155dfc'),
       light: getValue(rawTokens.color?.primary?.light, '#eff6ff'),
+      surface: getValue(rawTokens.color?.brand?.surface, '#dbeafe'),
     },
     text: {
       primary: getValue(rawTokens.color?.text?.primary, '#0A0A0A'),
