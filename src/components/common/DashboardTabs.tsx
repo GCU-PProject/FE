@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 export type DashboardTabsProps = {
   defaultValue: string;
+  value?: string;
   onValueChange: (value: string) => void;
   children: React.ReactNode;
 };
@@ -33,21 +34,32 @@ export type DashboardTabsContentProps = {
 ------------------------------------------------------------ */
 export const DashboardTabs = ({
                                 defaultValue,
+                                value,
                                 onValueChange,
                                 children,
                               }: DashboardTabsProps) => {
-  const [activeTab, setActiveTab] = useState<string>(defaultValue);
+  const isControlled = value !== undefined;
+  const [uncontrolledValue, setUncontrolledValue] =
+    useState<string>(defaultValue);
+
+  const activeTab = isControlled ? value ?? defaultValue : uncontrolledValue;
 
   const handleTabChange = (value: string): void => {
-    setActiveTab(value);
+    if (!isControlled) {
+      setUncontrolledValue(value);
+    }
     onValueChange(value);
   };
 
   const enhancedChildren = React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) return child;
 
-    // ⭐ displayName 비교로 안정적으로 매칭
-    if ((child.type as any).displayName === 'DashboardTabsList') {
+    const childType = child.type as { displayName?: string };
+    const isTabsList =
+      child.type === DashboardTabsList ||
+      childType?.displayName === 'DashboardTabsList';
+
+    if (isTabsList) {
       return React.cloneElement(
         child as React.ReactElement<DashboardTabsListProps>,
         {
@@ -77,7 +89,11 @@ export const DashboardTabsList = ({
   const handleChange = onTabChange ?? (() => {});
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div
+      className={`flex items-center gap-2 ${className}`}
+      role="tablist"
+      aria-label="대시보드 탭"
+    >
       {React.Children.map(children, (child) =>
         React.cloneElement(
           child as React.ReactElement<DashboardTabsTriggerProps>,
@@ -123,6 +139,9 @@ export const DashboardTabsTrigger = ({
       type="button"
       onClick={handleClick}
       className={`${baseClasses} ${stateClasses} ${className}`}
+      role="tab"
+      aria-selected={isActive}
+      aria-pressed={isActive}
     >
       {children}
     </button>
