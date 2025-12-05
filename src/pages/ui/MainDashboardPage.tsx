@@ -54,7 +54,7 @@ export const MainDashboardPage = ({
         </header>
 
         {/* 회색 배경 전체 영역 */}
-        <div className="bg-[#F2F4F6]">
+        <div className="bg-bg-soft">
           {/* 중앙 컨텐츠 영역 max-width 적용 */}
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
             {/* 탭 + 리스트 영역 */}
@@ -71,7 +71,7 @@ export const MainDashboardPage = ({
                 </DashboardTabsTrigger>
 
                 <DashboardTabsTrigger value="interests">
-                  <User className="w-4 h-4 mr-2 text-[#6B7280]" />
+                  <User className="w-4 h-4 mr-2 text-text-tertiary" />
                   관심 국가 이슈 ({interestNews.length})
                 </DashboardTabsTrigger>
               </DashboardTabsList>
