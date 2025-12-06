@@ -16,7 +16,7 @@ const getInitialPreferredCountries = (): PreferredCountries => {
   try {
     const parsed = JSON.parse(stored) as unknown;
     if (Array.isArray(parsed)) {
-      return parsed.filter(isValidCountryCode).map((code) => code);
+      return parsed.filter(isValidCountryCode);
     }
     return [];
   } catch {
