@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
+import type { CountryCode } from '@/types/country';
 import type { NewsItem } from '@/types/news';
 
 export const useFilteredNews = (
   news: NewsItem[],
-  userInterests: string[],
+  userInterests: CountryCode[],
   selectedTab: string,
 ) => {
   const filteredNewsByCountry: NewsItem[] = useMemo(
