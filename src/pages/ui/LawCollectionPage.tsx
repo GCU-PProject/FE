@@ -21,7 +21,7 @@ export const LawCollectionPage = () => {
     country: CountryValue;
     field: FieldValue;
   }>({ country: 'all', field: 'all' });
-  const [laws, setLaws] = useState<LawItem[]>(mockLaws);
+  const laws = useMemo<LawItem[]>(() => mockLaws, []);
   const [selectedLaw, setSelectedLaw] = useState<LawItem | null>(null);
   const { savedIds, toggleSaved } = useSavedLaws();
 
