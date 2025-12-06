@@ -29,9 +29,7 @@ export const usePreferredCountries = () => {
     useState<PreferredCountries>(getInitialPreferredCountries);
 
   const savePreferredCountries = useCallback((countries: CountryCode[]) => {
-    const normalized = Array.from(
-      new Set(countries.map((c) => c.toUpperCase())),
-    );
+    const normalized = Array.from(new Set(countries));
 
     setPreferredCountries(normalized);
     if (typeof window !== 'undefined') {
