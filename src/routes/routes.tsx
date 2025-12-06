@@ -17,8 +17,12 @@ const HeaderOnlyPage = () => (
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
-  const { preferredCountries, savePreferredCountries, hasPreferredCountries } =
-    usePreferredCountries();
+  const {
+    preferredCountries,
+    savePreferredCountries,
+    clearPreferredCountries,
+    hasPreferredCountries,
+  } = usePreferredCountries();
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => hasPreferredCountries);
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
@@ -52,6 +56,10 @@ export const AppRoutes = () => {
   };
 
   const handleLogout = () => {
+    clearPreferredCountries();
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('savedLaws');
+    }
     setIsLoggedIn(false);
     void navigate('/login');
   };
