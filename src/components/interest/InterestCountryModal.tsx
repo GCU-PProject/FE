@@ -53,7 +53,7 @@ export const InterestCountryModal = ({
       bodyClassName="relative flex-1 px-8 pb-4 pt-8 sm:px-10 sm:pt-10"
       footerClassName="border-none bg-white px-10 pb-8 pt-4"
       contentClassName="relative border border-border-base shadow-[0_22px_80px_rgba(0,0,0,0.14)]"
-      widthClass="w-[720px] max-w-[720px] min-h-[620px]"
+      widthClass="w-full max-w-[720px] min-h-[620px]"
     >
       <div className="flex flex-col items-center text-center">
         <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-brand-surface bg-brand-surface text-brand-primary">
