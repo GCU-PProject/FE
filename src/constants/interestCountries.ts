@@ -18,4 +18,6 @@ export const INTEREST_COUNTRIES: InterestCountry[] = [
   { code: 'AU', name: '호주', flag: '🇦🇺' },
   { code: 'CA', name: '캐나다', flag: '🇨🇦' },
   { code: 'ES', name: '스페인', flag: '🇪🇸' },
-];
+] as const;
+
+export type InterestCountryCode = (typeof INTEREST_COUNTRIES)[number]['code'];
