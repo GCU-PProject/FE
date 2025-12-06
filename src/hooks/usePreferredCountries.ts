@@ -5,7 +5,7 @@ import { INTEREST_COUNTRIES } from '@/constants/interestCountries';
 const STORAGE_KEY = 'preferredCountries';
 const VALID_CODES = new Set(INTEREST_COUNTRIES.map((c) => c.code));
 
-const isValidCountryCode = (code: unknown): code is CountryCode =>
+const isValidCountryCode = (code: unknown): code is string =>
   typeof code === 'string' && VALID_CODES.has(code.toUpperCase());
 
 const getInitialPreferredCountries = (): PreferredCountries => {
@@ -16,7 +16,9 @@ const getInitialPreferredCountries = (): PreferredCountries => {
   try {
     const parsed = JSON.parse(stored) as unknown;
     if (Array.isArray(parsed)) {
-      return parsed.filter(isValidCountryCode);
+      return parsed
+        .filter(isValidCountryCode)
+        .map((code) => code.toUpperCase());
     }
     return [];
   } catch {
