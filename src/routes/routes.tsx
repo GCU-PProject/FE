@@ -20,9 +20,9 @@ export const AppRoutes = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => hasPreferredCountries);
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
-  // 모달에서만 사용하는 임시 선택값. 저장 시 usePreferredCountries에 반영된다.
-  const [modalSelection, setModalSelection] =
-    useState<string[]>(preferredCountries);
+  // 모달에서만 사용하는 임시 선택값
+  // 저장 시 usePreferredCountries에 반영
+  const [modalSelection, setModalSelection] = useState(preferredCountries);
 
   useEffect(() => {
     if (hasPreferredCountries) {
