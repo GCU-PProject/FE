@@ -6,6 +6,7 @@ import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
 import { Header } from '@/components/layout/Header';
+import { CountryCode } from '@/types/country';
 
 const HeaderOnlyPage = () => (
   <div className="min-h-screen bg-surface font-sans">
@@ -44,7 +45,7 @@ export const AppRoutes = () => {
     setIsInterestModalOpen(false);
   };
 
-  const handleSaveInterest = (countries: string[]) => {
+  const handleSaveInterest = (countries: CountryCode[]) => {
     savePreferredCountries(countries);
     setIsInterestModalOpen(false);
   };
