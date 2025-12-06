@@ -1,4 +1,4 @@
-// src/components/comparison/ComparisonResultModal.tsx
+import { useState } from 'react';
 import { Bookmark } from 'lucide-react';
 import { Modal } from '@/components/common/Modal';
 import { Card } from '@/components/common/Card';
@@ -48,6 +48,9 @@ export const ComparisonResultModal = ({
                                         country2Code,
                                         topic,
                                       }: ComparisonResultModalProps) => {
+  // 🔹 북마크 on/off 상태
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   // === 실제로는 API 응답/저장 데이터로 대체될 mock ===
   const result: ComparisonResult = {
     country1: {
@@ -90,8 +93,17 @@ export const ComparisonResultModal = ({
     return highlighted;
   };
 
+  //북마크 버튼 on/off 표시
   const handleSave = () => {
-    toast.success('비교 조합이 이미 저장되어 있습니다');
+    setIsBookmarked((prev) => {
+      const next = !prev;
+
+      toast.success(
+        next ? '비교 조합을 저장했습니다' : '저장된 비교 조합을 해제했습니다',
+      );
+
+      return next;
+    });
   };
 
   return (
@@ -99,15 +111,18 @@ export const ComparisonResultModal = ({
       open={open}
       onClose={onClose}
       title={`비교 결과: ${topic}`}
-      widthClass="max-w-6xl"
+      widthClass="max-w-[720px]"
       headerActions={
         <Button
           variant="outline"
           size="sm"
           onClick={handleSave}
-          aria-label="비교 조합 저장"
+          aria-label={isBookmarked ? '저장 해제' : '비교 조합 저장'}
+          aria-pressed={isBookmarked}
+          className={isBookmarked ? 'text-text-secondary border-blue-500 bg-blue-50' : ''}
         >
-          <Bookmark className="w-4 h-4 fill-current" />
+          <Bookmark
+            className="w-4 h-4 fill-current" />
         </Button>
       }
     >
