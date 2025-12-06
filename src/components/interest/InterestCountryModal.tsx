@@ -3,11 +3,12 @@ import { Globe } from 'lucide-react';
 import { Modal } from '@/components/common/Modal';
 import { INTEREST_COUNTRIES } from '@/constants/interestCountries';
 import { cn } from '@/lib/utils';
+import type { CountryCode } from '@/types/country';
 
 type InterestCountryModalProps = {
   open: boolean;
-  initialSelected: string[];
-  onSave: (selected: string[]) => void;
+  initialSelected: CountryCode[];
+  onSave: (selected: CountryCode[]) => void;
   onSkip: () => void;
 };
 
@@ -19,7 +20,7 @@ export const InterestCountryModal = ({
   onSave,
   onSkip,
 }: InterestCountryModalProps) => {
-  const [selected, setSelected] = useState<string[]>(initialSelected);
+  const [selected, setSelected] = useState<CountryCode[]>(initialSelected);
 
   useEffect(() => {
     if (open) {
@@ -27,7 +28,7 @@ export const InterestCountryModal = ({
     }
   }, [initialSelected, open]);
 
-  // 단일 토글로 선택/해제를 관리한다. (동일 코드는 setState 배열 필터/추가)
+  // 단일 토글로 선택/해제 관리 (동일 코드는 setState 배열 필터/추가)
   const toggleCountry = (code: string) => {
     setSelected((prev) =>
       prev.includes(code)
