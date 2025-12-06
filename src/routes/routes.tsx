@@ -7,6 +7,7 @@ import { InterestCountryModal } from '@/components/interest/InterestCountryModal
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
 import { Header } from '@/components/layout/Header';
 import { CountryCode } from '@/types/country';
+import { MyPage } from '@/pages/ui/MyPage';
 
 const HeaderOnlyPage = () => (
   <div className="min-h-screen bg-surface font-sans">
@@ -48,6 +49,11 @@ export const AppRoutes = () => {
   const handleSaveInterest = (countries: CountryCode[]) => {
     savePreferredCountries(countries);
     setIsInterestModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    void navigate('/login');
   };
 
   return (
@@ -98,7 +104,15 @@ export const AppRoutes = () => {
         <Route
           path="/mypage"
           element={
-            isLoggedIn ? <HeaderOnlyPage /> : <Navigate to="/login" replace />
+            isLoggedIn ? (
+              <MyPage
+                preferredCountries={preferredCountries}
+                onSavePreferredCountries={savePreferredCountries}
+                onLogout={handleLogout}
+              />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
