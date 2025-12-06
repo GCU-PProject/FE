@@ -25,6 +25,10 @@ export const MainDashboardPage = ({
   // 실제 API 연동 시 mockNews 대체
   const news: NewsItem[] = mockNews;
   const userInterests: string[] = preferredCountries;
+  const hasPreferredCountries = preferredCountries.length > 0;
+  const interestEmptyMessage = hasPreferredCountries
+    ? '설정한 관심 국가에 해당하는 최신 이슈가 없습니다.'
+    : '설정된 관심 국가가 없습니다. 관심 국가를 설정해 주세요.';
 
   const { selectedTab, onChangeTab } = useTabsState(news);
 
@@ -90,7 +94,7 @@ export const MainDashboardPage = ({
                 value="interests"
                 activeTab={selectedTab}
                 news={interestNews}
-                emptyMessage="설정한 관심 국가에 해당하는 최신 이슈가 없습니다."
+                emptyMessage={interestEmptyMessage}
               />
             </DashboardTabs>
           </div>
