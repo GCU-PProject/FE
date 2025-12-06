@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Globe } from 'lucide-react';
 import { Modal } from '@/components/common/Modal';
 import { INTEREST_COUNTRIES } from '@/constants/interestCountries';
@@ -42,7 +42,7 @@ export const InterestCountryModal = ({
     onSave(selected);
   };
 
-  const selectedCount = useMemo(() => selected.length, [selected]);
+  const selectedCount = selected.length;
 
   return (
     <Modal
