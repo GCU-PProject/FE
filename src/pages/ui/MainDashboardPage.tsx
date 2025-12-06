@@ -24,7 +24,7 @@ export const MainDashboardPage = ({
 }: MainDashboardPageProps) => {
   // 실제 API 연동 시 mockNews 대체
   const news: NewsItem[] = mockNews;
-  const userInterests: string[] = preferredCountries;
+  const userInterests = preferredCountries;
   const hasPreferredCountries = preferredCountries.length > 0;
   const interestEmptyMessage = hasPreferredCountries
     ? '설정한 관심 국가에 해당하는 최신 이슈가 없습니다.'
