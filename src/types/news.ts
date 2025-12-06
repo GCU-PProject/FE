@@ -4,7 +4,7 @@ export type NewsItem = {
   id: number;
   title: string;
   country: string;
-  countryCode: string; // US, JP, DE, SG, FR, TH
+  countryCode: string; // ISO 2-letter code (예: US, JP, DE, SG, FR, TH)
   source: string;
   sourceUrl: string;
   publishedAt: string;

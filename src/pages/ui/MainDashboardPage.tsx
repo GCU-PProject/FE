@@ -10,12 +10,13 @@ import { useTabsState } from '@/hooks/useTabsState';
 import { useFilteredNews } from '@/hooks/useFilteredNews';
 import { mockNews } from '@/mocks/news';
 import type { NewsItem } from '@/types/news';
+import type { PreferredCountries } from '@/types/country';
 
 /**
  * @description 글로벌 정책/법률 변경 대시보드 메인 컴포넌트
  */
 type MainDashboardPageProps = {
-  preferredCountries: string[];
+  preferredCountries: PreferredCountries;
 };
 
 export const MainDashboardPage = ({
