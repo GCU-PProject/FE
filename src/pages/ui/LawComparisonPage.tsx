@@ -23,10 +23,12 @@ export const LawComparisonPage = () => {
       {/* 🔥 공통 헤더 추가 */}
       <Header activeNavId="law-compare" />
 
-      {/* 상단 타이틀 영역 (기존 디자인 유지) */}
-      <div className='border-b border-gray-200 bg-white'>
-        <div className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>
-          <h1 className='mb-2 text-3xl'>국가 간 법률 비교</h1>
+      {/* 상단 타이틀 영역 */}
+      <div className='bg-white border-b border-gray-200'>
+        <div className='px-6 sm:px-10 lg:px-16 py-6'>
+          <h1 className='text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]'>
+            국가 간 법률 비교
+          </h1>
           <p className='text-gray-600'>두 국가의 법률을 비교 분석하세요</p>
         </div>
       </div>
