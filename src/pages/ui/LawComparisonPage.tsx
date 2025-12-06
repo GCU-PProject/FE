@@ -1,6 +1,7 @@
 import { useComparison } from '@/hooks/useComparison';
 import { ComparisonForm } from '@/components/comparison/ComparisonForm';
 import { ComparisonResultModal } from '@/components/comparison/ComparisonResultModal';
+import { Header } from '@/components/layout/Header';
 
 export const LawComparisonPage = () => {
   const {
@@ -18,7 +19,10 @@ export const LawComparisonPage = () => {
   } = useComparison();
 
   return (
-    <div className='min-h-[calc(100vh-4rem)] bg-gray-50'>
+    <div className="min-h-screen bg-gray-50 font-sans">
+      {/* 🔥 공통 헤더 추가 */}
+      <Header activeNavId="law-compare" />
+
       {/* 상단 타이틀 영역 (기존 디자인 유지) */}
       <div className='border-b border-gray-200 bg-white'>
         <div className='mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8'>
