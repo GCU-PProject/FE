@@ -70,7 +70,9 @@ export const MyPage = ({
   const toggleInterest = (code: PreferredCountries[number]) => {
     if (!isEditingInterests) return;
     setInterestSelection((prev) =>
-      prev.includes(code) ? prev.filter((item) => item !== code) : [...prev, code],
+      prev.includes(code)
+        ? prev.filter((item) => item !== code)
+        : [...prev, code],
     );
   };
 
@@ -119,18 +121,18 @@ export const MyPage = ({
     <div className="min-h-screen bg-bg-soft font-sans">
       <Header />
 
-      <section className="bg-white border-b border-border-subtle shadow-sm">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-bg-soft text-brand-primary">
-              <UserRound className="h-8 w-8" strokeWidth={2.1} />
+      <section className="w-full bg-white shadow-sm border-b border-border-subtle">
+        <div className="mx-auto flex h-[133px] items-center justify-between px-8 sm:px-8 lg:px-8">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-surface text-brand-primary">
+              <UserRound className="h-7 w-7" strokeWidth={2.2} />
             </div>
             <div className="flex flex-col gap-1">
-              <h1 className="text-[26px] font-semibold leading-tight text-text-primary sm:text-[28px]">
+              <h1 className="text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]">
                 마이페이지
               </h1>
-              <p className="text-sm text-text-secondary sm:text-base">
-                저장한 법률 정보를 관리하세요
+              <p className="text-sm font-normal text-text-secondary sm:text-base">
+                저장한 법률 정보를 관리하세요.
               </p>
             </div>
           </div>
@@ -147,7 +149,7 @@ export const MyPage = ({
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl px-4 pb-10 pt-6 sm:px-6 lg:px-8 sm:pt-8">
+      <main className="mx-auto max-w-[1120px] px-8 pb-10 pt-8">
         <DashboardTabs
           defaultValue="interests"
           value={activeTab}
@@ -247,16 +249,19 @@ export const MyPage = ({
               </div>
 
               <p className="mt-6 text-center text-sm text-text-secondary">
-                관심 국가를 설정하면 G.law에서 맞춤형 법률 정보를 받을 수 있습니다
+                관심 국가를 설정하면 G.law에서 맞춤형 법률 정보를 받을 수
+                있습니다
               </p>
               {!displayedInterests.length && !isEditingInterests ? (
                 <div className="mt-3 rounded-lg border border-border-subtle bg-bg-soft px-4 py-3 text-sm text-text-secondary">
-                  아직 관심 국가를 설정하지 않았습니다. 수정 버튼을 눌러 설정을 시작하세요.
+                  아직 관심 국가를 설정하지 않았습니다. 수정 버튼을 눌러 설정을
+                  시작하세요.
                 </div>
               ) : null}
               {isEditingInterests && displayedInterests.length === 0 ? (
                 <div className="mt-3 text-sm text-text-tertiary">
-                  최소 1개 이상 선택하지 않아도 저장할 수 있지만, 추천 국가를 선택하면 대시보드가 더 유용해집니다.
+                  최소 1개 이상 선택하지 않아도 저장할 수 있지만, 추천 국가를
+                  선택하면 대시보드가 더 유용해집니다.
                 </div>
               ) : null}
             </Card>
@@ -272,10 +277,16 @@ export const MyPage = ({
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="outline" className="min-w-[48px] justify-center px-3">
+                        <Badge
+                          variant="outline"
+                          className="min-w-[48px] justify-center px-3"
+                        >
                           {item.country}
                         </Badge>
-                        <Badge variant="tag" className="min-w-[48px] justify-center px-3">
+                        <Badge
+                          variant="tag"
+                          className="min-w-[48px] justify-center px-3"
+                        >
                           {item.category}
                         </Badge>
                       </div>
@@ -313,7 +324,8 @@ export const MyPage = ({
 
               {bookmarks.length === 0 ? (
                 <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-                  저장한 북마크가 없습니다. 관심 국가에서 추천된 법률을 확인해보세요.
+                  저장한 북마크가 없습니다. 법률 모아보기에서 법률을 확인해
+                  보세요.
                 </Card>
               ) : null}
             </div>
@@ -367,7 +379,8 @@ export const MyPage = ({
 
               {compareSets.length === 0 ? (
                 <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-                  저장된 비교 조합이 없습니다. 대시보드에서 국가를 선택해 비교를 시작해보세요.
+                  저장된 비교 조합이 없습니다. 법률 비교에서 국가를 선택해
+                  비교를 시작해 보세요.
                 </Card>
               ) : null}
             </div>
