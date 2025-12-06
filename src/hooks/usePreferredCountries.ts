@@ -1,7 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { CountryCode, PreferredCountries } from '@/types/country';
+import { INTEREST_COUNTRIES } from '@/constants/interestCountries';
 
 const STORAGE_KEY = 'preferredCountries';
+const VALID_CODES = new Set(INTEREST_COUNTRIES.map((c) => c.code));
+
+const isValidCountryCode = (code: unknown): code is CountryCode =>
+  typeof code === 'string' && VALID_CODES.has(code.toUpperCase());
 
 const getInitialPreferredCountries = (): PreferredCountries => {
   if (typeof window === 'undefined') return [];
@@ -12,7 +17,7 @@ const getInitialPreferredCountries = (): PreferredCountries => {
     const parsed = JSON.parse(stored) as unknown;
     if (Array.isArray(parsed)) {
       return parsed
-        .filter((code): code is CountryCode => typeof code === 'string')
+        .filter(isValidCountryCode)
         .map((code) => code.toUpperCase());
     }
     return [];
@@ -22,9 +27,8 @@ const getInitialPreferredCountries = (): PreferredCountries => {
 };
 
 export const usePreferredCountries = () => {
-  const [preferredCountries, setPreferredCountries] = useState<PreferredCountries>(
-    getInitialPreferredCountries,
-  );
+  const [preferredCountries, setPreferredCountries] =
+    useState<PreferredCountries>(getInitialPreferredCountries);
 
   const savePreferredCountries = useCallback((countries: CountryCode[]) => {
     const normalized = Array.from(new Set(countries));
