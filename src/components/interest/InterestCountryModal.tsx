@@ -96,7 +96,7 @@ export const InterestCountryModal = ({
         <button
           type="button"
           onClick={onSkip}
-          className="min-h-[36px] w-[305px] min-w-[305px] rounded-lg border border-border-base bg-white px-4 py-2 text-[15px] font-semibold text-text-secondary transition hover:bg-bg-soft"
+          className="min-h-[36px] w-full sm:w-[305px] sm:min-w-[305px] rounded-lg border border-border-base bg-white px-4 py-2 text-[15px] font-semibold text-text-secondary transition hover:bg-bg-soft"
         >
           나중에 설정
         </button>
@@ -105,7 +105,7 @@ export const InterestCountryModal = ({
           onClick={handleSubmit}
           disabled={selectedCount === 0}
           className={cn(
-            'min-h-[36px] w-[305px] min-w-[305px] rounded-lg px-4 py-2 text-[15px] font-semibold text-white transition',
+            'min-h-[36px] w-full sm:w-[305px] sm:min-w-[305px] rounded-lg px-4 py-2 text-[15px] font-semibold text-white transition',
             selectedCount === 0
               ? 'bg-border-base text-text-tertiary hover:bg-bg-soft disabled:cursor-not-allowed'
               : 'bg-state-selected-black hover:bg-text-primary',
