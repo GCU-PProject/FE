@@ -27,6 +27,7 @@ export const InterestCountryModal = ({
     }
   }, [initialSelected, open]);
 
+  // 단일 토글로 선택/해제를 관리한다. (동일 코드는 setState 배열 필터/추가)
   const toggleCountry = (code: string) => {
     setSelected((prev) =>
       prev.includes(code)
