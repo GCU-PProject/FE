@@ -1,15 +1,15 @@
 import type { CountryOption } from '@/types/comparison';
 import { GitCompare } from 'lucide-react';
-import { Card } from '@/components/common/card';
-import { Input } from '@/components/common/input/input';
+import { Card } from '@/components/common/Card';
+import { Input } from '@/components/common/input/Input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Button } from '@/components/common/button/button';
+} from '@/components/comparison/select';
+import { Button } from '@/components/common/button/Button';
 
 export type ComparisonFormProps = {
   topic: string;
