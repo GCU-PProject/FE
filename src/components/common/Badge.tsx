@@ -2,10 +2,10 @@ import { cn } from '@/lib/utils';
 import type { BadgeProps } from '@/types/news';
 
 export const Badge = ({
-  variant = 'default',
-  className = '',
-  children,
-}: BadgeProps) => {
+                        variant = 'default',
+                        className = '',
+                        children,
+                      }: BadgeProps) => {
   const baseClasses =
     'inline-flex items-center rounded-full border px-2.5 py-0.5 ' +
     'text-xs font-semibold leading-[18px] transition-colors focus:outline-none ' +
