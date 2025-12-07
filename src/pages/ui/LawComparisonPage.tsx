@@ -19,17 +19,17 @@ export const LawComparisonPage = () => {
   } = useComparison();
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      {/* 🔥 공통 헤더 추가 */}
+    <div className="min-h-screen bg-bg-soft font-sans">
+      {/* 공통 헤더 추가 */}
       <Header activeNavId="law-compare" />
 
       {/* 상단 타이틀 영역 */}
-      <div className='bg-white border-b border-gray-200'>
+      <div className='w-full bg-white shadow-sm border-b border-border-subtle'>
         <div className='px-6 sm:px-10 lg:px-16 py-6'>
           <h1 className='text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]'>
             국가 간 법률 비교
           </h1>
-          <p className='text-gray-600'>두 국가의 법률을 비교 분석하세요</p>
+          <p className='text-sm font-normal text-text-secondary sm:text-base'>두 국가의 법률을 비교 분석하세요</p>
         </div>
       </div>
 

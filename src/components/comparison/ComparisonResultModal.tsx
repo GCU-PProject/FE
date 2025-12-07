@@ -163,7 +163,7 @@ export const ComparisonResultModal = ({
                   {result.country1.highlights.map((h, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-1 rounded-md bg-gray-100 text-gray-700 text-sm"
+                      className="px-2 py-1 rounded-md bg-gray-100 text-text-secondary text-sm"
                     >
       {h}
     </span>
@@ -206,7 +206,7 @@ export const ComparisonResultModal = ({
                   {result.country2.highlights.map((h, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-1 rounded-md bg-gray-100 text-gray-700 text-sm"
+                      className="px-2 py-1 rounded-md bg-gray-100 text-text-secondary text-sm"
                     >
       {h}
     </span>
@@ -232,7 +232,7 @@ export const ComparisonResultModal = ({
                 {result.comparison.similarities.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <span className="mt-1 text-green-600">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-text-secondary">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -248,7 +248,7 @@ export const ComparisonResultModal = ({
                 {result.comparison.differences.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <span className="mt-1 text-orange-600">•</span>
-                    <span className="text-gray-700">{item}</span>
+                    <span className="text-text-secondary">{item}</span>
                   </li>
                 ))}
               </ul>
