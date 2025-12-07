@@ -118,7 +118,7 @@ export const MyPage = ({
       <Header />
 
       <section className="w-full bg-white shadow-sm border-b border-border-subtle">
-        <div className="mx-auto flex h-[133px] items-center justify-between px-8 sm:px-8 lg:px-8">
+        <div className="mx-auto flex h-[133px] items-center justify-between px-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-surface text-brand-primary">
               <UserRound className="h-7 w-7" strokeWidth={2.2} />
