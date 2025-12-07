@@ -112,9 +112,7 @@ export const MyPage = ({
     if (updated && updated.saved !== selectedLaw.saved) {
       setSelectedLaw(updated);
     }
-    if (!updated) {
-      setSelectedLaw(null);
-    }
+    // 북마크에서 제거되어도 모달 유지 (사용자가 직접 닫도록)
   }, [bookmarks, selectedLaw]);
 
   return (
@@ -260,7 +258,7 @@ export const MyPage = ({
               ) : null}
               {isEditingInterests && displayedInterests.length === 0 ? (
                 <div className="mt-3 text-sm text-text-tertiary">
-                  관심 국가를 선택하지 않아도 서비스를 이용할 수 있지만, 추천
+                  관심 국가를 선택하지 않아도 서비스를 이용할 수 있지만, 관심
                   국가를 선택하면 대시보드가 더 유용해집니다.
                 </div>
               ) : null}
