@@ -82,7 +82,7 @@ export const ChatMessageList = ({
                   variant='outline'
                   size='sm'
                   onClick={() => onRetry(message.id)}
-                  className='text-xs'
+                  className="border-none text-black shadow-none hover:bg-gray-100"
                 >
                   <RefreshCw className='w-3 h-3 mr-1' />
                   다른 답변

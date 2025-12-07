@@ -1,9 +1,14 @@
+import { cn } from '@/lib/utils';
 import type { BadgeProps } from '@/types/news';
 
-export const Badge = ({ variant = 'default', children, className }: BadgeProps) => {
+export const Badge = ({
+                        variant = 'default',
+                        className = '',
+                        children,
+                      }: BadgeProps) => {
   const baseClasses =
     'inline-flex items-center rounded-full border px-2.5 py-0.5 ' +
-    'text-xs font-semibold transition-colors focus:outline-none ' +
+    'text-xs font-semibold leading-[18px] transition-colors focus:outline-none ' +
     'focus:ring-2 focus:ring-ring focus:ring-offset-2';
 
   let variantClasses = '';
@@ -13,13 +18,22 @@ export const Badge = ({ variant = 'default', children, className }: BadgeProps) 
       // 디자인 토큰 사용
       variantClasses = 'border-transparent bg-secondary text-secondary-strong';
       break;
+    case 'tag':
+      variantClasses =
+        'border-transparent bg-surface-tag px-2 text-[12px] font-medium text-text-secondary h-[22px]';
+      break;
     case 'outline':
-      variantClasses = 'border-border-subtle text-secondary';
+      variantClasses =
+        'border border-border-subtle bg-white px-2 text-[12px] font-medium text-text-secondary h-[22px]';
       break;
     default:
       variantClasses = 'border-transparent bg-brand-primary text-on-brand';
       break;
   }
 
-  return <span className={`${baseClasses} ${variantClasses}`}>{children}</span>;
+  return (
+    <span className={cn(baseClasses, variantClasses, className)}>
+      {children}
+    </span>
+  );
 };
