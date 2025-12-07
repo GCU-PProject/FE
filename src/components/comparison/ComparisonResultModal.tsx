@@ -3,9 +3,7 @@ import { Bookmark } from 'lucide-react';
 import { Modal } from '@/components/common/Modal';
 import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
-import { Button } from '@/components/common/button/Button';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
 
 type ComparisonResult = {
   country1: {
@@ -49,7 +47,7 @@ export const ComparisonResultModal = ({
                                         country2Code,
                                       }: ComparisonResultModalProps) => {
   // 🔹 북마크 on/off 상태
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // === 실제로는 API 응답/저장 데이터로 대체될 mock ===
   const result: ComparisonResult = {
@@ -94,43 +92,42 @@ export const ComparisonResultModal = ({
   };
 
   //북마크 버튼 on/off 표시
-  const handleSave = () => {
-    setIsBookmarked((prev) => {
-      const next = !prev;
 
-      toast.success(
-        next ? '비교 조합을 저장했습니다' : '저장된 비교 조합을 해제했습니다',
-      );
-
-      return next;
-    });
+  const handleToggleSave = () => {
+    setIsSaved((prev) => !prev);
+    toast.success(
+      !isSaved ? '비교 조합이 저장되었습니다' : '저장이 해제되었습니다',
+    );
   };
 
   return (
+
     <Modal
       open={open}
       onClose={onClose}
       title={`비교 결과`}
       widthClass="max-w-[720px]"
+
       headerActions={
-        <Button
-          onClick={handleSave}
-          aria-label="비교 조합 저장"
-          className={cn(
-            "p-2 rounded-md transition-colors",
-            isBookmarked ? "text-primary" : "text-gray-400"
-          )}
+        <button
+          type="button"
+          onClick={handleToggleSave}
+          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-text-tertiary transition hover:text-brand-primary"
+          aria-label={isSaved ? '저장 해제' : '저장'}
         >
           <Bookmark
-            className={cn(
-              "w-5 h-5",
-              isBookmarked ? "fill-primary text-primary" : "fill-none text-gray-400"
-            )}
+            className={
+              isSaved
+                ? 'h-5 w-5 text-brand-primary'
+                : 'h-5 w-5 text-text-tertiary'
+            }
+            strokeWidth={2.1}
+            fill={isSaved ? 'currentColor' : 'none'}
           />
-        </Button>
+        </button>
       }
-
     >
+
       <div className="space-y-6 mt-2">
         {/* 상단: 두 국가 비교 카드 */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
