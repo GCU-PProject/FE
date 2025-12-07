@@ -88,7 +88,9 @@ export const MyPage = ({
 
   const handleDeleteBookmark = (id: number) => {
     toggleSaved(id);
-    // 모달은 사용자가 직접 닫도록 유지
+    setSelectedLaw((prev) =>
+      prev && prev.id === id ? { ...prev, saved: false } : prev,
+    );
   };
 
   const handleToggleSave = (id: number) => {
