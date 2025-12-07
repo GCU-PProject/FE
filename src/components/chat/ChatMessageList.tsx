@@ -30,8 +30,8 @@ export const ChatMessageList = ({
           }`}
         >
           {message.type === 'bot' && (
-            <div className='bg-blue-100 rounded-full p-2 h-fit'>
-              <Bot className='w-5 h-5 text-blue-600' />
+            <div className='bg-brand-light rounded-full p-2 h-fit'>
+              <Bot className='w-5 h-5 text-brand-primary' />
             </div>
           )}
 
@@ -43,7 +43,7 @@ export const ChatMessageList = ({
             <Card
               className={`p-4 ${
                 message.type === 'user'
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-brand-primary text-white'
                   : 'bg-white'
               }`}
             >
@@ -52,14 +52,14 @@ export const ChatMessageList = ({
               </p>
 
               {message.relatedLaws && message.relatedLaws.length > 0 && (
-                <div className='mt-4 pt-4 border-t border-gray-200'>
-                  <p className='text-sm text-gray-600 mb-2'>관련 법률:</p>
+                <div className='mt-4 pt-4 border-t border-border-base'>
+                  <p className='text-sm text-text-secondary mb-2'>관련 법률:</p>
                   <div className='space-y-2'>
                     {message.relatedLaws.map((law) => (
                       <Link
                         key={law.id}
                         to={`/laws/${law.id}`}
-                        className='flex items-center justify-between p-2 rounded bg-gray-50 hover:bg-gray-100 transition-colors'
+                        className='flex items-center justify-between p-2 rounded bg-bg-soft hover:bg-border-base transition-colors'
                       >
                         <div className='flex items-center gap-2'>
                           <Badge variant='secondary' className='text-xs'>
@@ -68,7 +68,7 @@ export const ChatMessageList = ({
 
                           <span className='text-sm'>{law.title}</span>
                         </div>
-                        <ExternalLink className='w-4 h-4 text-gray-400' />
+                        <ExternalLink className='w-4 h-4 text-text-tertiary' />
                       </Link>
                     ))}
                   </div>
@@ -92,8 +92,8 @@ export const ChatMessageList = ({
           </div>
 
           {message.type === 'user' && (
-            <div className='bg-gray-200 rounded-full p-2 h-fit'>
-              <User className='w-5 h-5 text-gray-600' />
+            <div className='bg-border-base rounded-full p-2 h-fit'>
+              <User className='w-5 h-5 text-text-secondary' />
             </div>
           )}
         </div>
@@ -106,9 +106,9 @@ export const ChatMessageList = ({
           </div>
           <Card className='p-4'>
             <div className='flex gap-2'>
-              <div className='w-2 h-2 bg-gray-400 rounded-full animate-bounce' />
-              <div className='w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100' />
-              <div className='w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200' />
+              <div className='w-2 h-2 bg-text-tertiary rounded-full animate-bounce' />
+              <div className='w-2 h-2 bg-text-tertiary rounded-full animate-bounce delay-100' />
+              <div className='w-2 h-2 bg-text-tertiary rounded-full animate-bounce delay-200' />
             </div>
           </Card>
         </div>
