@@ -2,13 +2,7 @@ import type { CountryOption } from '@/types/comparison';
 import { GitCompare } from 'lucide-react';
 import { Card } from '@/components/common/Card';
 import { Input } from '@/components/common/input/Input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/comparison/select';
+import { DropdownSelect } from '@/components/common/dropdown/DropdownSelect';
 import { Button } from '@/components/common/button/Button';
 
 export type ComparisonFormProps = {
@@ -34,69 +28,63 @@ export const ComparisonForm = ({
                                  onChangeCountry2,
                                  onSubmit,
                                }: ComparisonFormProps) => (
-  <Card className="mb-8 p-6 bg-white">
-    <div className='space-y-4'>
+  <Card className="mb-8 bg-white p-6">
+    <div className="space-y-4">
+      {/* 비교 주제 입력 */}
       <div>
-        <label className='mb-2 block text-sm'>비교 주제</label>
+        <label className="mb-2 block text-sm">비교 주제</label>
         <Input
-          placeholder='예: 음주운전 처벌, 근로시간 제한, 마약 처벌 등'
+          placeholder="예: 음주운전 처벌, 근로시간 제한, 마약 처벌 등"
           value={topic}
           onChange={(e) => onChangeTopic(e.target.value)}
         />
       </div>
 
-      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-        <div>
-          <label className='mb-2 block text-sm'>첫 번째 국가</label>
-          <Select
-            value={country1}
-            onValueChange={onChangeCountry1}
-          >
-            <SelectTrigger className="bg-gray-50 border border-gray-200">
-              <SelectValue placeholder='국가 선택' />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem
-                  key={country.code}
-                  value={country.code}
-                >
-                  {country.flag} {country.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      {/* 국가 선택 드롭다운 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* 첫 번째 국가 */}
+        <DropdownSelect
+          label="첫 번째 국가"
+          value={country1}
+          onChange={(e) => onChangeCountry1(e.target.value)}
+          className="bg-gray-50"
+        >
+          {/* placeholder 역할 옵션 */}
+          <option value="" disabled>
+            국가 선택
+          </option>
+          {countries.map((country) => (
+            <option key={country.code} value={country.code}>
+              {country.flag} {country.name}
+            </option>
+          ))}
+        </DropdownSelect>
 
-        <div>
-          <label className='mb-2 block text-sm'>두 번째 국가</label>
-          <Select
-            value={country2}
-            onValueChange={onChangeCountry2}
-          >
-            <SelectTrigger className="bg-gray-50 border border-gray-200">
-              <SelectValue placeholder='국가 선택' />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem
-                  key={country.code}
-                  value={country.code}
-                >
-                  {country.flag} {country.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {/* 두 번째 국가 */}
+        <DropdownSelect
+          label="두 번째 국가"
+          value={country2}
+          onChange={(e) => onChangeCountry2(e.target.value)}
+          className="bg-gray-50"
+        >
+          <option value="" disabled>
+            국가 선택
+          </option>
+          {countries.map((country) => (
+            <option key={country.code} value={country.code}>
+              {country.flag} {country.name}
+            </option>
+          ))}
+        </DropdownSelect>
       </div>
 
+      {/* 제출 버튼 */}
       <Button
         onClick={onSubmit}
         disabled={isLoading || !topic || !country1 || !country2}
-        className='w-full'
+        className="w-full"
       >
-        <GitCompare className='mr-2 h-4 w-4' />
+        <GitCompare className="mr-2 h-4 w-4" />
         {isLoading ? '분석 중...' : '법률 비교하기'}
       </Button>
     </div>
