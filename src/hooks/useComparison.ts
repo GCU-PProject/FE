@@ -80,11 +80,14 @@ export const useComparison = () => {
     toast.success('비교 조합이 저장되었습니다');
   };
 
+  const escapeRegExp = (value: string) =>
+      value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
   const highlightText = (text: string, highlights: string[]): string => {
     let current = text;
 
     highlights.forEach((highlight) => {
-      const regex = new RegExp(`(${highlight})`, 'gi');
+      const regex = new RegExp(`(${escapeRegExp(highlight)})`, 'gi');
       current = current.replace(
         regex,
         '<mark class="bg-yellow-200 px-1 rounded">$1</mark>',

@@ -27,7 +27,6 @@ type ComparisonResultModalProps = {
   onClose: () => void;
   country1Code: string;
   country2Code: string;
-  topic: string;
 };
 
 const countries = [

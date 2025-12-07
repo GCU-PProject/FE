@@ -32,8 +32,11 @@ export const ComparisonForm = ({
     <div className="space-y-4">
       {/* 비교 주제 입력 */}
       <div>
-        <label className="mb-2 block text-sm">비교 주제</label>
-        <Input
+                <label htmlFor="comparison-topic" className="mb-2 block text-sm">
+                  비교 주제
+                </label>
+                <Input
+                  id="comparison-topic"
           placeholder="예: 음주운전 처벌, 근로시간 제한, 마약 처벌 등"
           value={topic}
           onChange={(e) => onChangeTopic(e.target.value)}
