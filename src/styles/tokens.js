@@ -32,6 +32,7 @@ export const tailwindTokens = {
     brand: {
       primary: getValue(rawTokens.color?.brand?.primary, '#155dfc'),
       light: getValue(rawTokens.color?.primary?.light, '#eff6ff'),
+      surface: getValue(rawTokens.color?.brand?.surface, '#dbeafe'),
     },
     text: {
       primary: getValue(rawTokens.color?.text?.primary, '#0A0A0A'),
@@ -53,6 +54,9 @@ export const tailwindTokens = {
     },
     bg: {
       soft: getValue(rawTokens.color?.bg?.soft, '#F3F3F5'),
+    },
+    surface: {
+      tag: getValue(rawTokens.color?.surface?.tag, '#ECEEF2'),
     },
     danger: {
       base: getValue(rawTokens.color?.danger?.base, '#e7000b'),

@@ -19,28 +19,27 @@ export const AiChatPage = () => {
   } = useChatbot();
 
   return (
-    <div className='min-h-screen bg-surface font-sans'>
+    <div className="min-h-screen bg-surface font-sans">
       {/* 공통 상단 헤더 */}
-      <Header activeNavId='ai-consulting' />
+      <Header activeNavId="ai-consulting" />
 
-      <div className='h-[calc(100vh-4rem)] flex flex-col bg-gray-50'>
+      <div className="flex h-[calc(100vh-4rem)] flex-col bg-gray-50">
         {/* 페이지 내부 타이틀 영역 */}
-        <div className='bg-white border-b border-gray-200'>
-          <div className='px-6 sm:px-10 lg:px-16 py-6'>
-            <h1 className='text-2xl sm:text-3xl font-extrabold text-primary mb-1'>
+        <div className="border-b border-gray-200 bg-white">
+          <div className="px-6 py-6 sm:px-10 lg:px-16">
+            <h1 className="text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]">
               AI 법률 상담
             </h1>
-            <p className='text-sm sm:text-base text-secondary'>
+            <p className="text-sm text-secondary sm:text-base">
               법률 정보를 자연어로 질문하고 답변받으세요
             </p>
           </div>
         </div>
 
-
         {/* 본문 */}
-        <div className='flex-1 overflow-hidden'>
-          <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col'>
-            {/* 메세지 리스트 */}
+        <div className="flex-1 overflow-hidden">
+          <div className="mx-auto flex h-full max-w-4xl flex-col px-4 sm:px-6 lg:px-8">
+            {/* 메시지 리스트 */}
             <ChatMessageList
               messages={messages}
               isLoading={isLoading}
@@ -50,28 +49,33 @@ export const AiChatPage = () => {
 
             {/* 추천 질문 (처음 1개 메세지일 때만) */}
             {messages.length === 1 && (
-              <div className='pb-4'>
-                <p className='text-sm text-gray-600 mb-3'>추천 질문:</p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
+              <div className="pb-4">
+                <p className="mb-3 text-xs font-medium text-text-tertiary">
+                  추천 질문
+                </p>
+
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {suggestedQuestions.map((question, index) => (
-                    <Button
+                    <button
                       key={index}
-                      variant='outline'
+                      type="button"
                       onClick={() => setInputValue(question)}
-                      className='text-left justify-start h-auto py-3 px-4 whitespace-normal'
+                      className="rounded-xl border border-border-soft bg-surface px-4 py-3 text-left text-sm text-text-secondary
+                                 shadow-[0_1px_0_rgba(15,23,42,0.02)] transition
+                                 hover:border-brand-primary hover:bg-brand-soft hover:text-brand-primary"
                     >
                       {question}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               </div>
             )}
 
             {/* 입력창 */}
-            <div className='py-4 bg-gray-50'>
-              <div className='flex gap-2'>
+            <div className="bg-gray-50 py-4">
+              <div className="flex gap-2">
                 <Input
-                  placeholder='법률 관련 질문을 입력하세요...'
+                  placeholder="법률 관련 질문을 입력하세요..."
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyPress}
@@ -81,11 +85,10 @@ export const AiChatPage = () => {
                   onClick={() => void handleSend()}
                   disabled={isLoading || !inputValue.trim()}
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="h-4 w-4" />
                 </Button>
-
               </div>
-              <p className='text-xs text-gray-500 mt-2'>
+              <p className="mt-2 text-xs text-gray-500">
                 * G.law AI 답변은 참고용이며, 정확한 법률 자문은 전문가와 상담하세요
               </p>
             </div>

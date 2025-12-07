@@ -30,11 +30,13 @@ export const useChatbot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (!inputValue.trim() || isLoading) return;
 
+    const nextId = messages.length > 0 ? Math.max(...messages.map(m => m.id)) + 1 : 1;
+    
     const userMessage: ChatMessage = {
-      id: messages.length + 1,
+      id: nextId,
       type: 'user',
       content: inputValue,
       timestamp: new Date(),
