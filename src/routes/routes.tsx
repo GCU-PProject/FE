@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { ExamplePage } from '@/pages/ui/ExamplePage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 
+
 const LoginRoute = () => {
   const handleGoogleLogin = () => {
     console.log('Google 로그인 버튼 클릭!');
@@ -15,7 +16,7 @@ export const appRouter = createBrowserRouter([
   { path: '/', element: <LoginRoute /> },
   { path: '/law-collection', element: <ExamplePage /> },
   { path: '/ai-consulting', element: <ExamplePage /> },
-  { path: '/law-compare', element: <ExamplePage /> },
+  { path: '/law-compare', element: <LawComparisonPage /> },
   { path: '/mypage', element: <ExamplePage /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ]);
