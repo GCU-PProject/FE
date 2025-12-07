@@ -1,13 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Bookmark as BookmarkIcon,
-  Check,
-  Edit2,
-  ExternalLink,
   GitCompare,
   Globe,
   LogOut,
-  Trash2,
   UserRound,
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
@@ -17,10 +13,7 @@ import {
   DashboardTabsList,
   DashboardTabsTrigger,
 } from '@/components/common/DashboardTabs';
-import { Card } from '@/components/common/Card';
-import { Badge } from '@/components/common/Badge';
 import { Button } from '@/components/common/button/Button';
-import { INTEREST_COUNTRIES } from '@/constants/interestCountries';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
 import { mockCompareSets } from '@/mocks/mypage';
 import type { PreferredCountries } from '@/types/country';
@@ -28,6 +21,9 @@ import type { CompareSet } from '@/types/mypage';
 import type { LawItem } from '@/types/law';
 import { useSavedLaws } from '@/hooks/useSavedLaws';
 import { mockLaws } from '@/mocks/laws';
+import { InterestsTab } from '@/components/mypage/InterestsTab';
+import { BookmarksTab } from '@/components/mypage/BookmarksTab';
+import { CompareTab } from '@/components/mypage/CompareTab';
 
 type MyPageProps = {
   preferredCountries: PreferredCountries;
@@ -171,219 +167,30 @@ export const MyPage = ({
           </DashboardTabsList>
 
           <DashboardTabsContent value="interests">
-            <Card className="rounded-2xl border-border-subtle bg-white px-5 py-5 shadow-sm sm:px-6 sm:py-6">
-              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-lg font-semibold text-text-primary">
-                  관심 국가 관리
-                </h2>
-                <div className="flex items-center gap-2">
-                  {isEditingInterests ? (
-                    <>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-border-base text-text-secondary hover:border-border-selected"
-                        onClick={handleCancelInterests}
-                      >
-                        취소
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="bg-brand-primary px-4 text-white hover:brightness-95"
-                        onClick={handleSaveInterests}
-                      >
-                        저장
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-border-base text-text-primary hover:border-border-selected"
-                      onClick={() => setIsEditingInterests(true)}
-                    >
-                      <Edit2 className="mr-2 h-4 w-4" />
-                      수정
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {INTEREST_COUNTRIES.map((country) => {
-                  const isSelected = displayedInterests.includes(country.code);
-                  return (
-                    <button
-                      key={country.code}
-                      type="button"
-                      onClick={() => toggleInterest(country.code)}
-                      disabled={!isEditingInterests}
-                      aria-pressed={isSelected}
-                      className={`flex items-center justify-between rounded-xl border px-4 py-3 text-left transition ${
-                        isSelected
-                          ? 'border-state-selected-border bg-brand-surface shadow-[0_6px_18px_rgba(15,23,42,0.08)]'
-                          : 'border-border-subtle bg-white hover:border-border-base'
-                      } ${!isEditingInterests ? 'cursor-default' : ''}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{country.flag}</span>
-                        <span className="text-sm font-semibold text-text-primary">
-                          {country.name}
-                        </span>
-                      </div>
-                      {isEditingInterests ? (
-                        <span
-                          className={`flex h-6 w-6 items-center justify-center rounded-full border ${
-                            isSelected
-                              ? 'border-brand-primary bg-brand-primary/10 text-brand-primary'
-                              : 'border-border-subtle text-text-tertiary'
-                          }`}
-                          aria-hidden
-                        >
-                          {isSelected ? <Check className="h-4 w-4" /> : null}
-                        </span>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <p className="mt-6 text-center text-sm text-text-secondary">
-                관심 국가를 설정하면 G.law에서 맞춤형 법률 정보를 받을 수
-                있습니다
-              </p>
-              {!displayedInterests.length && !isEditingInterests ? (
-                <div className="mt-3 rounded-lg border border-border-subtle bg-bg-soft px-4 py-3 text-sm text-text-secondary">
-                  아직 관심 국가를 설정하지 않았습니다. 수정 버튼을 눌러 설정을
-                  시작하세요.
-                </div>
-              ) : null}
-              {isEditingInterests && displayedInterests.length === 0 ? (
-                <div className="mt-3 text-sm text-text-tertiary">
-                  관심 국가를 선택하지 않아도 서비스를 이용할 수 있지만, 관심
-                  국가를 선택하면 대시보드가 더 유용해집니다.
-                </div>
-              ) : null}
-            </Card>
+            <InterestsTab
+              displayedInterests={displayedInterests}
+              isEditing={isEditingInterests}
+              onStartEdit={() => setIsEditingInterests(true)}
+              onToggleInterest={toggleInterest}
+              onSave={handleSaveInterests}
+              onCancel={handleCancelInterests}
+            />
           </DashboardTabsContent>
 
           <DashboardTabsContent value="bookmarks">
-            <div className="space-y-3">
-              {bookmarks.map((item) => (
-                <Card
-                  key={item.id}
-                  className="rounded-2xl border-border-subtle bg-white px-5 py-4 shadow-sm sm:px-6"
-                >
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex flex-col gap-2">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="min-w-[48px] justify-center px-3"
-                        >
-                          {item.country}
-                        </Badge>
-                        <Badge
-                          variant="tag"
-                          className="min-w-[48px] justify-center px-3"
-                        >
-                          {item.category}
-                        </Badge>
-                      </div>
-                      <h3 className="text-lg font-semibold text-text-primary leading-tight">
-                        {item.title}
-                        {item.subTitle ? (
-                          <span className="ml-2 text-base font-normal text-text-secondary">
-                            ({item.subTitle})
-                          </span>
-                        ) : null}
-                      </h3>
-                    </div>
-
-                    <div className="flex items-center gap-2 self-start sm:self-auto">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedLaw(item)}
-                        className="inline-flex h-[34px] items-center justify-center gap-2 rounded-md border border-border-base px-3 text-sm font-semibold text-text-primary transition hover:border-border-selected"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        보기
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteBookmark(item.id)}
-                        className="inline-flex h-[34px] items-center justify-center rounded-md px-3 text-sm font-semibold text-danger-base transition hover:bg-danger-surface"
-                        aria-label="북마크 삭제"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-
-              {bookmarks.length === 0 ? (
-                <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-                  저장한 북마크가 없습니다. 법률 모아보기에서 법률을 확인해
-                  보세요.
-                </Card>
-              ) : null}
-            </div>
+            <BookmarksTab
+              bookmarks={bookmarks}
+              onView={(item) => setSelectedLaw(item)}
+              onDelete={handleDeleteBookmark}
+            />
           </DashboardTabsContent>
 
           <DashboardTabsContent value="compare">
-            <div className="space-y-3">
-              {compareSets.map((setItem) => (
-                <Card
-                  key={setItem.id}
-                  className="rounded-2xl border-border-subtle bg-white px-5 py-4 shadow-sm sm:px-6"
-                >
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-text-primary leading-tight">
-                        {setItem.title}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2">
-                        {setItem.countries.map((code) => (
-                          <Badge
-                            key={code}
-                            variant="outline"
-                            className="min-w-[44px] justify-center px-3 uppercase"
-                          >
-                            {code}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 self-start sm:self-auto">
-                      <button
-                        type="button"
-                        onClick={() => handleRevisitCompare(setItem)}
-                        className="inline-flex h-[34px] items-center justify-center gap-2 rounded-md border border-border-base px-3 text-sm font-semibold text-text-primary transition hover:border-border-selected"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        다시 보기
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteCompare(setItem.id)}
-                        className="inline-flex h-[34px] items-center justify-center rounded-md px-3 text-sm font-semibold text-danger-base transition hover:bg-danger-surface"
-                        aria-label="비교 조합 삭제"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-
-              {compareSets.length === 0 ? (
-                <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-                  저장된 비교 조합이 없습니다. 법률 비교에서 국가를 선택해
-                  비교를 시작해 보세요.
-                </Card>
-              ) : null}
-            </div>
+            <CompareTab
+              compareSets={compareSets}
+              onRevisit={handleRevisitCompare}
+              onDelete={handleDeleteCompare}
+            />
           </DashboardTabsContent>
         </DashboardTabs>
       </main>
