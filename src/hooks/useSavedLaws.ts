@@ -7,12 +7,15 @@ const getInitialSavedIds = (): number[] => {
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (!stored) return [];
   try {
-    const parsed = JSON.parse(stored);
-    return Array.isArray(parsed)
-      ? parsed
-          .filter((id): id is number => typeof id === 'number')
-          .map((id) => Number(id))
-      : [];
+    const raw = JSON.parse(stored) as unknown;
+    if (!Array.isArray(raw)) return [];
+
+    return raw
+      .filter((id): id is number | string => {
+        const t = typeof id;
+        return t === 'number' || t === 'string';
+      })
+      .filter((id): id is number => Number.isFinite(id));
   } catch {
     return [];
   }
