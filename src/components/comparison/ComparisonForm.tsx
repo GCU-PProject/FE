@@ -34,7 +34,7 @@ export const ComparisonForm = ({
                                  onChangeCountry2,
                                  onSubmit,
                                }: ComparisonFormProps) => (
-  <Card className='mb-8 p-6'>
+  <Card className="mb-8 p-6 bg-white">
     <div className='space-y-4'>
       <div>
         <label className='mb-2 block text-sm'>비교 주제</label>
@@ -52,7 +52,7 @@ export const ComparisonForm = ({
             value={country1}
             onValueChange={onChangeCountry1}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-gray-50 border border-gray-200">
               <SelectValue placeholder='국가 선택' />
             </SelectTrigger>
             <SelectContent>
@@ -74,7 +74,7 @@ export const ComparisonForm = ({
             value={country2}
             onValueChange={onChangeCountry2}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-gray-50 border border-gray-200">
               <SelectValue placeholder='국가 선택' />
             </SelectTrigger>
             <SelectContent>
