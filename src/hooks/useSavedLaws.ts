@@ -15,6 +15,7 @@ const getInitialSavedIds = (): number[] => {
         const t = typeof id;
         return t === 'number' || t === 'string';
       })
+      .map((id) => Number(id))
       .filter((id): id is number => Number.isFinite(id));
   } catch {
     return [];
