@@ -55,7 +55,8 @@ export const ComparisonForm = ({
           </option>
           {countries.map((country) => (
             <option key={country.code} value={country.code}>
-              {country.flag} {country.name}
+              {/* 코드 대신 국기 + 이름 (실패)*/}
+              {country.flag ?? ''} {country.name}
             </option>
           ))}
         </DropdownSelect>
@@ -72,7 +73,7 @@ export const ComparisonForm = ({
           </option>
           {countries.map((country) => (
             <option key={country.code} value={country.code}>
-              {country.flag} {country.name}
+              {country.flag ?? ''} {country.name}
             </option>
           ))}
         </DropdownSelect>
