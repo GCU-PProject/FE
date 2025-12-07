@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { ExamplePage } from '@/pages/ui/ExamplePage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
+import { AiChatPage } from '@/pages/ui/AiChatPage';
 
 const LoginRoute = () => {
   const handleGoogleLogin = () => {
@@ -15,7 +16,7 @@ const LoginRoute = () => {
 export const appRouter = createBrowserRouter([
   { path: '/', element: <LoginRoute /> },
   { path: '/law-collection', element: <ExamplePage /> },
-  { path: '/ai-consulting', element: <ExamplePage /> },
+  { path: '/ai-consulting', element: <AiChatPage /> },
   { path: '/law-compare', element: <LawComparisonPage /> },
   { path: '/mypage', element: <ExamplePage /> },
   { path: '*', element: <Navigate to="/" replace /> },
