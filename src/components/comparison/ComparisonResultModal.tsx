@@ -5,6 +5,7 @@ import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
 import { Button } from '@/components/common/button/Button';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 type ComparisonResult = {
   country1: {
@@ -46,7 +47,6 @@ export const ComparisonResultModal = ({
                                         onClose,
                                         country1Code,
                                         country2Code,
-                                        topic,
                                       }: ComparisonResultModalProps) => {
   // 🔹 북마크 on/off 상태
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -110,21 +110,26 @@ export const ComparisonResultModal = ({
     <Modal
       open={open}
       onClose={onClose}
-      title={`비교 결과: ${topic}`}
+      title={`비교 결과`}
       widthClass="max-w-[720px]"
       headerActions={
         <Button
-          variant="outline"
-          size="sm"
           onClick={handleSave}
-          aria-label={isBookmarked ? '저장 해제' : '비교 조합 저장'}
-          aria-pressed={isBookmarked}
-          className={isBookmarked ? 'text-text-secondary border-blue-500 bg-blue-50' : ''}
+          aria-label="비교 조합 저장"
+          className={cn(
+            "p-2 rounded-md transition-colors",
+            isBookmarked ? "text-primary" : "text-gray-400"
+          )}
         >
           <Bookmark
-            className="w-4 h-4 fill-current" />
+            className={cn(
+              "w-5 h-5",
+              isBookmarked ? "fill-primary text-primary" : "fill-none text-gray-400"
+            )}
+          />
         </Button>
       }
+
     >
       <div className="space-y-6 mt-2">
         {/* 상단: 두 국가 비교 카드 */}
@@ -159,11 +164,15 @@ export const ComparisonResultModal = ({
                 <h4 className="mb-2 text-sm">주요 키워드</h4>
                 <div className="flex flex-wrap gap-2">
                   {result.country1.highlights.map((h, idx) => (
-                    <Badge key={idx} variant="secondary">
-                      {h}
-                    </Badge>
+                    <span
+                      key={idx}
+                      className="px-2 py-1 rounded-md bg-gray-100 text-gray-700 text-sm"
+                    >
+      {h}
+    </span>
                   ))}
                 </div>
+
               </div>
             </div>
           </Card>
@@ -198,11 +207,15 @@ export const ComparisonResultModal = ({
                 <h4 className="mb-2 text-sm">주요 키워드</h4>
                 <div className="flex flex-wrap gap-2">
                   {result.country2.highlights.map((h, idx) => (
-                    <Badge key={idx} variant="secondary">
-                      {h}
-                    </Badge>
+                    <span
+                      key={idx}
+                      className="px-2 py-1 rounded-md bg-gray-100 text-gray-700 text-sm"
+                    >
+      {h}
+    </span>
                   ))}
                 </div>
+
               </div>
             </div>
           </Card>
