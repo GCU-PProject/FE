@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Scale, Search } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { FilterDropdown } from '@/components/common/dropdown/FilterDropdown';
@@ -7,6 +7,7 @@ import { mockLaws } from '@/mocks/laws';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
 import type { LawItem } from '@/types/law';
 import { SearchInput } from '@/components/common/input/SearchInput';
+import { useSavedLaws } from '@/hooks/useSavedLaws';
 import {
   countryLabels,
   fieldLabels,
@@ -20,13 +21,23 @@ export const LawCollectionPage = () => {
     country: CountryValue;
     field: FieldValue;
   }>({ country: 'all', field: 'all' });
-  const [laws, setLaws] = useState<LawItem[]>(mockLaws);
+  const laws = useMemo<LawItem[]>(() => mockLaws, []);
   const [selectedLaw, setSelectedLaw] = useState<LawItem | null>(null);
+  const { savedIds, toggleSaved } = useSavedLaws();
+
+  const lawsWithSaved = useMemo(
+    () =>
+      laws.map((law) => ({
+        ...law,
+        saved: savedIds.includes(law.id),
+      })),
+    [laws, savedIds],
+  );
 
   const filteredLaws = useMemo(() => {
     const keyword = query.trim().toLowerCase();
 
-    return laws.filter((law) => {
+    return lawsWithSaved.filter((law) => {
       const matchCountry =
         filters.country === 'all' ||
         law.countryCode.toLowerCase() === filters.country;
@@ -43,16 +54,19 @@ export const LawCollectionPage = () => {
 
       return matchCountry && matchField && matchKeyword;
     });
-  }, [laws, query, filters]);
+  }, [lawsWithSaved, query, filters]);
 
   const handleToggleSave = (id: number) => {
-    setLaws((prev) =>
-      prev.map((law) => (law.id === id ? { ...law, saved: !law.saved } : law)),
-    );
-    setSelectedLaw((prev) =>
-      prev && prev.id === id ? { ...prev, saved: !prev.saved } : prev,
-    );
+    toggleSaved(id);
   };
+
+  useEffect(() => {
+    if (!selectedLaw) return;
+    const updated = lawsWithSaved.find((law) => law.id === selectedLaw.id);
+    if (updated && updated.saved !== selectedLaw.saved) {
+      setSelectedLaw(updated);
+    }
+  }, [lawsWithSaved, selectedLaw]);
 
   const appliedFiltersText = `${countryLabels[filters.country]} · ${
     fieldLabels[filters.field]
@@ -124,7 +138,12 @@ export const LawCollectionPage = () => {
               key={law.id}
               law={law}
               onToggleSave={handleToggleSave}
-              onViewDetail={setSelectedLaw}
+              onViewDetail={(item) =>
+                setSelectedLaw(
+                  lawsWithSaved.find((lawItem) => lawItem.id === item.id) ??
+                    item,
+                )
+              }
             />
           ))}
           {filteredLaws.length === 0 ? (
