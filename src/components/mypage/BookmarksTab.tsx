@@ -9,7 +9,11 @@ type BookmarksTabProps = {
   onDelete: (id: number) => void;
 };
 
-export const BookmarksTab = ({ bookmarks, onView, onDelete }: BookmarksTabProps) => (
+export const BookmarksTab = ({
+  bookmarks,
+  onView,
+  onDelete,
+}: BookmarksTabProps) => (
   <div className="space-y-3">
     {bookmarks.map((item) => (
       <Card
@@ -19,7 +23,10 @@ export const BookmarksTab = ({ bookmarks, onView, onDelete }: BookmarksTabProps)
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="min-w-[48px] justify-center px-3">
+              <Badge
+                variant="outline"
+                className="min-w-[48px] justify-center px-3"
+              >
                 {item.country}
               </Badge>
               <Badge variant="tag" className="min-w-[48px] justify-center px-3">
@@ -41,6 +48,7 @@ export const BookmarksTab = ({ bookmarks, onView, onDelete }: BookmarksTabProps)
               type="button"
               onClick={() => onView(item)}
               className="inline-flex h-[34px] items-center justify-center gap-2 rounded-md border border-border-base px-3 text-sm font-semibold text-text-primary transition hover:border-border-selected"
+              aria-label="법률 상세 보기"
             >
               <ExternalLink className="h-4 w-4" />
               보기
