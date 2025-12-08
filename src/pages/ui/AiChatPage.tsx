@@ -55,9 +55,9 @@ export const AiChatPage = () => {
                 </p>
 
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                  {suggestedQuestions.map((question, index) => (
+                  {suggestedQuestions.map((question) => (
                     <button
-                      key={index}
+                      key={question}
                       type="button"
                       onClick={() => setInputValue(question)}
                       className="rounded-xl border border-border-soft bg-surface px-4 py-3 text-left text-sm text-text-secondary

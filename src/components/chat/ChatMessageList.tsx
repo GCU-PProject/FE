@@ -36,9 +36,7 @@ export const ChatMessageList = ({
           )}
 
           <div
-            className={`max-w-[80%] ${
-              message.type === 'user' ? 'order-first' : ''
-            }`}
+            className='max-w-[80%]'
           >
             <Card
               className={`p-4 ${
@@ -82,6 +80,7 @@ export const ChatMessageList = ({
                   variant='outline'
                   size='sm'
                   onClick={() => onRetry(message.id)}
+                  aria-label="다른 답변 요청"
                   className="border-none text-black shadow-none hover:bg-gray-100"
                 >
                   <RefreshCw className='w-3 h-3 mr-1' />
@@ -100,7 +99,7 @@ export const ChatMessageList = ({
       ))}
 
       {isLoading && (
-        <div className='flex gap-3'>
+        <div className='flex gap-3' role="status" aria-live="polite" aria-label="답변 생성 중">
           <div className='bg-blue-100 rounded-full p-2 h-fit'>
             <Bot className='w-5 h-5 text-blue-600' />
           </div>
