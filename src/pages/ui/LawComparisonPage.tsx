@@ -55,7 +55,6 @@ export const LawComparisonPage = () => {
         onClose={() => setShowResultModal(false)}
         country1Code={country1}
         country2Code={country2}
-        topic={topic}
       />
     </div>
   );
