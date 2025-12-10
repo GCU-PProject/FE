@@ -99,9 +99,9 @@ export const ChatMessageList = ({
       ))}
 
       {isLoading && (
-        <div className='flex gap-3' role="status" aria-live="polite" aria-label="답변 생성 중">
-          <div className='bg-blue-100 rounded-full p-2 h-fit'>
-            <Bot className='w-5 h-5 text-blue-600' />
+        <output className='flex gap-3' aria-live="polite" aria-label="답변 생성 중">
+          <div className='bg-brand-light rounded-full p-2 h-fit'>
+            <Bot className='w-5 h-5 text-brand-primary' />
           </div>
           <Card className='p-4'>
             <div className='flex gap-2'>
@@ -110,7 +110,7 @@ export const ChatMessageList = ({
               <div className='w-2 h-2 bg-text-tertiary rounded-full animate-bounce delay-200' />
             </div>
           </Card>
-        </div>
+        </output>
       )}
 
       <div ref={messagesEndRef} />
