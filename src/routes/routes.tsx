@@ -8,9 +8,7 @@ import { usePreferredCountries } from '@/hooks/usePreferredCountries';
 import { Header } from '@/components/layout/Header';
 import { CountryCode } from '@/types/country';
 import { MyPage } from '@/pages/ui/MyPage';
-import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 
-// 이제 이 부분도 삭제해 주시면 될 것 같아용
 const HeaderOnlyPage = () => (
   <div className="min-h-screen bg-surface font-sans">
     <Header />
@@ -102,15 +100,13 @@ export const AppRoutes = () => {
         <Route
           path="/ai-consulting"
           element={
-            // 이 부분만 다른 페이지처럼 HeaderOnlyPage가 아닌 제작하신 페이지가 렌더링되도록 수정해 주시면 돼요!
             isLoggedIn ? <HeaderOnlyPage /> : <Navigate to="/login" replace />
           }
         />
         <Route
           path="/law-compare"
           element={
-            // 요기도 마찬가지로 수정해 주시면 됩니다!(완)
-            isLoggedIn ? <LawComparisonPage /> : <Navigate to="/login" replace />
+            isLoggedIn ? <HeaderOnlyPage /> : <Navigate to="/login" replace />
           }
         />
         <Route
