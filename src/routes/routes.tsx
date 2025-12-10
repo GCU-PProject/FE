@@ -5,15 +5,10 @@ import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
-import { Header } from '@/components/layout/Header';
 import { CountryCode } from '@/types/country';
 import { MyPage } from '@/pages/ui/MyPage';
-
-const HeaderOnlyPage = () => (
-  <div className="min-h-screen bg-surface font-sans">
-    <Header />
-  </div>
-);
+import { AiChatPage } from '@/pages/ui/AiChatPage';
+import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
@@ -100,13 +95,13 @@ export const AppRoutes = () => {
         <Route
           path="/ai-consulting"
           element={
-            isLoggedIn ? <HeaderOnlyPage /> : <Navigate to="/login" replace />
+            isLoggedIn ? <AiChatPage /> : <Navigate to="/login" replace />
           }
         />
         <Route
           path="/law-compare"
           element={
-            isLoggedIn ? <HeaderOnlyPage /> : <Navigate to="/login" replace />
+            isLoggedIn ? <LawComparisonPage /> : <Navigate to="/login" replace />
           }
         />
         <Route
