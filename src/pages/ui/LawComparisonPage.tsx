@@ -2,6 +2,7 @@ import { useComparison } from '@/hooks/useComparison';
 import { ComparisonForm } from '@/components/comparison/ComparisonForm';
 import { ComparisonResultModal } from '@/components/comparison/ComparisonResultModal';
 import { Header } from '@/components/layout/Header';
+import { GitCompare } from 'lucide-react';
 
 export const LawComparisonPage = () => {
   const {
@@ -24,11 +25,15 @@ export const LawComparisonPage = () => {
       <Header activeNavId="law-compare" />
 
       {/* 상단 타이틀 영역 */}
-      <div className='w-full bg-white shadow-sm border-b border-border-subtle'>
-        <div className='px-6 sm:px-10 lg:px-16 py-6'>
+      <div className='w-full bg-white shadow-sm border-b border-border-subtle h-[133px] flex flex-col justify-center'>
+        <div className='px-6 sm:px-10 lg:px-8 py-6'>
+
+          <div className="flex items-center gap-3">
+          <GitCompare className="w-8 h-8 text-brand-primary" strokeWidth={2} />
           <h1 className='text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]'>
             국가 간 법률 비교
           </h1>
+          </div>
           <p className='text-sm font-normal text-text-secondary sm:text-base'>두 국가의 법률을 비교 분석하세요</p>
         </div>
       </div>
@@ -51,11 +56,10 @@ export const LawComparisonPage = () => {
 
       {/* 결과 모달 */}
       <ComparisonResultModal
-        open={showResultModal}
-        onClose={() => setShowResultModal(false)}
-        country1Code={country1}
-        country2Code={country2}
-      />
+              open={showResultModal}
+              onClose={() => setShowResultModal(false)}
+              country1Code={country1}
+              country2Code={country2} topic={''}      />
     </div>
   );
 };
