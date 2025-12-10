@@ -47,7 +47,6 @@ export const ComparisonAnalysis = ({ similarities, differences }: ComparisonAnal
             ))}
           </ul>
         </div>
-        {/* differences 데이터도 여기서 비슷하게 렌더링하면 됩니다 */}
       </div>
     </Card>
   );

@@ -93,15 +93,9 @@ export const ComparisonResultModal = ({
                 <h4 className="mb-2 text-sm font-medium text-text-primary">
                   핵심 내용
                 </h4>
-                <p
-                  className="leading-relaxed text-text-secondary"
-                  dangerouslySetInnerHTML={{
-                    __html: highlightText(
-                      result.country1.summary,
-                      result.country1.highlights,
-                    ),
-                  }}
-                />
+                <p className="leading-relaxed text-text-secondary">
+                  {highlightText(result.country1.summary, result.country1.highlights)}
+                </p>
               </div>
 
               <div>
@@ -143,13 +137,9 @@ export const ComparisonResultModal = ({
                 </h4>
                 <p
                   className="leading-relaxed text-text-secondary"
-                  dangerouslySetInnerHTML={{
-                    __html: highlightText(
-                      result.country2.summary,
-                      result.country2.highlights,
-                    ),
-                  }}
-                />
+                >
+                  {highlightText(result.country1.summary, result.country1.highlights)}
+                </p>
               </div>
 
               <div>
