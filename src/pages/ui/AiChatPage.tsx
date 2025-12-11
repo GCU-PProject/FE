@@ -1,4 +1,4 @@
-import { Globe, MessageSquare, Send } from 'lucide-react';
+import { MessageSquare, Send } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { useChatbot } from '@/hooks/useChatbot';
 import { ChatMessageList } from '@/components/chat/ChatMessageList';
@@ -29,12 +29,12 @@ export const AiChatPage = () => {
           <div className="px-4 py-6 sm:px-10 lg:px-8">
 
             <div className="flex items-center gap-3">
-            <MessageSquare className="w-7 h-7 text-brand-primary" strokeWidth={2} />
+            <MessageSquare className="w-9 h-9 text-brand-primary" strokeWidth={2.2} />
             <h1 className="text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]">
               AI 법률 상담
             </h1>
             </div>
-            <p className="text-sm text-secondary sm:text-base">
+            <p className="text-sm text-text-secondary sm:text-base">
               법률 정보를 자연어로 질문하고 답변받으세요
             </p>
           </div>
