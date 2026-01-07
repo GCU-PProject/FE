@@ -63,7 +63,7 @@ export const AiChatPage = () => {
                     <button
                       key={question}
                       type="button"
-                      onClick={() => setInputValue(question)}
+                      onClick={() => handleSend(question)}
                       className="rounded-xl border border-border-soft bg-surface px-4 py-3 text-left text-sm text-text-secondary
                                  shadow-[0_1px_0_rgba(15,23,42,0.02)] transition
                                  hover:border-brand-primary hover:bg-brand-soft hover:text-brand-primary"
