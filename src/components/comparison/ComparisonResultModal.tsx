@@ -138,7 +138,7 @@ export const ComparisonResultModal = ({
                 <p
                   className="leading-relaxed text-text-secondary"
                 >
-                  {highlightText(result.country1.summary, result.country1.highlights)}
+                  {highlightText(result.country2.summary, result.country2.highlights)}
                 </p>
               </div>
 
