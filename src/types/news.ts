@@ -14,6 +14,7 @@ export type NewsItem = {
 export type CardProps = {
   className?: string;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 };
 
 export type BadgeProps = {

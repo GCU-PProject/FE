@@ -7,7 +7,7 @@ import { Modal } from '@/components/common/Modal';
 import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
 
-import { comparisonCountries } from '@/constants/comparison';
+import { comparisonCountries, getCountryFlagUrl } from '@/constants/comparison';
 import { getMockComparisonResult } from '@/mocks/comparisonMock';
 import { highlightText } from './highlightText';
 import { ComparisonAnalysis } from './ComparisonAnalysis';
@@ -77,9 +77,17 @@ export const ComparisonResultModal = ({
           {/* 국가 1 */}
           <Card className="p-6">
             <div className="mb-4 flex items-center gap-3">
-              <div className="rounded-lg bg-surface-accent px-4 py-2 text-brand-primary">
-                {country1Meta?.flag}
-              </div>
+              {country1Meta ? (
+                <img
+                  src={getCountryFlagUrl(country1Meta.code)}
+                  alt={`${country1Meta.name} 국기`}
+                  className="h-12 w-16 rounded-lg object-cover shadow-md"
+                />
+              ) : (
+                <div className="rounded-lg bg-surface-accent px-4 py-2 text-brand-primary shadow-md">
+                  🇺🇸
+                </div>
+              )}
               <div>
                 <h3 className="text-xl text-text-primary">
                   {result.country1.country}
@@ -119,9 +127,17 @@ export const ComparisonResultModal = ({
           {/* 국가 2 */}
           <Card className="p-6">
             <div className="mb-4 flex items-center gap-3">
-              <div className="rounded-lg bg-surface-accent-soft px-4 py-2 text-brand-secondary">
-                {country2Meta?.flag}
-              </div>
+              {country2Meta ? (
+                <img
+                  src={getCountryFlagUrl(country2Meta.code)}
+                  alt={`${country2Meta.name} 국기`}
+                  className="h-12 w-16 rounded-lg object-cover shadow-md"
+                />
+              ) : (
+                <div className="rounded-lg bg-surface-accent-soft px-4 py-2 text-brand-secondary shadow-md">
+                  🇺🇸
+                </div>
+              )}
               <div>
                 <h3 className="text-xl text-text-primary">
                   {result.country2.country}

@@ -10,3 +10,8 @@ export const comparisonCountries: CountryOption[] = [
   { code: 'TH', name: '태국', flag: '🇹🇭' },
   { code: 'CA', name: '캐나다', flag: '🇨🇦' },
 ];
+
+// 국가별 국기 이미지 URL 생성 함수
+export const getCountryFlagUrl = (countryCode: string): string => {
+  return `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
+};

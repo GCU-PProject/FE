@@ -34,7 +34,7 @@ export const AiChatPage = () => {
               AI 법률 상담
             </h1>
             </div>
-            <p className="text-sm text-text-secondary sm:text-base">
+            <p className="text-sm font-normal text-text-secondary sm:text-base">
               법률 정보를 자연어로 질문하고 답변받으세요
             </p>
           </div>
