@@ -1,4 +1,5 @@
 import { MessageSquare, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { useChatbot } from '@/hooks/useChatbot';
 import { ChatMessageList } from '@/components/chat/ChatMessageList';
@@ -35,6 +36,12 @@ export const AiChatPage = () => {
             </h1>
             </div>
             <p className="text-sm font-normal text-text-secondary sm:text-base">
+        <div className="border-b border-gray-200 bg-white">
+          <div className="px-6 py-6 sm:px-10 lg:px-16">
+            <h1 className="text-[28px] font-medium leading-tight text-text-primary sm:text-[32px]">
+              AI 법률 상담
+            </h1>
+            <p className="text-sm text-secondary sm:text-base">
               법률 정보를 자연어로 질문하고 답변받으세요
             </p>
           </div>
@@ -65,6 +72,8 @@ export const AiChatPage = () => {
                       type="button"
                       onClick={() => handleSend(question)}
                       className="rounded-xl border border-border-soft bg-white px-4 py-3 text-left text-sm text-text-secondary
+                      onClick={() => setInputValue(question)}
+                      className="rounded-xl border border-border-soft bg-surface px-4 py-3 text-left text-sm text-text-secondary
                                  shadow-[0_1px_0_rgba(15,23,42,0.02)] transition
                                  hover:border-brand-primary hover:bg-brand-soft hover:text-brand-primary"
                     >
