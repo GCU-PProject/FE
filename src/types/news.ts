@@ -1,4 +1,4 @@
-import  React from 'react';
+import type { ReactNode } from 'react';
 
 export type NewsItem = {
   id: number;
@@ -13,27 +13,27 @@ export type NewsItem = {
 
 export type CardProps = {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   style?: React.CSSProperties;
 };
 
 export type BadgeProps = {
   variant?: 'default' | 'secondary' | 'outline',
-  children: React.ReactNode,
+  children: ReactNode,
   className?: string
 };
 
 export type DashboardTabsProps = {
   defaultValue: string;
   onValueChange: (value: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type DashboardTabsListProps = {
   className?: string;
   activeTab?: string;
   onTabChange?: (value: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type DashboardTabsTriggerProps = {
@@ -41,14 +41,14 @@ export type DashboardTabsTriggerProps = {
   value: string;
   activeTab?: string;
   onTabClick?: (value: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type DashboardTabsContentProps = {
   className?: string;
   value: string;
   activeTab?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type NewsCardProps = {
