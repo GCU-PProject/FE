@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { highlightText } from '@/components/comparison/highlightText';
 import { comparisonCountries } from '@/constants/comparison';
 import type { ComparisonResult } from '@/types/comparison';
 
@@ -80,23 +81,6 @@ export const useComparison = () => {
     toast.success('비교 조합이 저장되었습니다');
   };
 
-  const escapeRegExp = (value: string) =>
-      value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-  const highlightText = (text: string, highlights: string[]): string => {
-    let current = text;
-
-    highlights.forEach((highlight) => {
-      const regex = new RegExp(`(${escapeRegExp(highlight)})`, 'gi');
-      current = current.replace(
-        regex,
-        '<mark class="bg-yellow-200 px-1 rounded">$1</mark>',
-      );
-    });
-
-    return current;
-  };
-
   return {
     topic,
     country1,
@@ -111,6 +95,6 @@ export const useComparison = () => {
     handleCompare,
     handleSaveComparison,
     highlightText,
-    countries: comparisonCountries,
+    comparisonCountries,
   };
 };

@@ -9,6 +9,7 @@ export const LawComparisonPage = () => {
     topic,
     country1,
     country2,
+    result,
     isLoading,
     showResultModal,
     setShowResultModal,
@@ -16,7 +17,8 @@ export const LawComparisonPage = () => {
     setCountry1,
     setCountry2,
     handleCompare,
-    countries,
+    highlightText,
+    comparisonCountries,
   } = useComparison();
 
   return (
@@ -45,7 +47,7 @@ export const LawComparisonPage = () => {
           topic={topic}
           country1={country1}
           country2={country2}
-          countries={countries}
+          comparisonCountries={comparisonCountries}
           isLoading={isLoading}
           onChangeTopic={setTopic}
           onChangeCountry1={setCountry1}
@@ -55,13 +57,17 @@ export const LawComparisonPage = () => {
       </div>
 
       {/* 결과 모달 */}
-      <ComparisonResultModal
-              open={showResultModal}
-              onClose={() => setShowResultModal(false)}
-              country1Code={country1}
-              country2Code={country2}
-              topic={topic}
-           />
+      {result && (
+        <ComparisonResultModal
+          open={showResultModal}
+          onClose={() => setShowResultModal(false)}
+          country1Code={country1}
+          country2Code={country2}
+          topic={topic}
+          result={result}
+          highlightText={highlightText}
+        />
+      )}
     </div>
   );
 };

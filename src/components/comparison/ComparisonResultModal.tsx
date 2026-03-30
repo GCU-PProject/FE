@@ -1,5 +1,6 @@
 // src/components/comparison/ComparisonResultModal.tsx
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -8,8 +9,7 @@ import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
 
 import { comparisonCountries, getCountryFlagUrl } from '@/constants/comparison';
-import { getMockComparisonResult } from '@/mocks/comparisonMock';
-import { highlightText } from './highlightText';
+import type { ComparisonResult } from '@/types/comparison';
 import { ComparisonAnalysis } from './ComparisonAnalysis';
 
 type ComparisonResultModalProps = {
@@ -18,19 +18,20 @@ type ComparisonResultModalProps = {
   country1Code: string;
   country2Code: string;
   topic: string;
+  result: ComparisonResult;
+  highlightText: (text: string, highlights: string[]) => ReactNode;
 };
 
 export const ComparisonResultModal = ({
-                                        open,
-                                        onClose,
-                                        country1Code,
-                                        country2Code,
-                                        topic,
-                                      }: ComparisonResultModalProps) => {
+  open,
+  onClose,
+  country1Code,
+  country2Code,
+  topic,
+  result,
+  highlightText,
+}: ComparisonResultModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
-
-  // mock 데이터 – 나중에 API 연결할 때 여기만 교체하면 됨
-  const result = getMockComparisonResult(country1Code, country2Code);
 
   const country1Meta = comparisonCountries.find(
     (c) => c.code === country1Code,
@@ -179,7 +180,7 @@ export const ComparisonResultModal = ({
 
         {/* 하단: 공통점 / 차이점 분석 (분리된 컴포넌트) */}
         <ComparisonAnalysis
-          similarities={result.comparison.similarities}
+          common={result.comparison.common}
           differences={result.comparison.differences}
         />
       </div>

@@ -9,7 +9,7 @@ export type ComparisonFormProps = {
   topic: string;
   country1: string;
   country2: string;
-  countries: CountryOption[];
+  comparisonCountries: CountryOption[];
   isLoading: boolean;
   onChangeTopic: (value: string) => void;
   onChangeCountry1: (value: string) => void;
@@ -21,7 +21,7 @@ export const ComparisonForm = ({
                                  topic,
                                  country1,
                                  country2,
-                                 countries,
+                                 comparisonCountries,
                                  isLoading,
                                  onChangeTopic,
                                  onChangeCountry1,
@@ -56,7 +56,7 @@ export const ComparisonForm = ({
           <option value="" disabled>
             국가 선택
           </option>
-          {countries.map((country) => (
+          {comparisonCountries.map((country) => (
             <option key={country.code} value={country.code}>
               {/* 코드 대신 국기 + 이름 (실패)*/}
               {country.flag ?? ''} {country.name}
@@ -74,7 +74,7 @@ export const ComparisonForm = ({
           <option value="" disabled>
             국가 선택
           </option>
-          {countries.map((country) => (
+          {comparisonCountries.map((country) => (
             <option key={country.code} value={country.code}>
               {country.flag ?? ''} {country.name}
             </option>

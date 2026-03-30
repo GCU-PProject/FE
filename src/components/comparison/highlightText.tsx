@@ -1,29 +1,25 @@
-export const highlightText = (text: string, highlights: string[]): React.ReactNode => {
-    // 정규식 특수문자 이스케이프
-      const escapedHighlights = highlights.map((h) =>
-       h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-     );
+import type { ReactNode } from 'react';
 
-     // 모든 하이라이트를 OR로 연결한 정규식 생성
-       const pattern = escapedHighlights.join('|');
-    if (!pattern) return text;
+/** 정규식 이스케이프 + React 노드 반환으로 regex injection·XSS를 피합니다. */
+export const highlightText = (
+  text: string,
+  highlights: string[],
+): ReactNode => {
+  const escaped = highlights
+    .filter(Boolean)
+    .map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
-      const regex = new RegExp(`(${pattern})`, 'gi');
-   const parts = text.split(regex);
+  if (escaped.length === 0) return text;
 
-      return parts.map((part, index) => {
-        // 매칭된 부분인지 확인
-          const isHighlight = escapedHighlights.some((h) =>
-            new RegExp(`^${h}$`, 'i').test(part)
-          );
+  const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
 
-         if (isHighlight) {
-            return (
-                <mark key={index} className="bg-yellow-200 px-1 rounded">
-                  {part}
-                </mark>
-              );
-          }
-        return part;
-      });
-  };
+  return text.split(regex).map((part, index) =>
+    escaped.some((h) => new RegExp(`^${h}$`, 'i').test(part)) ? (
+      <mark key={index} className="bg-yellow-200 px-1 rounded">
+        {part}
+      </mark>
+    ) : (
+      part
+    ),
+  );
+};
