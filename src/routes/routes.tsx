@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
-import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { ExamplePage } from '@/pages/ui/ExamplePage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
@@ -31,18 +29,11 @@ export const AppRoutes = () => {
       setModalSelection(preferredCountries);
     }
   }, [hasPreferredCountries, preferredCountries]);
+import { AiChatPage } from '@/pages/ui/AiChatPage';
 
+const LoginRoute = () => {
   const handleGoogleLogin = () => {
-    setIsLoggedIn(true);
-    if (!hasPreferredCountries) {
-      setModalSelection(preferredCountries);
-      setIsInterestModalOpen(true);
-    }
-    void navigate('/');
-  };
-
-  const handleSkipInterest = () => {
-    setIsInterestModalOpen(false);
+    console.log('Google 로그인 버튼 클릭!');
   };
 
   const handleSaveInterest = (countries: CountryCode[]) => {
@@ -129,6 +120,15 @@ export const AppRoutes = () => {
       />
     </>
   );
+  return <LoginPage onGoogleLogin={handleGoogleLogin} />;
 };
 
-export default AppRoutes;
+/** 앱 라우트 정의 (RouterProvider에서 사용) */
+export const appRouter = createBrowserRouter([
+  { path: '/', element: <LoginRoute /> },
+  { path: '/law-collection', element: <ExamplePage /> },
+  { path: '/ai-consulting', element: <AiChatPage /> },
+  { path: '/law-compare', element: <ExamplePage /> },
+  { path: '/mypage', element: <ExamplePage /> },
+  { path: '*', element: <Navigate to="/" replace /> },
+]);

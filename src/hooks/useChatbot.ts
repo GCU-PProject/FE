@@ -40,6 +40,7 @@ export const useChatbot = () => {
       id: nextId,
       type: 'user',
       content: messageToSend,
+      content: inputValue,
       timestamp: new Date(),
     };
 
