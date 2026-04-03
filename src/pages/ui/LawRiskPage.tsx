@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { AlertTriangle } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Card } from '@/components/common/Card';
@@ -15,10 +16,17 @@ export const LawRiskPage = () => {
   const [showResult, setShowResult] = useState(false);
 
   const handleAnalysis = () => {
-    if (!stayCountry || !stayPurpose || !visaType || !age) {
-      alert('모든 필드를 입력해주세요.');
+    if (!stayCountry || !stayPurpose || !visaType || age === '') {
+      toast.error('모든 필드를 입력해주세요.');
       return;
     }
+
+    const parsedAge = Number(age);
+    if (!Number.isFinite(parsedAge) || parsedAge < 0 || parsedAge > 120) {
+      toast.error('연령은 0~120세 범위로 입력해주세요.');
+      return;
+    }
+
     setShowResult(true);
   };
 
@@ -106,6 +114,9 @@ export const LawRiskPage = () => {
               <Input
                 id="law-risk-age"
                 type="number"
+                min={0}
+                max={120}
+                step={1}
                 placeholder="연령을 입력하세요"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
@@ -115,7 +126,7 @@ export const LawRiskPage = () => {
             <Button
               type="button"
               onClick={handleAnalysis}
-              disabled={!stayCountry || !stayPurpose || !visaType || !age}
+              disabled={!stayCountry || !stayPurpose || !visaType || age === ''}
               className="w-full"
             >
               <AlertTriangle className="mr-2 h-4 w-4" />
@@ -125,16 +136,14 @@ export const LawRiskPage = () => {
         </Card>
       </div>
 
-      {showResult ? (
-        <RiskResultModal
-          open={showResult}
-          onClose={() => setShowResult(false)}
-          stayCountry={stayCountry}
-          stayPurpose={stayPurpose}
-          visaType={visaType}
-          age={age}
-        />
-      ) : null}
+      <RiskResultModal
+        open={showResult}
+        onClose={() => setShowResult(false)}
+        stayCountry={stayCountry}
+        stayPurpose={stayPurpose}
+        visaType={visaType}
+        age={age}
+      />
     </div>
   );
 };
