@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
@@ -30,9 +24,7 @@ import { mapCountryCodesToIds } from '@/lib/countryIds';
 
 type AuthStatus = 'checking' | 'anonymous' | 'guest' | 'user';
 
-const VALID_COUNTRY_CODES = new Set(
-  INTEREST_COUNTRIES.map((country) => country.code),
-);
+const VALID_COUNTRY_CODES = new Set(INTEREST_COUNTRIES.map((country) => country.code));
 const AUTH_SESSION_KEY = 'glaw:has-auth-session';
 
 const shouldCheckAuthOnRoute = (pathname: string): boolean => {
@@ -60,8 +52,7 @@ const forgetAuthSession = () => {
 const getApiErrorCode = (error: unknown): string | undefined => {
   if (!error || typeof error !== 'object') return undefined;
 
-  const response = (error as { response?: { data?: { code?: unknown } } })
-    .response;
+  const response = (error as { response?: { data?: { code?: unknown } } }).response;
   return typeof response?.data?.code === 'string'
     ? response.data.code
     : undefined;
@@ -259,10 +250,7 @@ export const AppRoutes = () => {
           authStatus === 'user' ? (
             <MainDashboardPage preferredCountries={preferredCountries} />
           ) : (
-            <Navigate
-              to={authStatus === 'guest' ? '/onboarding' : '/login'}
-              replace
-            />
+            <Navigate to={authStatus === 'guest' ? '/onboarding' : '/login'} replace />
           )
         }
       />
@@ -272,10 +260,7 @@ export const AppRoutes = () => {
           authStatus === 'anonymous' ? (
             <LoginPage onGoogleLogin={handleGoogleLogin} />
           ) : (
-            <Navigate
-              to={authStatus === 'guest' ? '/onboarding' : '/'}
-              replace
-            />
+            <Navigate to={authStatus === 'guest' ? '/onboarding' : '/'} replace />
           )
         }
       />
@@ -304,21 +289,13 @@ export const AppRoutes = () => {
       <Route
         path="/law-collection"
         element={
-          authStatus === 'user' ? (
-            <LawCollectionPage />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          authStatus === 'user' ? <LawCollectionPage /> : <Navigate to="/login" replace />
         }
       />
       <Route
         path="/ai-consulting"
         element={
-          authStatus === 'user' ? (
-            <AiChatPage />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          authStatus === 'user' ? <AiChatPage /> : <Navigate to="/login" replace />
         }
       />
       <Route

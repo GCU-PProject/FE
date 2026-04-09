@@ -12,7 +12,7 @@ export const startGoogleLogin = (): void => {
     env.loginRedirectUrl ??
     `${window.location.origin.replace(/\/$/, '')}/onboarding`;
 
-  const loginUrl = new URL(env.googleLoginUrl);
+  const loginUrl = new URL(env.googleLoginUrl, window.location.origin);
   loginUrl.searchParams.set('redirect_uri', redirectUrl);
   window.location.href = loginUrl.toString();
 };
