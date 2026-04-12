@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  AlertTriangle,
   GitCompare,
   Menu,
   MessageSquare,
@@ -32,6 +33,12 @@ const defaultNavItems: HeaderNavItem[] = [
     label: '법률 비교',
     href: '/law-compare',
     icon: <GitCompare className="h-5 w-5" strokeWidth={2} />,
+  },
+  {
+    id: 'law-risk',
+    label: '위험 지수',
+    href: '/law-risk',
+    icon: <AlertTriangle className="h-5 w-5" strokeWidth={2} />,
   },
 ];
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { ExamplePage } from '@/pages/ui/ExamplePage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';
@@ -10,6 +9,7 @@ import { AiChatPage } from '@/pages/ui/AiChatPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
 import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
+import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
@@ -103,6 +103,12 @@ export const AppRoutes = () => {
               ) : (
                 <Navigate to="/login" replace />
               )
+            }
+          />
+          <Route
+            path="/law-risk"
+            element={
+              isLoggedIn ? <LawRiskPage /> : <Navigate to="/login" replace />
             }
           />
           <Route
