@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { highlightText } from '@/components/comparison/highlightText';
 import { comparisonCountries } from '@/constants/comparison';
-import type { ComparisonResult } from '@/types/comparison';
+import type {
+  CompareLawRequest,
+  CompareLawResponse,
+  ComparisonResult,
+} from '@/types/comparison';
 
 export const useComparison = () => {
   const [topic, setTopic] = useState<string>('');
@@ -12,7 +16,24 @@ export const useComparison = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showResultModal, setShowResultModal] = useState<boolean>(false);
 
-  const handleCompare = (): void => {
+  const extractHighlights = (summary: string): string[] => {
+    const matches = summary.match(/\d+(?:\.\d+)?%|\$\d[\d,]*|\d+년|\d+개월|\d+만\s*엔/g) ?? [];
+    return Array.from(new Set(matches)).slice(0, 6);
+  };
+
+  const toList = (value: string): string[] =>
+    value
+      .split(/\n|[•\-]/g)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+  const buildEndpoint = () => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? '';
+    const path = '/api/v1/ai/compare';
+    return baseUrl ? `${baseUrl}${path}` : path;
+  };
+
+  const handleCompare = async (): Promise<void> => {
     if (!topic || !country1 || !country2) {
       toast.error('주제와 두 국가를 모두 선택해주세요');
       return;
@@ -24,57 +45,81 @@ export const useComparison = () => {
     }
 
     setIsLoading(true);
+    try {
+      const firstCountry = comparisonCountries.find((c) => c.code === country1);
+      const secondCountry = comparisonCountries.find((c) => c.code === country2);
 
-    // TODO: 실제 API로 교체
-    setTimeout(() => {
-      const firstCountry =
-        comparisonCountries.find((c) => c.code === country1)?.name ?? '';
-      const secondCountry =
-        comparisonCountries.find((c) => c.code === country2)?.name ?? '';
+      if (!firstCountry || !secondCountry) {
+        toast.error('선택한 국가 정보가 올바르지 않습니다');
+        return;
+      }
 
-      setResult({
-        country1: {
-          country: firstCountry,
-          summary:
-            '혈중알코올농도 0.08% 이상인 상태에서 운전하는 것이 불법입니다. 초범의 경우 최대 $2,000의 벌금과 6개월 이하의 면허정지 처분을 받습니다. 재범 시에는 최대 $5,000의 벌금과 1년 이하의 면허취소가 적용됩니다.',
-          highlights: [
-            '혈중알코올농도 0.08%',
-            '$2,000 벌금',
-            '6개월 면허정지',
-            '재범 시 가중처벌',
-          ],
-          lawId: 1,
+      const payload: CompareLawRequest = {
+        query: topic,
+        country_id_1: firstCountry.id,
+        country_id_2: secondCountry.id,
+      };
+
+      const response = await fetch(buildEndpoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        country2: {
-          country: secondCountry,
-          summary:
-            '음주운전 시 5년 이하의 징역 또는 100만 엔 이하의 벌금이 부과됩니다. 적발 즉시 면허가 취소되며, 동승자도 처벌 대상이 됩니다. 재범의 경우 더욱 엄격한 처벌이 적용됩니다.',
-          highlights: [
-            '5년 이하 징역',
-            '100만 엔 벌금',
-            '즉시 면허취소',
-            '동승자 처벌',
-          ],
-          lawId: 2,
-        },
-        comparison: {
-          common: [
-            '음주운전 시 벌금 및 면허 정지/취소 처분',
-            '재범 시 처벌 강화',
-            '형사처벌 가능성',
-          ],
-          differences: [
-            '미국: 혈중알코올농도 수치 기준 명확 (0.08%)',
-            '일본: 동승자도 처벌 대상에 포함',
-            '미국: 벌금형 중심',
-            '일본: 징역형 우선 적용',
-          ],
-        },
+        body: JSON.stringify(payload),
       });
 
-      setIsLoading(false);
+      const data: CompareLawResponse = await response.json();
+
+      if (!response.ok || !data.success || !data.result) {
+        switch (data.code) {
+          case 'COMMON400':
+            toast.error('입력값을 확인해주세요');
+            break;
+          case 'AI_COMPARE_SAME_COUNTRY':
+            toast.error('서로 다른 국가를 선택해주세요');
+            break;
+          case 'AI_COMPARE_COUNTRY_NOT_FOUND':
+            toast.error(data.message || '존재하지 않는 국가 ID입니다');
+            break;
+          case 'AI_DB_CONNECTION_FAILED':
+            toast.error('서버 연결이 불안정합니다. 잠시 후 다시 시도해주세요');
+            break;
+          case 'AI_COMPARE_ANALYSIS_FAILED':
+            toast.error('비교 분석에 실패했습니다. 다시 시도해주세요');
+            break;
+          default:
+            toast.error(data.message || '비교 요청 중 오류가 발생했습니다');
+            break;
+        }
+        return;
+      }
+
+      const mappedResult: ComparisonResult = {
+        country1: {
+          country: firstCountry.name,
+          summary: data.result.country_1_result.summary,
+          highlights: extractHighlights(data.result.country_1_result.summary),
+          lawIds: data.result.country_1_result.related_law_ids,
+        },
+        country2: {
+          country: secondCountry.name,
+          summary: data.result.country_2_result.summary,
+          highlights: extractHighlights(data.result.country_2_result.summary),
+          lawIds: data.result.country_2_result.related_law_ids,
+        },
+        comparison: {
+          common: toList(data.result.compare_summary.common),
+          differences: toList(data.result.compare_summary.diff),
+        },
+      };
+
+      setResult(mappedResult);
       setShowResultModal(true);
-    }, 1500);
+    } catch {
+      toast.error('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSaveComparison = (): void => {

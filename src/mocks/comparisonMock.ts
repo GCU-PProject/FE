@@ -14,14 +14,14 @@ export const getMockComparisonResult = (
       summary:
         '미국의 음주운전 관련 법률은 주(State)별로 차이가... (생략)',
       highlights: ['0.08% 기준', '주별 차이', '벌금형', '면허 정지', '시동장치 잠금'],
-      lawId: 1,
+      lawIds: [1],
     },
     country2: {
       country: c2?.name ?? '일본',
       summary:
         '일본의 도로교통법은 음주운전에 대해 매우 엄격... (생략)',
       highlights: ['0.03% 기준', '엄격한 처벌', '동승자 처벌', '5년 이하 징역', '100만엔 벌금'],
-      lawId: 2,
+      lawIds: [2],
     },
     comparison: {
       common: [
