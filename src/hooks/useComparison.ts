@@ -44,16 +44,16 @@ export const useComparison = () => {
       return;
     }
 
+    const firstCountry = comparisonCountries.find((c) => c.code === country1);
+    const secondCountry = comparisonCountries.find((c) => c.code === country2);
+
+    if (!firstCountry || !secondCountry) {
+      toast.error('선택한 국가 정보가 올바르지 않습니다');
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const firstCountry = comparisonCountries.find((c) => c.code === country1);
-      const secondCountry = comparisonCountries.find((c) => c.code === country2);
-
-      if (!firstCountry || !secondCountry) {
-        toast.error('선택한 국가 정보가 올바르지 않습니다');
-        return;
-      }
-
       const payload: CompareLawRequest = {
         query: topic,
         country_id_1: firstCountry.id,
