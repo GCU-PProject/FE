@@ -8,6 +8,9 @@ import type {
   ComparisonResult,
 } from '@/types/comparison';
 
+/** 법률 비교 API는 분석 시간이 길 수 있어 넉넉한 한도를 둡니다. */
+const COMPARE_FETCH_TIMEOUT_MS = 120_000;
+
 export const useComparison = () => {
   const [topic, setTopic] = useState<string>('');
   const [country1, setCountry1] = useState<string>('');
@@ -53,6 +56,7 @@ export const useComparison = () => {
     }
 
     setIsLoading(true);
+    let compareTimeoutId: number | undefined;
     try {
       const payload: CompareLawRequest = {
         query: topic,
@@ -60,12 +64,18 @@ export const useComparison = () => {
         country_id_2: secondCountry.id,
       };
 
+      const controller = new AbortController();
+      compareTimeoutId = window.setTimeout(() => {
+        controller.abort();
+      }, COMPARE_FETCH_TIMEOUT_MS);
+
       const response = await fetch(buildEndpoint(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
 
       const body = (await response.json()) as unknown;
@@ -116,9 +126,16 @@ export const useComparison = () => {
 
       setResult(mappedResult);
       setShowResultModal(true);
-    } catch {
-      toast.error('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요');
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        toast.error('요청 시간이 초과되었습니다. 잠시 후 다시 시도해주세요');
+      } else {
+        toast.error('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요');
+      }
     } finally {
+      if (compareTimeoutId !== undefined) {
+        window.clearTimeout(compareTimeoutId);
+      }
       setIsLoading(false);
     }
   };
