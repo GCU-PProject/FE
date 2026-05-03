@@ -68,7 +68,8 @@ export const useComparison = () => {
         body: JSON.stringify(payload),
       });
 
-      const data: CompareLawResponse = await response.json();
+      const body = (await response.json()) as unknown;
+      const data = body as CompareLawResponse;
 
       if (!response.ok || !data.success || !data.result) {
         switch (data.code) {

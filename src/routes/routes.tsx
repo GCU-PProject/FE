@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { ExamplePage } from '@/pages/ui/ExamplePage';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
 import { usePreferredCountries } from '@/hooks/usePreferredCountries';

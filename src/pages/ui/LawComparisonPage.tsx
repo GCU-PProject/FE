@@ -52,7 +52,9 @@ export const LawComparisonPage = () => {
           onChangeTopic={setTopic}
           onChangeCountry1={setCountry1}
           onChangeCountry2={setCountry2}
-          onSubmit={handleCompare}
+          onSubmit={() => {
+            void handleCompare();
+          }}
         />
       </div>
 
