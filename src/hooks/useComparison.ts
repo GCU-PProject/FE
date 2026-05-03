@@ -23,7 +23,7 @@ export const useComparison = () => {
 
   const toList = (value: string): string[] =>
     value
-      .split(/\n|[•\-]/g)
+      .split(/\n|[•-]/g)
       .map((item) => item.trim())
       .filter(Boolean);
 
