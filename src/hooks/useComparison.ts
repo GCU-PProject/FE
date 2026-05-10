@@ -56,6 +56,8 @@ export const useComparison = () => {
     }
 
     setIsLoading(true);
+    setResult(null);
+    setShowResultModal(false);
     let compareTimeoutId: number | undefined;
     try {
       const payload: CompareLawRequest = {
