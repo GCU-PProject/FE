@@ -8,7 +8,7 @@ import { MyPage } from '@/pages/ui/MyPage';
 import { AiChatPage } from '@/pages/ui/AiChatPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
-import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
+import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
@@ -79,16 +79,6 @@ export const AppRoutes = () => {
             }
           />
           <Route
-            path="/law-collection"
-            element={
-              isLoggedIn ? (
-                <LawCollectionPage />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route
             path="/ai-consulting"
             element={
               isLoggedIn ? <AiChatPage /> : <Navigate to="/login" replace />
@@ -102,6 +92,12 @@ export const AppRoutes = () => {
               ) : (
                 <Navigate to="/login" replace />
               )
+            }
+          />
+          <Route
+            path="/law-risk"
+            element={
+              isLoggedIn ? <LawRiskPage /> : <Navigate to="/login" replace />
             }
           />
           <Route

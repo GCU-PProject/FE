@@ -26,12 +26,12 @@ export const useComparison = () => {
 
   const toList = (value: string): string[] =>
     value
-      .split(/\n|[•-]/g)
-      .map((item) => item.trim())
+      .split(/\r?\n/g)
+      .map((item) => item.replace(/^[\s•-]+/, '').trim())
       .filter(Boolean);
 
   const buildEndpoint = () => {
-    const baseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? '';
+    const baseUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/+$/, '') ?? '';
     const path = '/api/v1/ai/compare';
     return baseUrl ? `${baseUrl}${path}` : path;
   };

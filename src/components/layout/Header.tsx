@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  AlertTriangle,
   GitCompare,
   Menu,
   MessageSquare,
@@ -16,12 +17,6 @@ import { HeaderNavItem, HeaderProps } from './types';
 /** 상단 공통 헤더: 데스크톱은 로고/네비/유저, 모바일은 햄버거로 토글 */
 const defaultNavItems: HeaderNavItem[] = [
   {
-    id: 'law-collection',
-    label: '법률 모아보기',
-    href: '/law-collection',
-    icon: <Scale className="h-5 w-5" strokeWidth={2.1} />,
-  },
-  {
     id: 'ai-consulting',
     label: 'AI 법률 상담',
     href: '/ai-consulting',
@@ -32,6 +27,12 @@ const defaultNavItems: HeaderNavItem[] = [
     label: '법률 비교',
     href: '/law-compare',
     icon: <GitCompare className="h-5 w-5" strokeWidth={2} />,
+  },
+  {
+    id: 'law-risk',
+    label: '위험 지수',
+    href: '/law-risk',
+    icon: <AlertTriangle className="h-5 w-5" strokeWidth={2} />,
   },
 ];
 

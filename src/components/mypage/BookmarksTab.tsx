@@ -68,7 +68,7 @@ export const BookmarksTab = ({
 
     {bookmarks.length === 0 ? (
       <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-        저장한 북마크가 없습니다. 법률 모아보기에서 법률을 확인해 보세요.
+        저장한 북마크가 없습니다.
       </Card>
     ) : null}
   </div>
