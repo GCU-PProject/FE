@@ -103,9 +103,9 @@ export function RiskResultModal({
       <div className="space-y-4">
         <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
           <p className="text-sm text-gray-700">
-            <strong>{stayCountry}</strong> 체류 시 <strong>{stayPurpose}</strong>{' '}
-            목적, <strong>{visaType}</strong>, 연령 <strong>{age}세</strong>에
-            대한 위험 분석 결과입니다.
+            <strong>{stayCountry}</strong> 체류 시{' '}
+            <strong>{stayPurpose}</strong> 목적, <strong>{visaType}</strong>,
+            연령 <strong>{age}세</strong>에 대한 위험 분석 결과입니다.
           </p>
         </div>
 

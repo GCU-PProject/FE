@@ -44,7 +44,7 @@ export const CompareTab = ({
               className="inline-flex h-[34px] items-center justify-center gap-2 rounded-md border border-border-base px-3 text-sm font-semibold text-text-primary transition hover:border-border-selected"
             >
               <ExternalLink className="h-4 w-4" />
-              다시 보기
+              결과 보기
             </button>
             <button
               type="button"
@@ -61,7 +61,8 @@ export const CompareTab = ({
 
     {compareSets.length === 0 ? (
       <Card className="rounded-lg border-border-subtle bg-white px-5 py-10 text-center text-text-secondary shadow-sm">
-        저장된 비교 조합이 없습니다. 법률 비교에서 국가를 선택해 비교를 시작해 보세요.
+        저장된 비교 조합이 없습니다. 법률 비교에서 국가를 선택해 비교를 시작해
+        보세요.
       </Card>
     ) : null}
   </div>

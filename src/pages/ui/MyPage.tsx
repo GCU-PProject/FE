@@ -6,6 +6,7 @@ import {
   LogOut,
   UserRound,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/layout/Header';
 import {
   DashboardTabs,
@@ -36,6 +37,7 @@ export const MyPage = ({
   onSavePreferredCountries,
   onLogout,
 }: MyPageProps) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('interests');
   const [isEditingInterests, setIsEditingInterests] = useState(false);
   const [interestSelection, setInterestSelection] =
@@ -101,7 +103,20 @@ export const MyPage = ({
   };
 
   const handleRevisitCompare = (setItem: CompareSet) => {
-    console.info('Revisit compare set', setItem);
+    const [country1, country2] = setItem.countries;
+
+    if (!country1 || !country2) return;
+
+    void navigate('/law-compare', {
+      state: {
+        comparisonPreset: {
+          topic: setItem.title,
+          country1,
+          country2,
+          autoSubmit: true,
+        },
+      },
+    });
   };
 
   useEffect(() => {
