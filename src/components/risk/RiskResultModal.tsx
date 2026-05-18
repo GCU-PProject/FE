@@ -106,6 +106,9 @@ export function RiskResultModal({
             <strong>{stayCountry}</strong> 체류 시{' '}
             <strong>{stayPurpose}</strong> 목적, <strong>{visaType}</strong>,
             연령 <strong>{age}세</strong>에 대한 위험 분석 결과입니다.
+            <strong>{stayCountry}</strong> 체류 시 <strong>{stayPurpose}</strong>{' '}
+            목적, <strong>{visaType}</strong>, 연령 <strong>{age}세</strong>에
+            대한 위험 분석 결과입니다.
           </p>
         </div>
 
