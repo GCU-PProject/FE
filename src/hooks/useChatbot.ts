@@ -8,6 +8,8 @@ import { usePreferredCountries } from '@/hooks/usePreferredCountries';
 export const useChatbot = () => {
   const { preferredCountries } = usePreferredCountries();
   const sessionIdRef = useRef(getChatSessionId());
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const isMountedRef = useRef(true);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -36,6 +38,13 @@ export const useChatbot = () => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
   const handleSend = async (message?: string) => {
     const messageToSend = message || inputValue;
     if (!messageToSend.trim() || isLoading) return;
@@ -52,13 +61,18 @@ export const useChatbot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    abortControllerRef.current?.abort();
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
     try {
       const data = await requestChatAnswer({
         query: messageToSend,
         country_id: getChatCountryId(preferredCountries[0]),
         session_id: sessionIdRef.current,
-      });
+      }, abortController.signal);
+
+      if (!isMountedRef.current) return;
 
       const botMessage: ChatMessage = {
         id: userMessage.id + 1,
@@ -69,10 +83,16 @@ export const useChatbot = () => {
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
+      }
+
       const errorMessage =
         error instanceof Error
           ? error.message
           : 'AI 답변을 불러오지 못했습니다.';
+
+      if (!isMountedRef.current) return;
 
       const botMessage: ChatMessage = {
         id: userMessage.id + 1,
@@ -83,7 +103,13 @@ export const useChatbot = () => {
 
       setMessages((prev) => [...prev, botMessage]);
     } finally {
-      setIsLoading(false);
+      if (abortControllerRef.current === abortController) {
+        abortControllerRef.current = null;
+      }
+
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -102,7 +128,7 @@ export const useChatbot = () => {
       .find((m) => m.type === 'user');
 
     if (messageToRetry) {
-      void handleSend(messageToRetry.content);
+      void handleSend(messageToRetry.content).catch(console.error);
     }
   };
 
