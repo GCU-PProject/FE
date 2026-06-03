@@ -10,6 +10,8 @@ export const useChatbot = () => {
   const sessionIdRef = useRef(getChatSessionId());
   const abortControllerRef = useRef<AbortController | null>(null);
   const isMountedRef = useRef(true);
+  const isSendingRef = useRef(false);
+  const nextMessageIdRef = useRef(2);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -47,12 +49,14 @@ export const useChatbot = () => {
 
   const handleSend = async (message?: string) => {
     const messageToSend = message || inputValue;
-    if (!messageToSend.trim() || isLoading) return;
+    if (!messageToSend.trim() || isSendingRef.current) return;
 
-    const nextId = messages.length > 0 ? Math.max(...messages.map(m => m.id)) + 1 : 1;
+    isSendingRef.current = true;
+    const userMessageId = nextMessageIdRef.current;
+    nextMessageIdRef.current += 1;
 
     const userMessage: ChatMessage = {
-      id: nextId,
+      id: userMessageId,
       type: 'user',
       content: messageToSend,
       timestamp: new Date(),
@@ -60,6 +64,23 @@ export const useChatbot = () => {
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue('');
+
+    const countryId = getChatCountryId(preferredCountries[0]);
+
+    if (!countryId) {
+      const errorMessage: ChatMessage = {
+        id: nextMessageIdRef.current,
+        type: 'bot',
+        content: '선택한 국가의 AI 상담을 아직 지원하지 않습니다.',
+        timestamp: new Date(),
+      };
+
+      nextMessageIdRef.current += 1;
+      setMessages((prev) => [...prev, errorMessage]);
+      isSendingRef.current = false;
+      return;
+    }
+
     setIsLoading(true);
     abortControllerRef.current?.abort();
     const abortController = new AbortController();
@@ -68,18 +89,19 @@ export const useChatbot = () => {
     try {
       const data = await requestChatAnswer({
         query: messageToSend,
-        country_id: getChatCountryId(preferredCountries[0]),
+        country_id: countryId,
         session_id: sessionIdRef.current,
       }, abortController.signal);
 
       if (!isMountedRef.current) return;
 
       const botMessage: ChatMessage = {
-        id: userMessage.id + 1,
+        id: nextMessageIdRef.current,
         type: 'bot',
         content: data.result?.answer ?? '답변을 찾지 못했습니다.',
         timestamp: new Date(),
       };
+      nextMessageIdRef.current += 1;
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
@@ -95,20 +117,22 @@ export const useChatbot = () => {
       if (!isMountedRef.current) return;
 
       const botMessage: ChatMessage = {
-        id: userMessage.id + 1,
+        id: nextMessageIdRef.current,
         type: 'bot',
         content: errorMessage,
         timestamp: new Date(),
       };
+      nextMessageIdRef.current += 1;
 
       setMessages((prev) => [...prev, botMessage]);
     } finally {
       if (abortControllerRef.current === abortController) {
         abortControllerRef.current = null;
-      }
+        isSendingRef.current = false;
 
-      if (isMountedRef.current) {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     }
   };
