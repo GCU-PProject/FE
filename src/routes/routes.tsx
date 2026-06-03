@@ -13,7 +13,8 @@ import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
-  const forceLogin = import.meta.env.VITE_FORCE_LOGIN === 'true';
+  const forceLogin =
+    import.meta.env.DEV && import.meta.env.VITE_FORCE_LOGIN === 'true';
   const {
     preferredCountries,
     savePreferredCountries,
