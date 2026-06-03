@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_API_BASE_URL,
           changeOrigin: true,
           secure: true,
-          rewrite: (path) => path.replace(/^\/ai-api/, '/ai'),
+          rewrite: (reqPath) => reqPath.replace(/^\/ai-api/, '/ai'),
         },
       },
     },
