@@ -89,6 +89,16 @@ export const ChatMessageList = ({
                           {children}
                         </code>
                       ),
+                      a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-brand-primary underline underline-offset-2"
+                        >
+                          {children}
+                        </a>
+                      ),
                     }}
                   >
                     {message.content}
