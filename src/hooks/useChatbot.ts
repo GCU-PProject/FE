@@ -95,9 +95,14 @@ export const useChatbot = () => {
   };
 
   const handleRetry = (messageId: number) => {
-    const messageToRetry = messages.find((m) => m.id === messageId - 1);
-    if (messageToRetry && messageToRetry.type === 'user') {
-      setInputValue(messageToRetry.content);
+    const botMessageIndex = messages.findIndex((m) => m.id === messageId);
+    const messageToRetry = messages
+      .slice(0, botMessageIndex)
+      .reverse()
+      .find((m) => m.type === 'user');
+
+    if (messageToRetry) {
+      void handleSend(messageToRetry.content);
     }
   };
 
