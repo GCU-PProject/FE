@@ -9,6 +9,14 @@ export default defineConfig({
   plugins: [react(), svgr()],
   server: {
     port: 3000,
+    proxy: {
+      '/ai-api': {
+        target: 'https://glaw-web.duckdns.org',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/ai-api/, '/ai'),
+      },
+    },
   },
   resolve: {
     alias: {
