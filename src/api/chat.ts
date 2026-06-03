@@ -1,8 +1,14 @@
-const AI_API_BASE_URL = import.meta.env.VITE_AI_API_BASE_URL;
+const getAiApiBaseUrl = (): string => {
+  const url = import.meta.env.VITE_AI_API_BASE_URL;
 
-if (!AI_API_BASE_URL) {
-  throw new Error('Missing required environment variable: VITE_AI_API_BASE_URL');
-}
+  if (!url) {
+    throw new Error(
+      'Missing required environment variable: VITE_AI_API_BASE_URL',
+    );
+  }
+
+  return url;
+};
 
 export type ChatQnaRequest = {
   query: string;
@@ -25,14 +31,16 @@ export type ChatQnaResponse = {
 
 export const requestChatAnswer = async (
   payload: ChatQnaRequest,
+  signal?: AbortSignal,
 ): Promise<ChatQnaResponse> => {
-  const response = await fetch(`${AI_API_BASE_URL}/api/qna`, {
+  const response = await fetch(`${getAiApiBaseUrl()}/api/qna`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
+    signal,
   });
 
   const data = (await response.json()) as ChatQnaResponse;
