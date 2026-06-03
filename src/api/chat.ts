@@ -1,13 +1,5 @@
 const getAiApiBaseUrl = (): string => {
-  const url = import.meta.env.VITE_AI_API_BASE_URL;
-
-  if (!url) {
-    throw new Error(
-      'Missing required environment variable: VITE_AI_API_BASE_URL',
-    );
-  }
-
-  return url;
+  return import.meta.env.VITE_AI_API_BASE_URL ?? '/ai-api';
 };
 
 export type ChatQnaRequest = {
