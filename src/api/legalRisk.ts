@@ -39,8 +39,20 @@ export const getLegalRisk = async (
       payload,
     );
 
+    if (!data.success || !data.result) {
+      throw new LegalRiskApiError(
+        data.message || '법률 리스크 조회에 실패했습니다.',
+        data.status,
+        data.code,
+      );
+    }
+
     return data.result;
   } catch (error) {
+    if (error instanceof LegalRiskApiError) {
+      throw error;
+    }
+
     if (isHttpError(error)) {
       const data = error.response?.data as ApiErrorResponse | undefined;
       throw new LegalRiskApiError(

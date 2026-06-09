@@ -38,7 +38,7 @@ export type LegalRiskItem = {
   risk_content: string;
   risk_actions: string[];
   law_refs: LawReference[];
-  issue_refs: IssueReference[];
+  issue_refs?: IssueReference[];
 };
 
 export type LegalRiskResult = {

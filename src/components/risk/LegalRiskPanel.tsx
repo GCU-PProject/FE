@@ -25,6 +25,8 @@ const riskLevelClassName: Record<RiskLevel, string> = {
   HIGH: 'border-rose-200 bg-rose-50 text-rose-700',
 };
 
+const normalizeIssueUrl = (url: string) => url.replace(/^<|>$/g, '');
+
 export const LegalRiskPanel = () => {
   const [form, setForm] = useState<LegalRiskRequest>({
     country_id: 1,
@@ -157,65 +159,69 @@ export const LegalRiskPanel = () => {
               </span>
             </div>
 
-            {data.risk_list.map((risk) => (
-              <Card key={risk.risk_title} className="p-4">
-                <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <h3 className="text-base font-semibold text-text-primary">
-                    {risk.risk_title}
-                  </h3>
-                  <span
-                    className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                      riskLevelClassName[risk.risk_level]
-                    }`}
-                  >
-                    {riskLevelLabel[risk.risk_level]}
-                  </span>
-                </div>
+            {data.risk_list.map((risk) => {
+              const issueRefs = risk.issue_refs ?? [];
 
-                <p className="text-sm leading-6 text-text-secondary">
-                  {risk.risk_content}
-                </p>
-
-                <div className="mt-3">
-                  <p className="text-sm font-medium text-text-primary">
-                    권장 조치
-                  </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-text-secondary">
-                    {risk.risk_actions.map((action) => (
-                      <li key={action}>{action}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
-                  {risk.law_refs.map((law) => (
+              return (
+                <Card key={risk.risk_title} className="p-4">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <h3 className="text-base font-semibold text-text-primary">
+                      {risk.risk_title}
+                    </h3>
                     <span
-                      key={`${law.law_id}-${law.article_no}`}
-                      className="rounded-md border border-border-soft px-2 py-1"
+                      className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
+                        riskLevelClassName[risk.risk_level]
+                      }`}
                     >
-                      {law.law_type} {law.article_no}
+                      {riskLevelLabel[risk.risk_level]}
                     </span>
-                  ))}
-                </div>
+                  </div>
 
-                {risk.issue_refs.length > 0 ? (
-                  <div className="mt-3 space-y-1">
-                    {risk.issue_refs.map((issue) => (
-                      <a
-                        key={issue.issue_id}
-                        href={issue.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1 text-sm text-brand-primary hover:underline"
+                  <p className="text-sm leading-6 text-text-secondary">
+                    {risk.risk_content}
+                  </p>
+
+                  <div className="mt-3">
+                    <p className="text-sm font-medium text-text-primary">
+                      권장 조치
+                    </p>
+                    <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-text-secondary">
+                      {risk.risk_actions.map((action) => (
+                        <li key={action}>{action}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
+                    {risk.law_refs.map((law) => (
+                      <span
+                        key={`${law.law_id}-${law.article_no}`}
+                        className="rounded-md border border-border-soft px-2 py-1"
                       >
-                        {issue.title}
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
+                        {law.law_type} {law.article_no}
+                      </span>
                     ))}
                   </div>
-                ) : null}
-              </Card>
-            ))}
+
+                  {issueRefs.length > 0 ? (
+                    <div className="mt-3 space-y-1">
+                      {issueRefs.map((issue) => (
+                        <a
+                          key={issue.issue_id}
+                          href={normalizeIssueUrl(issue.url)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-1 text-sm text-brand-primary hover:underline"
+                        >
+                          {issue.title}
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
+                </Card>
+              );
+            })}
           </div>
         ) : null}
       </div>
