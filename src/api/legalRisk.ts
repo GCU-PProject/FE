@@ -33,7 +33,21 @@ const isLegalRiskResult = (value: unknown): value is LegalRiskResult => {
   return (
     typeof result.country_id === 'number' &&
     isRiskLevel(result.overall_risk_level) &&
-    Array.isArray(result.risk_list)
+    Array.isArray(result.risk_list) &&
+    result.risk_list.every((risk) => {
+      if (typeof risk !== 'object' || risk === null) {
+        return false;
+      }
+
+      const riskItem = risk as Partial<LegalRiskResult['risk_list'][number]>;
+      return (
+        typeof riskItem.risk_title === 'string' &&
+        isRiskLevel(riskItem.risk_level) &&
+        typeof riskItem.risk_content === 'string' &&
+        Array.isArray(riskItem.risk_actions) &&
+        Array.isArray(riskItem.law_refs)
+      );
+    })
   );
 };
 

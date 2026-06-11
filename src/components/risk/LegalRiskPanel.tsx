@@ -34,6 +34,15 @@ const riskLevelClassName: Record<RiskLevel, string> = {
 
 const normalizeIssueUrl = (url: string) => url.replace(/^<|>$/g, '');
 
+const isSafeHttpUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(normalizeIssueUrl(url));
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
 const getAgeBand = (age: number): AgeBand => {
   if (age < 20) return '10s';
   if (age < 30) return '20s';
@@ -64,6 +73,10 @@ export const LegalRiskPanel = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (isLoading) {
+      return;
+    }
 
     if (!canSubmit) {
       setValidationMessage('체류 정보를 모두 입력해주세요.');
@@ -202,7 +215,9 @@ export const LegalRiskPanel = () => {
           </div>
 
           {data.risk_list.map((risk) => {
-            const issueRefs = risk.issue_refs ?? [];
+            const issueRefs = (risk.issue_refs ?? []).filter((issue) =>
+              isSafeHttpUrl(issue.url),
+            );
 
             return (
               <Card key={risk.risk_title} className="bg-white p-5">

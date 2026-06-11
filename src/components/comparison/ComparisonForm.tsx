@@ -85,7 +85,7 @@ export const ComparisonForm = ({
       {/* 제출 버튼 */}
       <Button
         onClick={onSubmit}
-        disabled={isLoading || !topic || !country1 || !country2}
+        disabled={isLoading || !topic.trim() || !country1 || !country2}
         className="w-full"
       >
         <GitCompare className="mr-2 h-4 w-4" />
