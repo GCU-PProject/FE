@@ -24,6 +24,49 @@ const isHttpError = (error: unknown): error is HttpError =>
 const isRiskLevel = (value: unknown): value is RiskLevel =>
   value === 'LOW' || value === 'MEDIUM' || value === 'HIGH';
 
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === 'string');
+
+const isLawRefs = (
+  value: unknown,
+): value is LegalRiskResult['risk_list'][number]['law_refs'] =>
+  Array.isArray(value) &&
+  value.every((law) => {
+    if (typeof law !== 'object' || law === null) {
+      return false;
+    }
+
+    const lawRef = law as Partial<
+      LegalRiskResult['risk_list'][number]['law_refs'][number]
+    >;
+    return (
+      typeof lawRef.law_id === 'number' &&
+      typeof lawRef.law_type === 'string' &&
+      typeof lawRef.article_no === 'string'
+    );
+  });
+
+const isIssueRefs = (
+  value: unknown,
+): value is NonNullable<LegalRiskResult['risk_list'][number]['issue_refs']> =>
+  value === undefined ||
+  (Array.isArray(value) &&
+    value.every((issue) => {
+      if (typeof issue !== 'object' || issue === null) {
+        return false;
+      }
+
+      const issueRef = issue as Partial<
+        NonNullable<LegalRiskResult['risk_list'][number]['issue_refs']>[number]
+      >;
+      return (
+        typeof issueRef.issue_id === 'number' &&
+        typeof issueRef.title === 'string' &&
+        typeof issueRef.url === 'string' &&
+        typeof issueRef.published_date === 'string'
+      );
+    }));
+
 const isLegalRiskResult = (value: unknown): value is LegalRiskResult => {
   if (typeof value !== 'object' || value === null) {
     return false;
@@ -44,8 +87,9 @@ const isLegalRiskResult = (value: unknown): value is LegalRiskResult => {
         typeof riskItem.risk_title === 'string' &&
         isRiskLevel(riskItem.risk_level) &&
         typeof riskItem.risk_content === 'string' &&
-        Array.isArray(riskItem.risk_actions) &&
-        Array.isArray(riskItem.law_refs)
+        isStringArray(riskItem.risk_actions) &&
+        isLawRefs(riskItem.law_refs) &&
+        isIssueRefs(riskItem.issue_refs)
       );
     })
   );
@@ -108,6 +152,7 @@ export const getLegalRisk = async (
     const { data } = await apiClient.post<ApiResponse<LegalRiskRawResult>>(
       LEGAL_RISK_PATH,
       payload,
+      { timeout: 120_000 },
     );
 
     if (!data.success || data.result === null || data.result === undefined) {
