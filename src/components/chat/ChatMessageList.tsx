@@ -1,6 +1,7 @@
 import type { RefObject } from 'react';
 import { Bot, ExternalLink, RefreshCw, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 import type { ChatMessage } from '@/types/chat';
 import { Card } from '@/components/common/Card';
@@ -45,9 +46,69 @@ export const ChatMessageList = ({
                   : 'bg-white'
               }`}
             >
-              <p className='whitespace-pre-line leading-relaxed'>
-                {message.content}
-              </p>
+              {message.type === 'bot' ? (
+                <div className="leading-relaxed">
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => (
+                        <p className="my-3 first:mt-0 last:mb-0">
+                          {children}
+                        </p>
+                      ),
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="my-3 list-disc space-y-1 pl-5">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="my-3 list-decimal space-y-1 pl-5">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => <li>{children}</li>,
+                      h1: ({ children }) => (
+                        <h1 className="my-3 text-lg font-semibold">
+                          {children}
+                        </h1>
+                      ),
+                      h2: ({ children }) => (
+                        <h2 className="my-3 text-base font-semibold">
+                          {children}
+                        </h2>
+                      ),
+                      h3: ({ children }) => (
+                        <h3 className="my-2 text-sm font-semibold">
+                          {children}
+                        </h3>
+                      ),
+                      code: ({ children }) => (
+                        <code className="rounded bg-bg-soft px-1 py-0.5 text-sm">
+                          {children}
+                        </code>
+                      ),
+                      a: ({ href, children }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-brand-primary underline underline-offset-2"
+                        >
+                          {children}
+                        </a>
+                      ),
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <p className='whitespace-pre-line leading-relaxed'>
+                  {message.content}
+                </p>
+              )}
 
               {message.relatedLaws && message.relatedLaws.length > 0 && (
                 <div className='mt-4 pt-4 border-t border-border-base'>

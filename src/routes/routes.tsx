@@ -13,6 +13,8 @@ import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 
 export const AppRoutes = () => {
   const navigate = useNavigate();
+  const forceLogin =
+    import.meta.env.DEV && import.meta.env.VITE_FORCE_LOGIN === 'true';
   const {
     preferredCountries,
     savePreferredCountries,
@@ -20,18 +22,20 @@ export const AppRoutes = () => {
     hasPreferredCountries,
   } = usePreferredCountries();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(() => hasPreferredCountries);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => forceLogin || hasPreferredCountries,
+  );
   const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
   // 모달에서만 사용하는 임시 선택값
   // 저장 시 usePreferredCountries에 반영
   const [modalSelection, setModalSelection] = useState(preferredCountries);
 
   useEffect(() => {
-    if (hasPreferredCountries) {
+    if (forceLogin || hasPreferredCountries) {
       setIsLoggedIn(true);
       setModalSelection(preferredCountries);
     }
-  }, [hasPreferredCountries, preferredCountries]);
+  }, [forceLogin, hasPreferredCountries, preferredCountries]);
 
   const handleSkipInterest = () => {
     setIsInterestModalOpen(false);
