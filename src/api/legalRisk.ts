@@ -107,7 +107,8 @@ const normalizeLegalRiskResult = (
   result: LegalRiskRawResult,
   payload: LegalRiskRequest,
 ): LegalRiskResult => {
-  const parsedResult = typeof result === 'string' ? parseStringResult(result) : result;
+  const parsedResult =
+    typeof result === 'string' ? parseStringResult(result) : result;
 
   if (isLegalRiskResult(parsedResult)) {
     return parsedResult;

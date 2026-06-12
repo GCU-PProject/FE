@@ -63,11 +63,13 @@ export const LegalRiskPanel = () => {
   const { data, error, isLoading, requestLegalRisk } = useLegalRisk();
 
   const canSubmit = useMemo(() => {
+    const age = Number(form.age);
     return (
       form.countryId !== '' &&
       form.travelPurpose !== '' &&
       form.visaType !== '' &&
-      Number(form.age) > 0
+      Number.isFinite(age) &&
+      age > 0
     );
   }, [form]);
 
@@ -113,7 +115,7 @@ export const LegalRiskPanel = () => {
             <option value="3">싱가포르</option>
             <option value="4">독일</option>
             <option value="5">프랑스</option>
-            <option value="6">태국</option>
+            <option value="6">중국</option>
           </DropdownSelect>
 
           <DropdownSelect
@@ -238,27 +240,31 @@ export const LegalRiskPanel = () => {
                   {risk.risk_content}
                 </p>
 
-                <div className="mt-3">
-                  <p className="text-sm font-medium text-text-primary">
-                    권장 조치
-                  </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-text-secondary">
-                    {risk.risk_actions.map((action) => (
-                      <li key={action}>{action}</li>
-                    ))}
-                  </ul>
-                </div>
+                {risk.risk_actions.length > 0 ? (
+                  <div className="mt-3">
+                    <p className="text-sm font-medium text-text-primary">
+                      권장 조치
+                    </p>
+                    <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-text-secondary">
+                      {risk.risk_actions.map((action) => (
+                        <li key={action}>{action}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
 
-                <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
-                  {risk.law_refs.map((law) => (
-                    <span
-                      key={`${law.law_id}-${law.article_no}`}
-                      className="rounded-md border border-border-soft px-2 py-1"
-                    >
-                      {law.law_type} {law.article_no}
-                    </span>
-                  ))}
-                </div>
+                {risk.law_refs.length > 0 ? (
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
+                    {risk.law_refs.map((law) => (
+                      <span
+                        key={`${law.law_id}-${law.article_no}`}
+                        className="rounded-md border border-border-soft px-2 py-1"
+                      >
+                        {law.law_type} {law.article_no}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
 
                 {issueRefs.length > 0 ? (
                   <div className="mt-3 space-y-1">
