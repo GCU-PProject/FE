@@ -15,7 +15,6 @@ import {
 } from '@/components/common/DashboardTabs';
 import { Button } from '@/components/common/button/Button';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
-import { mockCompareSets } from '@/mocks/mypage';
 import type { PreferredCountries } from '@/types/country';
 import type { CompareSet } from '@/types/mypage';
 import type { LawItem } from '@/types/law';
@@ -41,7 +40,7 @@ export const MyPage = ({
   const [isSavingInterests, setIsSavingInterests] = useState(false);
   const [interestSelection, setInterestSelection] =
     useState<PreferredCountries>(preferredCountries);
-  const [compareSets, setCompareSets] = useState<CompareSet[]>(mockCompareSets);
+  const [compareSets, setCompareSets] = useState<CompareSet[]>([]);
   const [selectedLaw, setSelectedLaw] = useState<LawItem | null>(null);
   const { savedIds, toggleSaved } = useSavedLaws();
 
