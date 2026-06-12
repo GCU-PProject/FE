@@ -19,7 +19,7 @@ type RiskFormState = {
   ageBand: '' | AgeBand;
 };
 
-const countries = [
+const countryOptions = [
   { id: 1, label: '미국 (연방)' },
   { id: 2, label: '미국 - 캘리포니아' },
   { id: 3, label: '미국 - 뉴욕' },
@@ -35,7 +35,22 @@ const countries = [
   { id: 13, label: '호주 - 노퍽 섬' },
 ];
 
-const ageBands: Array<{ value: AgeBand; label: string }> = [
+const travelPurposeOptions: Array<{ value: TravelPurpose; label: string }> = [
+  { value: 'tourism', label: '관광' },
+  { value: 'business', label: '출장/비즈니스' },
+  { value: 'study', label: '유학' },
+  { value: 'work', label: '취업' },
+  { value: 'working_holiday', label: '워킹홀리데이' },
+];
+
+const visaTypeOptions: Array<{ value: VisaType; label: string }> = [
+  { value: 'short_stay', label: '단기 체류' },
+  { value: 'long_stay', label: '장기 체류' },
+  { value: 'work_permit', label: '취업 허가' },
+  { value: 'student_visa', label: '학생 비자' },
+];
+
+const ageBandOptions: Array<{ value: AgeBand; label: string }> = [
   { value: '10s', label: '10대' },
   { value: '20s', label: '20대' },
   { value: '30s', label: '30대' },
@@ -71,7 +86,7 @@ export const LegalRiskPanel = () => {
     }
 
     if (!canSubmit) {
-      setValidationMessage('체류 정보를 모두 입력해주세요.');
+      setValidationMessage('체류 정보를 모두 선택해주세요.');
       return;
     }
 
@@ -103,7 +118,7 @@ export const LegalRiskPanel = () => {
             className="h-10 bg-gray-50"
           >
             <option value="">체류국가를 선택하세요</option>
-            {countries.map((country) => (
+            {countryOptions.map((country) => (
               <option key={country.id} value={country.id}>
                 {country.label}
               </option>
@@ -122,11 +137,11 @@ export const LegalRiskPanel = () => {
             className="h-10 bg-gray-50"
           >
             <option value="">체류목적을 선택하세요</option>
-            <option value="tourism">관광</option>
-            <option value="business">출장/비즈니스</option>
-            <option value="study">유학</option>
-            <option value="work">취업</option>
-            <option value="working_holiday">워킹홀리데이</option>
+            {travelPurposeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </DropdownSelect>
 
           <DropdownSelect
@@ -141,10 +156,11 @@ export const LegalRiskPanel = () => {
             className="h-10 bg-gray-50"
           >
             <option value="">비자 유형을 선택하세요</option>
-            <option value="short_stay">단기 체류</option>
-            <option value="long_stay">장기 체류</option>
-            <option value="work_permit">취업 허가</option>
-            <option value="student_visa">학생 비자</option>
+            {visaTypeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </DropdownSelect>
 
           <DropdownSelect
@@ -159,7 +175,7 @@ export const LegalRiskPanel = () => {
             className="h-10 bg-gray-50"
           >
             <option value="">연령대를 선택하세요</option>
-            {ageBands.map((ageBand) => (
+            {ageBandOptions.map((ageBand) => (
               <option key={ageBand.value} value={ageBand.value}>
                 {ageBand.label}
               </option>
