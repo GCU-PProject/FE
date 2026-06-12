@@ -1,14 +1,13 @@
 import { FormEvent, useMemo, useState } from 'react';
-import { AlertTriangle, ExternalLink } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/common/button/Button';
 import { Card } from '@/components/common/Card';
 import { DropdownSelect } from '@/components/common/dropdown/DropdownSelect';
-import { Input } from '@/components/common/input/Input';
+import { LegalRiskResultModal } from '@/components/risk/LegalRiskResultModal';
 import { useLegalRisk } from '@/hooks/useLegalRisk';
 import type {
   AgeBand,
   LegalRiskRequest,
-  RiskLevel,
   TravelPurpose,
   VisaType,
 } from '@/types/legalRisk';
@@ -17,19 +16,7 @@ type RiskFormState = {
   countryId: string;
   travelPurpose: '' | TravelPurpose;
   visaType: '' | VisaType;
-  age: string;
-};
-
-const riskLevelLabel: Record<RiskLevel, string> = {
-  LOW: '낮음',
-  MEDIUM: '보통',
-  HIGH: '높음',
-};
-
-const riskLevelClassName: Record<RiskLevel, string> = {
-  LOW: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-  MEDIUM: 'border-amber-200 bg-amber-50 text-amber-700',
-  HIGH: 'border-rose-200 bg-rose-50 text-rose-700',
+  ageBand: '' | AgeBand;
 };
 
 const countries = [
@@ -48,47 +35,35 @@ const countries = [
   { id: 13, label: '호주 - 노퍽 섬' },
 ];
 
-const normalizeIssueUrl = (url: string) => url.replace(/^<|>$/g, '');
-
-const isSafeHttpUrl = (url: string) => {
-  try {
-    const parsedUrl = new URL(normalizeIssueUrl(url));
-    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
-  } catch {
-    return false;
-  }
-};
-
-const getAgeBand = (age: number): AgeBand => {
-  if (age < 20) return '10s';
-  if (age < 30) return '20s';
-  if (age < 40) return '30s';
-  if (age < 50) return '40s';
-  return '50s_plus';
-};
+const ageBands: Array<{ value: AgeBand; label: string }> = [
+  { value: '10s', label: '10대' },
+  { value: '20s', label: '20대' },
+  { value: '30s', label: '30대' },
+  { value: '40s', label: '40대' },
+  { value: '50s_plus', label: '50대 이상' },
+];
 
 export const LegalRiskPanel = () => {
   const [form, setForm] = useState<RiskFormState>({
     countryId: '',
     travelPurpose: '',
     visaType: '',
-    age: '',
+    ageBand: '',
   });
   const [validationMessage, setValidationMessage] = useState('');
+  const [isResultOpen, setIsResultOpen] = useState(false);
   const { data, error, isLoading, requestLegalRisk } = useLegalRisk();
 
   const canSubmit = useMemo(() => {
-    const age = Number(form.age);
     return (
       form.countryId !== '' &&
       form.travelPurpose !== '' &&
       form.visaType !== '' &&
-      Number.isFinite(age) &&
-      age > 0
+      form.ageBand !== ''
     );
   }, [form]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (isLoading) {
@@ -106,10 +81,13 @@ export const LegalRiskPanel = () => {
       country_id: Number(form.countryId),
       travel_purpose: form.travelPurpose as TravelPurpose,
       visa_type: form.visaType as VisaType,
-      age_band: getAgeBand(Number(form.age)),
+      age_band: form.ageBand as AgeBand,
     };
 
-    void requestLegalRisk(payload);
+    const result = await requestLegalRisk(payload);
+    if (result) {
+      setIsResultOpen(true);
+    }
   };
 
   return (
@@ -169,25 +147,24 @@ export const LegalRiskPanel = () => {
             <option value="student_visa">학생 비자</option>
           </DropdownSelect>
 
-          <div className="flex w-full flex-col gap-2">
-            <label
-              htmlFor="risk-age"
-              className="text-sm font-medium text-text-primary"
-            >
-              연령
-            </label>
-            <Input
-              id="risk-age"
-              type="number"
-              min={1}
-              placeholder="연령을 입력하세요"
-              value={form.age}
-              onChange={(event) =>
-                setForm((prev) => ({ ...prev, age: event.target.value }))
-              }
-              className="h-11 bg-gray-50"
-            />
-          </div>
+          <DropdownSelect
+            label="연령대"
+            value={form.ageBand}
+            onChange={(event) =>
+              setForm((prev) => ({
+                ...prev,
+                ageBand: event.target.value as AgeBand,
+              }))
+            }
+            className="h-10 bg-gray-50"
+          >
+            <option value="">연령대를 선택하세요</option>
+            {ageBands.map((ageBand) => (
+              <option key={ageBand.value} value={ageBand.value}>
+                {ageBand.label}
+              </option>
+            ))}
+          </DropdownSelect>
 
           <Button
             type="submit"
@@ -213,92 +190,11 @@ export const LegalRiskPanel = () => {
         ) : null}
       </Card>
 
-      {data ? (
-        <div className="mt-6 space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-text-secondary">
-              종합 위험 지수
-            </span>
-            <span
-              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                riskLevelClassName[data.overall_risk_level]
-              }`}
-            >
-              {riskLevelLabel[data.overall_risk_level]}
-            </span>
-          </div>
-
-          {data.risk_list.map((risk) => {
-            const issueRefs = (risk.issue_refs ?? []).filter((issue) =>
-              isSafeHttpUrl(issue.url),
-            );
-
-            return (
-              <Card key={risk.risk_title} className="bg-white p-5">
-                <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <h3 className="text-base font-semibold text-text-primary">
-                    {risk.risk_title}
-                  </h3>
-                  <span
-                    className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
-                      riskLevelClassName[risk.risk_level]
-                    }`}
-                  >
-                    {riskLevelLabel[risk.risk_level]}
-                  </span>
-                </div>
-
-                <p className="text-sm leading-6 text-text-secondary">
-                  {risk.risk_content}
-                </p>
-
-                {risk.risk_actions.length > 0 ? (
-                  <div className="mt-3">
-                    <p className="text-sm font-medium text-text-primary">
-                      권장 조치
-                    </p>
-                    <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-text-secondary">
-                      {risk.risk_actions.map((action) => (
-                        <li key={action}>{action}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                {risk.law_refs.length > 0 ? (
-                  <div className="mt-3 flex flex-wrap gap-2 text-xs text-text-secondary">
-                    {risk.law_refs.map((law) => (
-                      <span
-                        key={`${law.law_id}-${law.article_no}`}
-                        className="rounded-md border border-border-soft px-2 py-1"
-                      >
-                        {law.law_type} {law.article_no}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-
-                {issueRefs.length > 0 ? (
-                  <div className="mt-3 space-y-1">
-                    {issueRefs.map((issue) => (
-                      <a
-                        key={issue.issue_id}
-                        href={normalizeIssueUrl(issue.url)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1 text-sm text-brand-primary hover:underline"
-                      >
-                        {issue.title}
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    ))}
-                  </div>
-                ) : null}
-              </Card>
-            );
-          })}
-        </div>
-      ) : null}
+      <LegalRiskResultModal
+        open={isResultOpen}
+        onClose={() => setIsResultOpen(false)}
+        result={data}
+      />
     </div>
   );
 };

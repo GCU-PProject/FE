@@ -40,7 +40,7 @@ const isLawRefs = (
       LegalRiskResult['risk_list'][number]['law_refs'][number]
     >;
     return (
-      typeof lawRef.law_id === 'number' &&
+      (typeof lawRef.law_id === 'number' || lawRef.law_id === null) &&
       typeof lawRef.law_type === 'string' &&
       typeof lawRef.article_no === 'string'
     );

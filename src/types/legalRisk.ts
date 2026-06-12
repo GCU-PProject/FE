@@ -23,7 +23,7 @@ export type LegalRiskRequest = {
 };
 
 export type LawReference = {
-  law_id: number;
+  law_id: number | null;
   law_type: string;
   article_no: string;
 };
