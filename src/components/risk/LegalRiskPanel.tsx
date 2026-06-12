@@ -32,6 +32,22 @@ const riskLevelClassName: Record<RiskLevel, string> = {
   HIGH: 'border-rose-200 bg-rose-50 text-rose-700',
 };
 
+const countries = [
+  { id: 1, label: '미국 (연방)' },
+  { id: 2, label: '미국 - 캘리포니아' },
+  { id: 3, label: '미국 - 뉴욕' },
+  { id: 4, label: '캐나다 (연방)' },
+  { id: 5, label: '캐나다 - 온타리오' },
+  { id: 6, label: '캐나다 - 브리티시컬럼비아' },
+  { id: 7, label: '호주 (연방)' },
+  { id: 8, label: '호주 - 뉴사우스웨일스' },
+  { id: 9, label: '호주 - 퀸즐랜드' },
+  { id: 10, label: '호주 - 서호주' },
+  { id: 11, label: '호주 - 남호주' },
+  { id: 12, label: '호주 - 태즈메이니아' },
+  { id: 13, label: '호주 - 노퍽 섬' },
+];
+
 const normalizeIssueUrl = (url: string) => url.replace(/^<|>$/g, '');
 
 const isSafeHttpUrl = (url: string) => {
@@ -48,8 +64,7 @@ const getAgeBand = (age: number): AgeBand => {
   if (age < 30) return '20s';
   if (age < 40) return '30s';
   if (age < 50) return '40s';
-  if (age < 60) return '50s';
-  return '60s_plus';
+  return '50s_plus';
 };
 
 export const LegalRiskPanel = () => {
@@ -110,12 +125,11 @@ export const LegalRiskPanel = () => {
             className="h-10 bg-gray-50"
           >
             <option value="">체류국가를 선택하세요</option>
-            <option value="1">미국</option>
-            <option value="2">일본</option>
-            <option value="3">싱가포르</option>
-            <option value="4">독일</option>
-            <option value="5">프랑스</option>
-            <option value="6">중국</option>
+            {countries.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.label}
+              </option>
+            ))}
           </DropdownSelect>
 
           <DropdownSelect
@@ -131,14 +145,14 @@ export const LegalRiskPanel = () => {
           >
             <option value="">체류목적을 선택하세요</option>
             <option value="tourism">관광</option>
-            <option value="business">비즈니스</option>
+            <option value="business">출장/비즈니스</option>
             <option value="study">유학</option>
             <option value="work">취업</option>
-            <option value="other">기타</option>
+            <option value="working_holiday">워킹홀리데이</option>
           </DropdownSelect>
 
           <DropdownSelect
-            label="비자 종류"
+            label="비자 유형"
             value={form.visaType}
             onChange={(event) =>
               setForm((prev) => ({
@@ -148,13 +162,11 @@ export const LegalRiskPanel = () => {
             }
             className="h-10 bg-gray-50"
           >
-            <option value="">비자 종류를 선택하세요</option>
+            <option value="">비자 유형을 선택하세요</option>
             <option value="short_stay">단기 체류</option>
             <option value="long_stay">장기 체류</option>
-            <option value="visa_free">무비자</option>
-            <option value="student">학생 비자</option>
-            <option value="work">취업 비자</option>
-            <option value="other">기타</option>
+            <option value="work_permit">취업 허가</option>
+            <option value="student_visa">학생 비자</option>
           </DropdownSelect>
 
           <div className="flex w-full flex-col gap-2">

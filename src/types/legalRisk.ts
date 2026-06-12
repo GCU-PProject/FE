@@ -1,14 +1,17 @@
-export type TravelPurpose = 'tourism' | 'business' | 'study' | 'work' | 'other';
+export type TravelPurpose =
+  | 'tourism'
+  | 'business'
+  | 'study'
+  | 'work'
+  | 'working_holiday';
 
 export type VisaType =
   | 'short_stay'
   | 'long_stay'
-  | 'visa_free'
-  | 'student'
-  | 'work'
-  | 'other';
+  | 'work_permit'
+  | 'student_visa';
 
-export type AgeBand = '10s' | '20s' | '30s' | '40s' | '50s' | '60s_plus';
+export type AgeBand = '10s' | '20s' | '30s' | '40s' | '50s_plus';
 
 export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH';
 
