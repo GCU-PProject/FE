@@ -5,15 +5,14 @@ export type OnboardingRequest = {
   countryIds: number[];
 };
 
+export const OAUTH_LOGIN_STARTED_KEY = 'glaw:oauth-login-started';
+
 export const startGoogleLogin = (): void => {
   if (typeof window === 'undefined') return;
 
-  const redirectUrl =
-    env.loginRedirectUrl ??
-    `${window.location.origin.replace(/\/$/, '')}/onboarding`;
+  window.sessionStorage.setItem(OAUTH_LOGIN_STARTED_KEY, 'true');
 
   const loginUrl = new URL(env.googleLoginUrl, window.location.origin);
-  loginUrl.searchParams.set('redirect_uri', redirectUrl);
   window.location.href = loginUrl.toString();
 };
 
