@@ -3,7 +3,8 @@ import type { CountryCode } from '@/types/country';
 const DEFAULT_COUNTRY_CODE: CountryCode = 'US';
 const DEFAULT_COUNTRY_ID_MAP: Partial<Record<CountryCode, number>> = {
   US: 1,
-  CA: 2,
+  CA: 4,
+  AU: 7,
 };
 
 const parseCountryIdMap = (): Partial<Record<CountryCode, number>> => {
@@ -19,7 +20,7 @@ const parseCountryIdMap = (): Partial<Record<CountryCode, number>> => {
     return Object.entries(parsed).reduce<Partial<Record<CountryCode, number>>>(
       (acc, [countryCode, countryId]) => {
         if (typeof countryId === 'number' && Number.isFinite(countryId)) {
-          acc[countryCode as CountryCode] = countryId;
+          acc[countryCode] = countryId;
         }
 
         return acc;
