@@ -1,49 +1,53 @@
-// src/components/comparison/ComparisonResultModal.tsx
-import { useState } from 'react';
-import type { ReactNode } from 'react';
 import { Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
-
+import { useEffect, useState } from 'react';
 import { Modal } from '@/components/common/Modal';
 import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
-
-import { comparisonCountries, getCountryFlagUrl } from '@/constants/comparison';
 import type { ComparisonResult } from '@/types/comparison';
 import { ComparisonAnalysis } from './ComparisonAnalysis';
 
 type ComparisonResultModalProps = {
   open: boolean;
   onClose: () => void;
-  country1Code: string;
-  country2Code: string;
   topic: string;
   result: ComparisonResult;
-  highlightText: (text: string, highlights: string[]) => ReactNode;
+};
+
+const LawIdList = ({ lawIds }: { lawIds: number[] }) => {
+  if (lawIds.length === 0) {
+    return <span className="text-sm text-text-tertiary">관련 법령 없음</span>;
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {lawIds.map((lawId) => (
+        <Badge key={lawId} variant="outline">
+          법령 ID {lawId}
+        </Badge>
+      ))}
+    </div>
+  );
 };
 
 export const ComparisonResultModal = ({
   open,
   onClose,
-  country1Code,
-  country2Code,
   topic,
   result,
-  highlightText,
 }: ComparisonResultModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
 
-  const country1Meta = comparisonCountries.find(
-    (c) => c.code === country1Code,
-  );
-  const country2Meta = comparisonCountries.find(
-    (c) => c.code === country2Code,
-  );
+  useEffect(() => {
+    if (open) {
+      setIsSaved(false);
+    }
+  }, [open, topic, result]);
 
   const handleToggleSave = () => {
     setIsSaved((prev) => !prev);
     toast.success(
-      !isSaved ? '비교 조합이 저장되었습니다' : '저장이 해제되었습니다',
+      !isSaved ? '비교 결과가 저장되었습니다.' : '저장이 해제되었습니다.',
     );
   };
 
@@ -52,7 +56,7 @@ export const ComparisonResultModal = ({
       open={open}
       onClose={onClose}
       title={topic ? `비교 결과: ${topic}` : '비교 결과'}
-      widthClass="max-w-[720px]"
+      widthClass="max-w-[820px]"
       headerActions={
         <button
           type="button"
@@ -73,115 +77,65 @@ export const ComparisonResultModal = ({
       }
     >
       <div className="mt-2 space-y-6">
-        {/* 상단: 두 국가 비교 카드 */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* 국가 1 */}
           <Card className="p-6">
-            <div className="mb-4 flex items-center gap-3">
-              {country1Meta ? (
-                <img
-                  src={getCountryFlagUrl(country1Meta.code)}
-                  alt={`${country1Meta.name} 국기`}
-                  className="h-12 w-16 rounded-lg object-cover shadow-md"
-                />
-              ) : (
-                <div className="rounded-lg bg-surface-accent px-4 py-2 text-brand-primary shadow-md">
-                  🇺🇸
-                </div>
-              )}
-              <div>
-                <h3 className="text-xl text-text-primary">
-                  {result.country1.country}
-                </h3>
-                <Badge variant="outline">국가 1</Badge>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-xl text-text-primary">
+                {result.country1.country}
+              </h3>
+              <Badge variant="outline">첫 번째 국가</Badge>
             </div>
 
             <div className="space-y-4">
               <div>
                 <h4 className="mb-2 text-sm font-medium text-text-primary">
-                  핵심 내용
+                  요약
                 </h4>
-                <p className="leading-relaxed text-text-secondary">
-                  {highlightText(result.country1.summary, result.country1.highlights)}
+                <p className="whitespace-pre-line leading-relaxed text-text-secondary">
+                  {result.country1.summary}
                 </p>
               </div>
 
               <div>
                 <h4 className="mb-2 text-xs font-medium text-text-tertiary">
-                  주요 키워드
+                  관련 법령
                 </h4>
-                <div className="flex flex-wrap gap-2">
-                  {result.country1.highlights.map((h, idx) => (
-                    <span
-                      key={idx}
-                      className="rounded-md bg-surface-tag px-2 py-1 text-xs text-text-secondary"
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
+                <LawIdList lawIds={result.country1.relatedLawIds} />
               </div>
             </div>
           </Card>
 
-          {/* 국가 2 */}
           <Card className="p-6">
-            <div className="mb-4 flex items-center gap-3">
-              {country2Meta ? (
-                <img
-                  src={getCountryFlagUrl(country2Meta.code)}
-                  alt={`${country2Meta.name} 국기`}
-                  className="h-12 w-16 rounded-lg object-cover shadow-md"
-                />
-              ) : (
-                <div className="rounded-lg bg-surface-accent-soft px-4 py-2 text-brand-secondary shadow-md">
-                  🇺🇸
-                </div>
-              )}
-              <div>
-                <h3 className="text-xl text-text-primary">
-                  {result.country2.country}
-                </h3>
-                <Badge variant="outline">국가 2</Badge>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-xl text-text-primary">
+                {result.country2.country}
+              </h3>
+              <Badge variant="outline">두 번째 국가</Badge>
             </div>
 
             <div className="space-y-4">
               <div>
                 <h4 className="mb-2 text-sm font-medium text-text-primary">
-                  핵심 내용
+                  요약
                 </h4>
-                <p
-                  className="leading-relaxed text-text-secondary"
-                >
-                  {highlightText(result.country2.summary, result.country2.highlights)}
+                <p className="whitespace-pre-line leading-relaxed text-text-secondary">
+                  {result.country2.summary}
                 </p>
               </div>
 
               <div>
                 <h4 className="mb-2 text-xs font-medium text-text-tertiary">
-                  주요 키워드
+                  관련 법령
                 </h4>
-                <div className="flex flex-wrap gap-2">
-                  {result.country2.highlights.map((h, idx) => (
-                    <span
-                      key={idx}
-                      className="rounded-md bg-surface-tag px-2 py-1 text-xs text-text-secondary"
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
+                <LawIdList lawIds={result.country2.relatedLawIds} />
               </div>
             </div>
           </Card>
         </div>
 
-        {/* 하단: 공통점 / 차이점 분석 (분리된 컴포넌트) */}
         <ComparisonAnalysis
           common={result.comparison.common}
-          differences={result.comparison.differences}
+          diff={result.comparison.diff}
         />
       </div>
     </Modal>

@@ -18,53 +18,47 @@ export type ComparisonFormProps = {
 };
 
 export const ComparisonForm = ({
-                                 topic,
-                                 country1,
-                                 country2,
-                                 comparisonCountries,
-                                 isLoading,
-                                 onChangeTopic,
-                                 onChangeCountry1,
-                                 onChangeCountry2,
-                                 onSubmit,
-                               }: ComparisonFormProps) => (
+  topic,
+  country1,
+  country2,
+  comparisonCountries,
+  isLoading,
+  onChangeTopic,
+  onChangeCountry1,
+  onChangeCountry2,
+  onSubmit,
+}: ComparisonFormProps) => (
   <Card className="mb-8 bg-white p-6">
     <div className="space-y-4">
-      {/* 비교 주제 입력 */}
       <div>
-                <label htmlFor="comparison-topic" className="mb-2 block text-sm">
-                  비교 주제
-                </label>
-                <Input
-                  id="comparison-topic"
-          placeholder="예: 음주운전 처벌, 근로시간 제한, 마약 처벌 등"
+        <label htmlFor="comparison-topic" className="mb-2 block text-sm">
+          비교 주제
+        </label>
+        <Input
+          id="comparison-topic"
+          placeholder="예: 음주운전 처벌 기준 비교해줘"
           value={topic}
           onChange={(e) => onChangeTopic(e.target.value)}
         />
       </div>
 
-      {/* 국가 선택 드롭다운 */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/* 첫 번째 국가 */}
         <DropdownSelect
           label="첫 번째 국가"
           value={country1}
           onChange={(e) => onChangeCountry1(e.target.value)}
           className="bg-gray-50"
         >
-          {/* placeholder 역할 옵션 */}
           <option value="" disabled>
-            국가 선택
+            국가를 선택하세요
           </option>
           {comparisonCountries.map((country) => (
-            <option key={country.code} value={country.code}>
-              {/* 코드 대신 국기 + 이름 (실패)*/}
-              {country.flag ?? ''} {country.name}
+            <option key={country.id} value={country.id}>
+              {country.name}
             </option>
           ))}
         </DropdownSelect>
 
-        {/* 두 번째 국가 */}
         <DropdownSelect
           label="두 번째 국가"
           value={country2}
@@ -72,18 +66,18 @@ export const ComparisonForm = ({
           className="bg-gray-50"
         >
           <option value="" disabled>
-            국가 선택
+            국가를 선택하세요
           </option>
           {comparisonCountries.map((country) => (
-            <option key={country.code} value={country.code}>
-              {country.flag ?? ''} {country.name}
+            <option key={country.id} value={country.id}>
+              {country.name}
             </option>
           ))}
         </DropdownSelect>
       </div>
 
-      {/* 제출 버튼 */}
       <Button
+        type="button"
         onClick={onSubmit}
         disabled={isLoading || !topic.trim() || !country1 || !country2}
         className="w-full"

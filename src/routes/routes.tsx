@@ -5,7 +5,6 @@ import { MyPage } from '@/pages/ui/MyPage';
 import { AiChatPage } from '@/pages/ui/AiChatPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
-import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
 import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 import { useAuthFlow } from '@/hooks/useAuthFlow';
 
@@ -33,9 +32,74 @@ export const AppRoutes = () => {
 
   if (authStatus === 'checking') {
     return (
-      <div className="flex min-h-screen items-center justify-center text-text-secondary">
-        로그인 상태 확인 중...
-      </div>
+      <>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isLoggedIn ? (
+                <MainDashboardPage />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/" replace />
+              ) : (
+                <LoginPage onGoogleLogin={handleGoogleLogin} />
+              )
+            }
+          />
+          <Route
+            path="/ai-consulting"
+            element={
+              isLoggedIn ? <AiChatPage /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/law-compare"
+            element={
+              isLoggedIn ? (
+                <LawComparisonPage />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/law-risk"
+            element={
+              isLoggedIn ? <LawRiskPage /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/mypage"
+            element={
+              isLoggedIn ? (
+                <MyPage
+                  preferredCountries={preferredCountries}
+                  onSavePreferredCountries={savePreferredCountries}
+                  onLogout={handleLogout}
+                />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+
+        <InterestCountryModal
+          open={isInterestModalOpen}
+          initialSelected={modalSelection}
+          onSkip={handleSkipInterest}
+          onSave={handleSaveInterest}
+        />
+      </>
     );
   }
 

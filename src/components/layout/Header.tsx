@@ -16,12 +16,6 @@ import { HeaderNavItem, HeaderProps } from './types';
 
 const defaultNavItems: HeaderNavItem[] = [
   {
-    id: 'law-collection',
-    label: '법률 모아보기',
-    href: '/law-collection',
-    icon: <Scale className="h-5 w-5" strokeWidth={2.1} />,
-  },
-  {
     id: 'ai-consulting',
     label: 'AI 법률 상담',
     href: '/ai-consulting',
