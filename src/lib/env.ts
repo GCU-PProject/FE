@@ -1,8 +1,9 @@
-const requiredEnv = (value: string | undefined, key: string): string => {
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${key}`);
-  }
-  return value;
+const getEnvValue = (value: string | undefined, fallback: string): string =>
+  value ?? fallback;
+
+const getDefaultApiBaseUrl = (): string => {
+  if (typeof window === 'undefined') return '';
+  return window.location.origin;
 };
 
 const DEFAULT_COUNTRY_ID_MAP: Record<string, number> = {
@@ -41,13 +42,13 @@ const parseCountryIdMap = (
 };
 
 export const env = {
-  apiBaseUrl: requiredEnv(
+  apiBaseUrl: getEnvValue(
     import.meta.env.VITE_API_BASE_URL,
-    'VITE_API_BASE_URL',
+    getDefaultApiBaseUrl(),
   ),
-  googleLoginUrl: requiredEnv(
+  googleLoginUrl: getEnvValue(
     import.meta.env.VITE_GOOGLE_LOGIN_URL,
-    'VITE_GOOGLE_LOGIN_URL',
+    '/oauth2/authorization/google',
   ),
   loginRedirectUrl: import.meta.env.VITE_LOGIN_REDIRECT_URL,
   countryIdMap: parseCountryIdMap(import.meta.env.VITE_COUNTRY_ID_MAP),
