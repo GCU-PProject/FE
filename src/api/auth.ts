@@ -10,9 +10,8 @@ export const OAUTH_LOGIN_STARTED_KEY = 'glaw:oauth-login-started';
 export const startGoogleLogin = (): void => {
   if (typeof window === 'undefined') return;
 
-  window.sessionStorage.setItem(OAUTH_LOGIN_STARTED_KEY, 'true');
-
   const loginUrl = new URL(env.googleLoginUrl, window.location.origin);
+  window.sessionStorage.setItem(OAUTH_LOGIN_STARTED_KEY, 'true');
   window.location.href = loginUrl.toString();
 };
 

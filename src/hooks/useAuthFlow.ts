@@ -21,9 +21,8 @@ const VALID_COUNTRY_CODES = new Set(
 );
 const AUTH_SESSION_KEY = 'glaw:has-auth-session';
 
-const shouldCheckAuthOnRoute = (pathname: string): boolean => {
+const shouldCheckAuthOnRoute = (): boolean => {
   if (typeof window === 'undefined') return false;
-  if (pathname === '/login') return false;
 
   return (
     window.sessionStorage.getItem(OAUTH_LOGIN_STARTED_KEY) === 'true' ||
@@ -88,25 +87,38 @@ export const useAuthFlow = () => {
     [savePreferredCountries],
   );
 
+  const completeOnboarding = useCallback(
+    async (countryIds: number[]) => {
+      setIsOnboardingSaving(true);
+      try {
+        await onboarding({ countryIds });
+        const me = await getMyInfo();
+        applyMyInfo(me);
+
+        if (me.role === 'ROLE_USER') {
+          void navigate('/');
+        }
+      } catch (error) {
+        if (getApiErrorCode(error) === 'ONBOARDING_ALREADY_COMPLETED') {
+          try {
+            const me = await getMyInfo();
+            applyMyInfo(me);
+            void navigate('/');
+            return;
+          } catch {
+            // Fall through to the generic error message.
+          }
+        }
+        window.alert('온보딩 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      } finally {
+        setIsOnboardingSaving(false);
+      }
+    },
+    [applyMyInfo, navigate],
+  );
+
   useEffect(() => {
-    if (location.pathname === '/login') {
-      forgetAuthSession();
-      clearPreferredCountries();
-      setModalSelection([]);
-      setAuthStatus('anonymous');
-      return;
-    }
-
-    if (
-      location.pathname === '/onboarding' &&
-      typeof window !== 'undefined' &&
-      window.sessionStorage.getItem(OAUTH_LOGIN_STARTED_KEY) === 'true'
-    ) {
-      setAuthStatus('guest');
-      return;
-    }
-
-    if (!shouldCheckAuthOnRoute(location.pathname)) {
+    if (!shouldCheckAuthOnRoute()) {
       clearPreferredCountries();
       setModalSelection([]);
       setAuthStatus('anonymous');
@@ -142,7 +154,7 @@ export const useAuthFlow = () => {
   }, [applyMyInfo, clearPreferredCountries, location.pathname]);
 
   const handleSkipInterest = () => {
-    window.alert('온보딩 완료 후 서비스를 이용할 수 있습니다.');
+    void completeOnboarding([]);
   };
 
   const handleGoogleLogin = () => {
@@ -163,30 +175,7 @@ export const useAuthFlow = () => {
         return;
       }
 
-      setIsOnboardingSaving(true);
-      try {
-        await onboarding({ countryIds });
-        const me = await getMyInfo();
-        applyMyInfo(me);
-
-        if (me.role === 'ROLE_USER') {
-          void navigate('/');
-        }
-      } catch (error) {
-        if (getApiErrorCode(error) === 'ONBOARDING_ALREADY_COMPLETED') {
-          try {
-            const me = await getMyInfo();
-            applyMyInfo(me);
-            void navigate('/');
-            return;
-          } catch {
-            // Fall through to the generic error message.
-          }
-        }
-        window.alert('온보딩 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.');
-      } finally {
-        setIsOnboardingSaving(false);
-      }
+      await completeOnboarding(countryIds);
     })();
   };
 
