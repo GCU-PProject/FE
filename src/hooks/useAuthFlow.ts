@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  AUTH_CHECKED_KEY,
   OAUTH_LOGIN_STARTED_KEY,
   logout,
   onboarding,
@@ -21,12 +20,13 @@ const VALID_COUNTRY_CODES = new Set(
   INTEREST_COUNTRIES.map((country) => country.code),
 );
 const AUTH_SESSION_KEY = 'glaw:has-auth-session';
+let hasCheckedAuthInCurrentLoad = false;
 
 const shouldCheckAuthOnRoute = (): boolean => {
   if (typeof window === 'undefined') return false;
 
   return (
-    window.sessionStorage.getItem(AUTH_CHECKED_KEY) !== 'true' ||
+    !hasCheckedAuthInCurrentLoad ||
     window.sessionStorage.getItem(OAUTH_LOGIN_STARTED_KEY) === 'true' ||
     window.localStorage.getItem(AUTH_SESSION_KEY) === 'true'
   );
@@ -42,7 +42,6 @@ const forgetAuthSession = () => {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem(AUTH_SESSION_KEY);
   window.sessionStorage.removeItem(OAUTH_LOGIN_STARTED_KEY);
-  window.sessionStorage.setItem(AUTH_CHECKED_KEY, 'true');
 };
 
 const getApiErrorCode = (error: unknown): string | undefined => {
@@ -134,15 +133,18 @@ export const useAuthFlow = () => {
       try {
         const me = await getMyInfo();
         if (!isMounted) return;
+        hasCheckedAuthInCurrentLoad = true;
         applyMyInfo(me);
       } catch {
         try {
           await reissue();
           const me = await getMyInfo();
           if (!isMounted) return;
+          hasCheckedAuthInCurrentLoad = true;
           applyMyInfo(me);
         } catch {
           if (!isMounted) return;
+          hasCheckedAuthInCurrentLoad = true;
           forgetAuthSession();
           clearPreferredCountries();
           setModalSelection([]);

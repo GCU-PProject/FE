@@ -6,13 +6,11 @@ export type OnboardingRequest = {
 };
 
 export const OAUTH_LOGIN_STARTED_KEY = 'glaw:oauth-login-started';
-export const AUTH_CHECKED_KEY = 'glaw:auth-checked';
 
 export const startGoogleLogin = (): void => {
   if (typeof window === 'undefined') return;
 
   const loginUrl = new URL(env.googleLoginUrl, window.location.origin);
-  window.sessionStorage.removeItem(AUTH_CHECKED_KEY);
   window.sessionStorage.setItem(OAUTH_LOGIN_STARTED_KEY, 'true');
   window.location.href = loginUrl.toString();
 };
