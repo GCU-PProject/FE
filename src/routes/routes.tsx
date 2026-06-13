@@ -22,6 +22,15 @@ export const AppRoutes = () => {
     handleLogout,
   } = useAuthFlow();
 
+  const protectedRedirectPath =
+    authStatus === 'guest' ? '/onboarding' : '/login';
+
+  const myPageProps = {
+    preferredCountries,
+    onSavePreferredCountries: handleSavePreferredCountries,
+    onLogout: handleLogout,
+  };
+
   if (authStatus === 'checking') {
     return (
       <div className="flex min-h-screen items-center justify-center text-text-secondary">
@@ -86,7 +95,7 @@ export const AppRoutes = () => {
           authStatus === 'user' ? (
             <LawCollectionPage />
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to={protectedRedirectPath} replace />
           )
         }
       />
@@ -96,7 +105,7 @@ export const AppRoutes = () => {
           authStatus === 'user' ? (
             <AiChatPage />
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to={protectedRedirectPath} replace />
           )
         }
       />
@@ -106,7 +115,7 @@ export const AppRoutes = () => {
           authStatus === 'user' ? (
             <LawComparisonPage />
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to={protectedRedirectPath} replace />
           )
         }
       />
@@ -116,7 +125,7 @@ export const AppRoutes = () => {
           authStatus === 'user' ? (
             <LawRiskPage />
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to={protectedRedirectPath} replace />
           )
         }
       />
@@ -124,13 +133,9 @@ export const AppRoutes = () => {
         path="/mypage"
         element={
           authStatus === 'user' ? (
-            <MyPage
-              preferredCountries={preferredCountries}
-              onSavePreferredCountries={handleSavePreferredCountries}
-              onLogout={handleLogout}
-            />
+            <MyPage {...myPageProps} />
           ) : (
-            <Navigate to="/login" replace />
+            <Navigate to={protectedRedirectPath} replace />
           )
         }
       />
