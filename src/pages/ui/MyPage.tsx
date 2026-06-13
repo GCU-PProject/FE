@@ -80,7 +80,7 @@ export const MyPage = ({
         await onSavePreferredCountries(interestSelection);
         setIsEditingInterests(false);
       } catch {
-        // The route-level handler shows the user-facing error.
+        // useAuthFlow shows the user-facing error via window.alert.
       } finally {
         setIsSavingInterests(false);
       }
