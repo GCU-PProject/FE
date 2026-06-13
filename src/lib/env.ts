@@ -6,16 +6,12 @@ const getDefaultApiBaseUrl = (): string => {
   return window.location.origin;
 };
 
-const DEFAULT_COUNTRY_ID_MAP: Record<string, number> = {
-  US: 1,
-  CA: 4,
-  AU: 7,
-};
-
 const parseCountryIdMap = (
   value: string | undefined,
 ): Record<string, number> => {
-  if (!value) return DEFAULT_COUNTRY_ID_MAP;
+  if (!value) {
+    throw new Error('Missing required environment variable: VITE_COUNTRY_ID_MAP');
+  }
 
   try {
     const parsed = JSON.parse(value) as Record<string, unknown>;
