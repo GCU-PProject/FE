@@ -15,7 +15,6 @@ import {
 } from '@/components/common/DashboardTabs';
 import { Button } from '@/components/common/button/Button';
 import { LawDetailModal } from '@/components/law/LawDetailModal';
-import { mockCompareSets } from '@/mocks/mypage';
 import type { PreferredCountries } from '@/types/country';
 import type { CompareSet } from '@/types/mypage';
 import type { LawItem } from '@/types/law';
@@ -27,7 +26,7 @@ import { CompareTab } from '@/components/mypage/CompareTab';
 
 type MyPageProps = {
   preferredCountries: PreferredCountries;
-  onSavePreferredCountries: (countries: PreferredCountries) => void;
+  onSavePreferredCountries: (countries: PreferredCountries) => Promise<void>;
   onLogout: () => void;
 };
 
@@ -38,9 +37,10 @@ export const MyPage = ({
 }: MyPageProps) => {
   const [activeTab, setActiveTab] = useState<string>('interests');
   const [isEditingInterests, setIsEditingInterests] = useState(false);
+  const [isSavingInterests, setIsSavingInterests] = useState(false);
   const [interestSelection, setInterestSelection] =
     useState<PreferredCountries>(preferredCountries);
-  const [compareSets, setCompareSets] = useState<CompareSet[]>(mockCompareSets);
+  const [compareSets, setCompareSets] = useState<CompareSet[]>([]);
   const [selectedLaw, setSelectedLaw] = useState<LawItem | null>(null);
   const { savedIds, toggleSaved } = useSavedLaws();
 
@@ -73,8 +73,17 @@ export const MyPage = ({
   };
 
   const handleSaveInterests = () => {
-    onSavePreferredCountries(interestSelection);
-    setIsEditingInterests(false);
+    void (async () => {
+      setIsSavingInterests(true);
+      try {
+        await onSavePreferredCountries(interestSelection);
+        setIsEditingInterests(false);
+      } catch {
+        // useAuthFlow shows the user-facing error via window.alert.
+      } finally {
+        setIsSavingInterests(false);
+      }
+    })();
   };
 
   const handleCancelInterests = () => {
@@ -174,6 +183,7 @@ export const MyPage = ({
               onToggleInterest={toggleInterest}
               onSave={handleSaveInterests}
               onCancel={handleCancelInterests}
+              isSaving={isSavingInterests}
             />
           </DashboardTabsContent>
 
