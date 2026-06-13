@@ -121,8 +121,6 @@ export const useAuthFlow = () => {
     if (!shouldCheckAuthOnRoute()) {
       clearPreferredCountries();
       setModalSelection([]);
-      setAuthStatus('anonymous');
-      return;
     }
 
     let isMounted = true;
