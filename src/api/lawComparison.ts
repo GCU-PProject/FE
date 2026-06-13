@@ -53,9 +53,11 @@ export const compareLaws = async (
     }
 
     if (isHttpError(error)) {
-      const data = error.response?.data as Partial<CompareLawApiResponse> | undefined;
+      const data = error.response?.data as
+        | Partial<CompareLawApiResponse>
+        | undefined;
       throw new LawComparisonApiError(
-        data?.message ?? '법률 비교 분석에 실패했습니다.',
+        data?.message || '법률 비교 분석에 실패했습니다.',
         data?.status ?? error.response?.status,
         data?.code,
       );

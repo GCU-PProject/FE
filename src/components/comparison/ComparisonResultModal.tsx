@@ -1,6 +1,6 @@
 import { Bookmark } from 'lucide-react';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from '@/components/common/Modal';
 import { Card } from '@/components/common/Card';
 import { Badge } from '@/components/common/Badge';
@@ -37,6 +37,12 @@ export const ComparisonResultModal = ({
   result,
 }: ComparisonResultModalProps) => {
   const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setIsSaved(false);
+    }
+  }, [open, topic, result]);
 
   const handleToggleSave = () => {
     setIsSaved((prev) => !prev);

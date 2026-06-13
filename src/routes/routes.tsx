@@ -66,7 +66,7 @@ export const AppRoutes = () => {
             path="/"
             element={
               isLoggedIn ? (
-                <MainDashboardPage preferredCountries={preferredCountries} />
+                <MainDashboardPage />
               ) : (
                 <Navigate to="/login" replace />
               )

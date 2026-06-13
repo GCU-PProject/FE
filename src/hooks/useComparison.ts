@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { compareLaws, LawComparisonApiError } from '@/api/lawComparison';
 import { highlightText } from '@/components/comparison/highlightText';
@@ -9,6 +9,7 @@ import {
 import type { ComparisonResult } from '@/types/comparison';
 
 export const useComparison = () => {
+  const inFlightRef = useRef(false);
   const [topic, setTopic] = useState<string>('');
   const [country1, setCountry1] = useState<string>('');
   const [country2, setCountry2] = useState<string>('');
@@ -17,6 +18,10 @@ export const useComparison = () => {
   const [showResultModal, setShowResultModal] = useState<boolean>(false);
 
   const handleCompare = async (): Promise<void> => {
+    if (inFlightRef.current) {
+      return;
+    }
+
     const query = topic.trim();
 
     if (!query || !country1 || !country2) {
@@ -29,6 +34,7 @@ export const useComparison = () => {
       return;
     }
 
+    inFlightRef.current = true;
     setIsLoading(true);
 
     try {
@@ -67,6 +73,7 @@ export const useComparison = () => {
           : '법률 비교 분석 중 오류가 발생했습니다.';
       toast.error(message);
     } finally {
+      inFlightRef.current = false;
       setIsLoading(false);
     }
   };

@@ -4,13 +4,8 @@ import { EmptyState } from '@/components/dashboard/EmptyState';
 import { NewsCard } from '@/components/dashboard/NewsCard';
 import { mockNews } from '@/mocks/news';
 import type { NewsItem } from '@/types/news';
-import type { PreferredCountries } from '@/types/country';
 
-type MainDashboardPageProps = {
-  preferredCountries?: PreferredCountries;
-};
-
-export const MainDashboardPage = (_props: MainDashboardPageProps) => {
+export const MainDashboardPage = () => {
   const news: NewsItem[] = mockNews;
 
   return (
