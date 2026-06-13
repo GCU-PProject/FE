@@ -2,10 +2,10 @@ import { AlertTriangle } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { LegalRiskPanel } from '@/components/risk/LegalRiskPanel';
 
-export const LawRiskPage = () => {
+export const RiskPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-      <Header activeNavId="law-risk" />
+      <Header activeNavId="risk" />
 
       <div className="border-b border-gray-200 bg-white">
         <div className="px-6 py-10 sm:px-8">
@@ -31,4 +31,4 @@ export const LawRiskPage = () => {
   );
 };
 
-export default LawRiskPage;
+export default RiskPage;

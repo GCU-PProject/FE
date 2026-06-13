@@ -16,6 +16,21 @@ export type ComparisonResult = {
   comparison: ComparisonAnalysis;
 };
 
+export type CompareLawRequest = {
+  country1: string;
+  country2: string;
+  topic: string;
+};
+
+export type CompareLawApiResponse = {
+  success: boolean;
+  status: number;
+  code: string;
+  message: string;
+  timestamp: string;
+  result: ComparisonResult | null;
+};
+
 export type CountryOption = {
   code: string;
   name: string;

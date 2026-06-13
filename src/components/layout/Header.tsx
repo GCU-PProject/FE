@@ -14,7 +14,6 @@ import { MobileMenu } from './MobileMenu';
 import { NavButton } from './NavButton';
 import { HeaderNavItem, HeaderProps } from './types';
 
-/** 상단 공통 헤더: 데스크톱은 로고/네비/유저, 모바일은 햄버거로 토글 */
 const defaultNavItems: HeaderNavItem[] = [
   {
     id: 'law-collection',
@@ -54,9 +53,8 @@ export function Header({
 }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobileOpen, setIsMobileOpen] = useState(false); // 모바일 메뉴 토글 상태
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // 현재 경로와 일치하는 메뉴 id 찾기
   const isControlled = activeNavId !== undefined;
   const locationMatchedNavId = useMemo(() => {
     return navItems.find(
@@ -76,7 +74,6 @@ export function Header({
     }
   }, [activeNavId, isControlled]);
 
-  // 비제어 모드에서 경로가 변할 때 활성 메뉴를 자동 갱신
   useEffect(() => {
     if (!isControlled) {
       setInternalActiveNavId(locationMatchedNavId ?? undefined);
