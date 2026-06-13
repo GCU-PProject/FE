@@ -1,148 +1,147 @@
-import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '@/pages/ui/LoginPage';
 import { InterestCountryModal } from '@/components/interest/InterestCountryModal';
-import { usePreferredCountries } from '@/hooks/usePreferredCountries';
-import { CountryCode } from '@/types/country';
 import { MyPage } from '@/pages/ui/MyPage';
 import { AiChatPage } from '@/pages/ui/AiChatPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
 import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
 import { LawRiskPage } from '@/pages/ui/LawRiskPage';
+import { useAuthFlow } from '@/hooks/useAuthFlow';
 
 export const AppRoutes = () => {
-  const navigate = useNavigate();
-  const forceLogin =
-    import.meta.env.DEV && import.meta.env.VITE_FORCE_LOGIN === 'true';
   const {
+    authStatus,
     preferredCountries,
-    savePreferredCountries,
-    clearPreferredCountries,
-    hasPreferredCountries,
-  } = usePreferredCountries();
+    modalSelection,
+    isOnboardingSaving,
+    handleGoogleLogin,
+    handleSkipInterest,
+    handleSaveInterest,
+    handleSavePreferredCountries,
+    handleLogout,
+  } = useAuthFlow();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    () => forceLogin || hasPreferredCountries,
-  );
-  const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
-  // 모달에서만 사용하는 임시 선택값
-  // 저장 시 usePreferredCountries에 반영
-  const [modalSelection, setModalSelection] = useState(preferredCountries);
+  const protectedRedirectPath =
+    authStatus === 'guest' ? '/onboarding' : '/login';
 
-  useEffect(() => {
-    if (forceLogin || hasPreferredCountries) {
-      setIsLoggedIn(true);
-      setModalSelection(preferredCountries);
-    }
-  }, [forceLogin, hasPreferredCountries, preferredCountries]);
-
-  const handleSkipInterest = () => {
-    setIsInterestModalOpen(false);
+  const myPageProps = {
+    preferredCountries,
+    onSavePreferredCountries: handleSavePreferredCountries,
+    onLogout: handleLogout,
   };
 
-  const LoginRoute = () => {
-    const handleGoogleLogin = () => {
-      console.log('Google 로그인 버튼 클릭!');
-    };
-
-    const handleSaveInterest = (countries: CountryCode[]) => {
-      savePreferredCountries(countries);
-      setIsInterestModalOpen(false);
-    };
-
-    const handleLogout = () => {
-      clearPreferredCountries();
-      if (typeof window !== 'undefined') {
-        window.localStorage.removeItem('savedLaws');
-      }
-      setIsLoggedIn(false);
-      void navigate('/login');
-    };
-
+  if (authStatus === 'checking') {
     return (
-      <>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLoggedIn ? (
-                <MainDashboardPage preferredCountries={preferredCountries} />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/" replace />
-              ) : (
-                <LoginPage onGoogleLogin={handleGoogleLogin} />
-              )
-            }
-          />
-          <Route
-            path="/law-collection"
-            element={
-              isLoggedIn ? (
-                <LawCollectionPage />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route
-            path="/ai-consulting"
-            element={
-              isLoggedIn ? <AiChatPage /> : <Navigate to="/login" replace />
-            }
-          />
-          <Route
-            path="/law-compare"
-            element={
-              isLoggedIn ? (
-                <LawComparisonPage />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route
-            path="/law-risk"
-            element={
-              isLoggedIn ? <LawRiskPage /> : <Navigate to="/login" replace />
-            }
-          />
-          <Route
-            path="/mypage"
-            element={
-              isLoggedIn ? (
-                <MyPage
-                  preferredCountries={preferredCountries}
-                  onSavePreferredCountries={savePreferredCountries}
-                  onLogout={handleLogout}
-                />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-
-        <InterestCountryModal
-          open={isInterestModalOpen}
-          initialSelected={modalSelection}
-          onSkip={handleSkipInterest}
-          onSave={handleSaveInterest}
-        />
-      </>
+      <div className="flex min-h-screen items-center justify-center text-text-secondary">
+        로그인 상태 확인 중...
+      </div>
     );
-  };
+  }
 
-  return <LoginRoute />;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          authStatus === 'user' ? (
+            <MainDashboardPage preferredCountries={preferredCountries} />
+          ) : (
+            <Navigate
+              to={authStatus === 'guest' ? '/onboarding' : '/login'}
+              replace
+            />
+          )
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          authStatus === 'anonymous' ? (
+            <LoginPage onGoogleLogin={handleGoogleLogin} />
+          ) : (
+            <Navigate
+              to={authStatus === 'guest' ? '/onboarding' : '/'}
+              replace
+            />
+          )
+        }
+      />
+      <Route
+        path="/onboarding"
+        element={
+          authStatus === 'guest' ? (
+            <div className="min-h-screen bg-bg-soft">
+              <InterestCountryModal
+                open
+                initialSelected={modalSelection}
+                onSkip={handleSkipInterest}
+                onSave={handleSaveInterest}
+              />
+              {isOnboardingSaving ? (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 text-white">
+                  저장 중...
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <Navigate to={authStatus === 'user' ? '/' : '/login'} replace />
+          )
+        }
+      />
+      <Route
+        path="/law-collection"
+        element={
+          authStatus === 'user' ? (
+            <LawCollectionPage />
+          ) : (
+            <Navigate to={protectedRedirectPath} replace />
+          )
+        }
+      />
+      <Route
+        path="/ai-consulting"
+        element={
+          authStatus === 'user' ? (
+            <AiChatPage />
+          ) : (
+            <Navigate to={protectedRedirectPath} replace />
+          )
+        }
+      />
+      <Route
+        path="/law-compare"
+        element={
+          authStatus === 'user' ? (
+            <LawComparisonPage />
+          ) : (
+            <Navigate to={protectedRedirectPath} replace />
+          )
+        }
+      />
+      <Route
+        path="/law-risk"
+        element={
+          authStatus === 'user' ? (
+            <LawRiskPage />
+          ) : (
+            <Navigate to={protectedRedirectPath} replace />
+          )
+        }
+      />
+      <Route
+        path="/mypage"
+        element={
+          authStatus === 'user' ? (
+            <MyPage {...myPageProps} />
+          ) : (
+            <Navigate to={protectedRedirectPath} replace />
+          )
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;

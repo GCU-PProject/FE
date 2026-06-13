@@ -11,6 +11,7 @@ type InterestsTabProps = {
   onToggleInterest: (code: PreferredCountries[number]) => void;
   onSave: () => void;
   onCancel: () => void;
+  isSaving?: boolean;
 };
 
 export const InterestsTab = ({
@@ -20,6 +21,7 @@ export const InterestsTab = ({
   onToggleInterest,
   onSave,
   onCancel,
+  isSaving = false,
 }: InterestsTabProps) => (
   <Card className="rounded-2xl border-border-subtle bg-white px-5 py-5 shadow-sm sm:px-6 sm:py-6">
     <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -32,6 +34,7 @@ export const InterestsTab = ({
               size="sm"
               className="border-border-base text-text-secondary hover:border-border-selected"
               onClick={onCancel}
+              disabled={isSaving}
             >
               취소
             </Button>
@@ -39,8 +42,9 @@ export const InterestsTab = ({
               size="sm"
               className="bg-brand-primary px-4 text-white hover:brightness-95"
               onClick={onSave}
+              disabled={isSaving}
             >
-              저장
+              {isSaving ? '저장 중...' : '저장'}
             </Button>
           </>
         ) : (
@@ -65,7 +69,7 @@ export const InterestsTab = ({
             key={country.code}
             type="button"
             onClick={() => onToggleInterest(country.code)}
-            disabled={!isEditing}
+            disabled={!isEditing || isSaving}
             aria-pressed={isSelected}
             className={`flex items-center justify-between rounded-xl border px-4 py-3 text-left transition ${
               isSelected
