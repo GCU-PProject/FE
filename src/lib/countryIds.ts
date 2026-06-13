@@ -16,7 +16,7 @@ export const mapCountryCodesToIds = (
 
   codes.forEach((code) => {
     const countryId = countryIdMap[code];
-    if (typeof countryId === 'number') {
+    if (typeof countryId === 'number' && Number.isFinite(countryId)) {
       countryIds.push(countryId);
       return;
     }
