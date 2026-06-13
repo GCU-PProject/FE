@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
+  AUTH_CHECKED_KEY,
   OAUTH_LOGIN_STARTED_KEY,
   logout,
   onboarding,
@@ -25,6 +26,7 @@ const shouldCheckAuthOnRoute = (): boolean => {
   if (typeof window === 'undefined') return false;
 
   return (
+    window.sessionStorage.getItem(AUTH_CHECKED_KEY) !== 'true' ||
     window.sessionStorage.getItem(OAUTH_LOGIN_STARTED_KEY) === 'true' ||
     window.localStorage.getItem(AUTH_SESSION_KEY) === 'true'
   );
@@ -40,6 +42,7 @@ const forgetAuthSession = () => {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem(AUTH_SESSION_KEY);
   window.sessionStorage.removeItem(OAUTH_LOGIN_STARTED_KEY);
+  window.sessionStorage.setItem(AUTH_CHECKED_KEY, 'true');
 };
 
 const getApiErrorCode = (error: unknown): string | undefined => {
@@ -121,6 +124,8 @@ export const useAuthFlow = () => {
     if (!shouldCheckAuthOnRoute()) {
       clearPreferredCountries();
       setModalSelection([]);
+      setAuthStatus('anonymous');
+      return;
     }
 
     let isMounted = true;
