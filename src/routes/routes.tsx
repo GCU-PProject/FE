@@ -8,7 +8,6 @@ import { MyPage } from '@/pages/ui/MyPage';
 import { AiChatPage } from '@/pages/ui/AiChatPage';
 import { LawComparisonPage } from '@/pages/ui/LawComparisonPage';
 import { MainDashboardPage } from '@/pages/ui/MainDashboardPage';
-import { LawCollectionPage } from '@/pages/ui/LawCollectionPage';
 import { LawRiskPage } from '@/pages/ui/LawRiskPage';
 
 export const AppRoutes = () => {
@@ -80,16 +79,6 @@ export const AppRoutes = () => {
                 <Navigate to="/" replace />
               ) : (
                 <LoginPage onGoogleLogin={handleGoogleLogin} />
-              )
-            }
-          />
-          <Route
-            path="/law-collection"
-            element={
-              isLoggedIn ? (
-                <LawCollectionPage />
-              ) : (
-                <Navigate to="/login" replace />
               )
             }
           />
