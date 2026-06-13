@@ -6,8 +6,8 @@ export type UserCountry = {
   countryId: number;
   code: string;
   name: string;
-  stateCode?: string;
-  stateName?: string;
+  stateCode: string | null;
+  stateName: string | null;
 };
 
 export type UserMe = {
